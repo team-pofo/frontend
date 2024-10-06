@@ -2,6 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import localFont from "next/font/local";
 import styles from "@/styles/Home.module.css";
+import { TestEmotion } from "@/styles/aboutStyle";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -42,6 +43,7 @@ export default function Home() {
             <li>Save and see your changes instantly.</li>
           </ol>
 
+          <TestEmotion>TEST emotion css</TestEmotion>
           <div className={styles.ctas}>
             <a
               className={styles.primary}
