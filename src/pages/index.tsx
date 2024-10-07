@@ -3,6 +3,7 @@ import Image from "next/image";
 import localFont from "next/font/local";
 import styles from "@/styles/Home.module.css";
 import { TestEmotion } from "@/styles/aboutStyle";
+import Link from "next/link";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -44,6 +45,9 @@ export default function Home() {
           </ol>
 
           <TestEmotion>TEST emotion css</TestEmotion>
+          <Link href="/about" style={{ color: "aqua" }}>
+            Go to About Page
+          </Link>
           <div className={styles.ctas}>
             <a
               className={styles.primary}
