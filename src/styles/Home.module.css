@@ -163,3 +163,66 @@ a.secondary {
     filter: invert();
   }
 }
+
+/* For test */
+
+.searchWrapperWrapper {
+  display: flex;
+  justify-content: space-between;
+  height: 50px;
+  max-width: 50%;
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.searchWrapper {
+  height: 100%;
+  width: 30%;
+}
+
+.searchName {
+  border-style: solid;
+  border-radius: 8px;
+  border-color: black;
+  background: white;
+  height: 100%;
+  width: 100%;
+  font-size: 20px;
+  padding-inline-start: 5%;
+  padding-inline-end: 5%;
+}
+
+.searchStack {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-style: solid;
+  border-radius: 8px;
+  border-color: black;
+  background-color: white;
+  height: 100%;
+  width: 100%;
+  font-size: 20px;
+}
+
+.searchStackName {
+  border-style: solid;
+  outline: none;
+  width: 100%;
+  font-size: 20px;
+  padding-inline-start: 5%;
+  padding-inline-end: 5%;
+}
+
+.searchStackDropdown {
+  border-style: solid;
+  border-radius: 8px;
+  border-color: black;
+  border-width: 2px;
+  font-size: 20px;
+  padding: 10px;
+  height: 200px;
+  overflow-y: scroll;
+}
