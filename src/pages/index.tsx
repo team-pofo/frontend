@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import styles from "@/styles/Home.module.css";
 import { TestEmotion } from "@/styles/aboutStyle";
 import SearchWrapperWrapper from "../home/home-search";
+import Link from "next/link";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,22 +33,13 @@ export default function Home() {
         className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}
       >
         <main className={styles.main}>
-          <Image
-            className={styles.logo}
-            src="https://nextjs.org/icons/next.svg"
-            alt="Next.js logo"
-            width={180}
-            height={38}
-            priority
-          />
-          <ol>
-            <li>
-              Get started by editing <code>src/pages/index.tsx</code>.
-            </li>
-            <li>Save and see your changes instantly.</li>
-          </ol>
-
           <TestEmotion>TEST emotion css</TestEmotion>
+          <Link href="/about" style={{ color: "aqua" }}>
+            Go to About Page
+          </Link>
+          <Link href="/counter" style={{ color: "red" }}>
+            Go to test redux
+          </Link>
           <div className={styles.ctas}>
             <a
               className={styles.primary}
