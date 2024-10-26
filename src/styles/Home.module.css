@@ -164,10 +164,11 @@ a.secondary {
   }
 }
 
-/* For test */
+/* Search  */
 
 .searchWrapperWrapper {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   height: 50px;
   max-width: 50%;
@@ -217,6 +218,7 @@ a.secondary {
 }
 
 .searchStackDropdown {
+  margin-top: 10px;
   border-style: solid;
   border-radius: 8px;
   border-color: black;
@@ -225,4 +227,8 @@ a.secondary {
   padding: 10px;
   height: 200px;
   overflow-y: scroll;
+}
+
+.searchStackDropdown::-webkit-scrollbar {
+  display: none;
 }

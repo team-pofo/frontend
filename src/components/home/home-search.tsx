@@ -1,5 +1,5 @@
 "use client";
-import styles from "../../styles/Home.module.css";
+import * as style from "@/styles/homeSearchStyle";
 import { RootState, useAppDispatch } from "@/stores";
 import {
   clickToggle,
@@ -11,13 +11,12 @@ import { useSelector } from "react-redux";
 
 export function SearchName() {
   return (
-    <div className={styles.searchWrapper}>
-      <input
-        className={styles.searchName}
+    <style.SearchWrapper>
+      <style.SearchNameInput
         type="text"
-        placeholder="프로젝트 검색"
-      ></input>
-    </div>
+        placeholder="프로젝트 이름"
+      ></style.SearchNameInput>
+    </style.SearchWrapper>
   );
 }
 
@@ -27,90 +26,38 @@ export function SearchStack() {
     (state: RootState) => state.searchProjectStack
   );
   return (
-    <div className={styles.searchWrapper}>
-      <button
-        onClick={() => dispatch(clickToggle())}
-        className={styles.searchStack}
-      >
-        <span>기술 스택</span>
-        <span>▼</span>
-      </button>
+    <style.SearchWrapper>
+      <style.SearchStackBtn onClick={() => dispatch(clickToggle())}>
+        기술 스택
+      </style.SearchStackBtn>
 
       {toggle && (
-        <div className={styles.searchStackDropdown}>
-          <input
-            className={styles.searchStackName}
+        <style.SearchStackDropdown>
+          <style.SearchStackNameInput
             type="text"
             placeholder="검색"
             onChange={(input) => {
               dispatch(inputStack(input.target.value));
             }}
-          ></input>
+          ></style.SearchStackNameInput>
+
           {stacks.map((stack, index) => (
             <div key={index}>
-              <label>
-                <input
-                  style={{ padding: "10px" }}
+              <style.SearchDropdownLabel>
+                <style.SearchCheckbox
                   type="checkbox"
                   checked={selectedStacks.includes(stack)}
                   onChange={() => dispatch(clickStack(stack))}
-                />
+                ></style.SearchCheckbox>
                 {stack}
-              </label>
+              </style.SearchDropdownLabel>
             </div>
           ))}
-        </div>
+        </style.SearchStackDropdown>
       )}
-    </div>
+    </style.SearchWrapper>
   );
 }
-
-// export function SearchStacks({ items }: { items: string[] }) {
-//   const [isOpen, setIsOpen] = useState(false);
-//   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-
-//   const toggleDropdown = () => {
-//     setIsOpen(!isOpen);
-//   };
-//   const handleCheckboxChange = (option: string) => {
-//     if (selectedOptions.includes(option)) {
-//       setSelectedOptions(selectedOptions.filter((item) => item !== option));
-//     } else {
-//       setSelectedOptions([...selectedOptions, option]);
-//     }
-//   };
-//   return (
-//     <div className={styles.searchWrapper}>
-//       <button onClick={toggleDropdown} className={styles.searchStack}>
-//         <span>기술 스택</span>
-//         <span>▼</span>
-//       </button>
-
-//       {isOpen && (
-//         <div className={styles.searchStackDropdown}>
-//           <input
-//             className={styles.searchStackName}
-//             type="text"
-//             placeholder="검색"
-//           ></input>
-//           {items.map((option, index) => (
-//             <div key={index}>
-//               <label>
-//                 <input
-//                   style={{ padding: "10px" }}
-//                   type="checkbox"
-//                   checked={selectedOptions.includes(option)}
-//                   onChange={() => handleCheckboxChange(option)}
-//                 />
-//                 {option}
-//               </label>
-//             </div>
-//           ))}
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
 
 export function SearchTypes({ items }: { items: string[] }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -128,30 +75,29 @@ export function SearchTypes({ items }: { items: string[] }) {
     }
   };
   return (
-    <div className={styles.searchWrapper}>
-      <button onClick={toggleDropdown} className={styles.searchStack}>
-        <span>프로젝트 구분</span>
-        <span>▼</span>
-      </button>
+    <style.SearchWrapper>
+      <style.SearchStackBtn onClick={toggleDropdown}>
+        프로젝트 구분
+      </style.SearchStackBtn>
 
       {isOpen && (
-        <div className={styles.searchStackDropdown}>
+        <style.SearchStackDropdown>
           {items.map((option, index) => (
             <div key={index}>
-              <label>
-                <input
+              <style.SearchDropdownLabel>
+                <style.SearchCheckbox
                   style={{ padding: "10px" }}
                   type="checkbox"
                   checked={selectedOptions.includes(option)}
                   onChange={() => handleCheckboxChange(option)}
-                />
+                ></style.SearchCheckbox>
                 {option}
-              </label>
+              </style.SearchDropdownLabel>
             </div>
           ))}
-        </div>
+        </style.SearchStackDropdown>
       )}
-    </div>
+    </style.SearchWrapper>
   );
 }
 
@@ -172,12 +118,12 @@ export default function SearchWrapperWrapper() {
   const types = ["Web", "App", "Game"];
   return (
     <div>
-      <div className={styles.searchWrapperWrapper}>
+      <style.SearchWrapperContainer>
         <SearchName />
         <SearchStack />
         {/* <SearchStacks items={stacks} /> */}
         <SearchTypes items={types} />
-      </div>
+      </style.SearchWrapperContainer>
       <SelectedStacks />
     </div>
   );
