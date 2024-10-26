@@ -11,12 +11,12 @@ import { useSelector } from "react-redux";
 
 export function SearchName() {
   return (
-    <style.SearchWrapper>
+    <style.SearchCard>
       <style.SearchNameInput
         type="text"
         placeholder="프로젝트 이름"
       ></style.SearchNameInput>
-    </style.SearchWrapper>
+    </style.SearchCard>
   );
 }
 
@@ -26,7 +26,7 @@ export function SearchStack() {
     (state: RootState) => state.searchProjectStack
   );
   return (
-    <style.SearchWrapper>
+    <style.SearchCard>
       <style.SearchStackBtn onClick={() => dispatch(clickToggle())}>
         기술 스택
       </style.SearchStackBtn>
@@ -55,7 +55,7 @@ export function SearchStack() {
           ))}
         </style.SearchStackDropdown>
       )}
-    </style.SearchWrapper>
+    </style.SearchCard>
   );
 }
 
@@ -75,7 +75,7 @@ export function SearchTypes({ items }: { items: string[] }) {
     }
   };
   return (
-    <style.SearchWrapper>
+    <style.SearchCard>
       <style.SearchStackBtn onClick={toggleDropdown}>
         프로젝트 구분
       </style.SearchStackBtn>
@@ -97,33 +97,42 @@ export function SearchTypes({ items }: { items: string[] }) {
           ))}
         </style.SearchStackDropdown>
       )}
-    </style.SearchWrapper>
+    </style.SearchCard>
   );
 }
 
 export function SelectedStacks() {
+  const dispatch = useAppDispatch();
   const { toggle, stacks, selectedStacks } = useSelector(
     (state: RootState) => state.searchProjectStack
   );
   return (
-    <div>
+    <style.SearchSelectedStackContainer>
       {selectedStacks.map((stack, index) => (
-        <h1>{stack}</h1>
+        <style.SearchSelectedStackCard>
+          {stack}
+          <button
+            onClick={() => {
+              dispatch(clickStack(stack));
+            }}
+          >
+            &times;
+          </button>
+        </style.SearchSelectedStackCard>
       ))}
-    </div>
+    </style.SearchSelectedStackContainer>
   );
 }
 
-export default function SearchWrapperWrapper() {
+export default function SearchCardContainer() {
   const types = ["Web", "App", "Game"];
   return (
     <div>
-      <style.SearchWrapperContainer>
+      <style.SearchCardContainer>
         <SearchName />
         <SearchStack />
-        {/* <SearchStacks items={stacks} /> */}
         <SearchTypes items={types} />
-      </style.SearchWrapperContainer>
+      </style.SearchCardContainer>
       <SelectedStacks />
     </div>
   );
