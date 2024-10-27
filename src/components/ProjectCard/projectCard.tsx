@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import * as S from "./styles";
 import Image from "next/image";
+import empty_heart from "../../../public/icons/empty_heart.svg";
+import fill_heart from "../../../public/icons/fill_heart.svg";
 
 type ProjectCardProps = {
   imageSrc: string;
@@ -21,11 +23,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const [liked, setLiked] = useState(false);
 
   const handleLike = () => {
-    if (liked) {
-      setLikeCount(likeCount - 1);
-    } else {
-      setLikeCount(likeCount + 1);
-    }
+    setLikeCount(likeCount + (liked ? -1 : 1));
     setLiked(!liked);
   };
 
@@ -39,8 +37,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <S.Description>{description}</S.Description>
         <S.Author>{author}</S.Author>
         <S.LikeSection>
-          <S.LikeButton onClick={handleLike} liked={liked}>
-            ❤️
+          <S.LikeButton onClick={handleLike}>
+            <Image
+              src={liked ? fill_heart : empty_heart}
+              alt="like button"
+              width={24}
+              height={24}
+            />
           </S.LikeButton>
           <S.LikeCount>{likeCount} likes</S.LikeCount>
         </S.LikeSection>

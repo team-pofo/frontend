@@ -6,6 +6,7 @@ export const Card = styled.div`
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 `;
 
 export const ImageWrapper = styled.div`
@@ -42,12 +43,11 @@ export const LikeSection = styled.div`
   align-items: center;
 `;
 
-export const LikeButton = styled.button<{ liked: boolean }>`
+export const LikeButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
   font-size: 20px;
-  color: ${(props) => (props.liked ? "red" : "gray")};
 `;
 
 export const LikeCount = styled.span`
