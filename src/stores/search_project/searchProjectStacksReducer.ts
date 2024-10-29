@@ -1,5 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../index";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface SearchProjectStack {
   stackToggle: boolean;
@@ -20,6 +19,9 @@ export const searchProjectStackSlice = createSlice({
     // "기술 스택" 토글을 클릭하였을 때
     clickStackToggle: (state) => {
       state.stackToggle = !state.stackToggle;
+    },
+    setVisibilityStackToggle: (state, action: PayloadAction<boolean>) => {
+      state.stackToggle = action.payload;
     },
     // 검색창에 기술 스택을 입력하였을 때
     inputStack: (state, action) => {
@@ -49,8 +51,13 @@ export const searchProjectStackSlice = createSlice({
   },
 });
 
-export const { clickStackToggle, inputStack, clickStack, resetStack } =
-  searchProjectStackSlice.actions;
+export const {
+  clickStackToggle,
+  setVisibilityStackToggle,
+  inputStack,
+  clickStack,
+  resetStack,
+} = searchProjectStackSlice.actions;
 
 // export const stackToggle = (state: RootState) =>
 //   state.searchProjectStack.stackToggle;

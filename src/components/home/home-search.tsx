@@ -3,17 +3,19 @@ import * as style from "@/styles/homeSearchStyle";
 import { RootState, useAppDispatch } from "@/stores";
 import {
   clickStackToggle,
+  setVisibilityStackToggle,
   inputStack,
   clickStack,
   resetStack,
 } from "@/stores/search_project/searchProjectStacksReducer";
 import {
   clickTypeToggle,
+  setVisibilityTypeToggle,
   clickType,
   resetType,
 } from "@/stores/search_project/searchProjectTypesReducer";
 import { useSelector } from "react-redux";
-import { searchProjectTypeSlice } from "@/stores/search_project/searchProjectTypesReducer";
+import { useEffect, useRef } from "react";
 
 export function SearchName() {
   return (
@@ -150,9 +152,26 @@ export function SearchBtn() {
 }
 
 export default function SearchCardContainer() {
-  const types = ["Web", "App", "Game"];
+  const ref = useRef<HTMLDivElement | null>(null);
+  const dispatch = useAppDispatch();
+
+  // 화면 바깥 클릭 시 상태 업데이트
+  const handleClickOutside = (event: MouseEvent) => {
+    if (ref.current && !ref.current.contains(event.target as Node)) {
+      dispatch(setVisibilityStackToggle(false));
+      dispatch(setVisibilityTypeToggle(false));
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <style.SearchContainer>
+    <style.SearchContainer ref={ref}>
       <style.SearchCardContainer1>
         <SearchName />
         <SearchBtn />

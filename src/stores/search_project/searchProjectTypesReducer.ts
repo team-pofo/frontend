@@ -1,5 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../index";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface SearchProjectType {
   typeToggle: boolean;
@@ -21,6 +20,9 @@ export const searchProjectTypeSlice = createSlice({
     clickTypeToggle: (state) => {
       state.typeToggle = !state.typeToggle;
     },
+    setVisibilityTypeToggle: (state, action: PayloadAction<boolean>) => {
+      state.typeToggle = action.payload;
+    },
     // 프로젝트 종류를 선택하였을 때
     clickType: (state, action) => {
       const stack = action.payload;
@@ -38,7 +40,11 @@ export const searchProjectTypeSlice = createSlice({
   },
 });
 
-export const { clickTypeToggle, clickType, resetType } =
-  searchProjectTypeSlice.actions;
+export const {
+  clickTypeToggle,
+  setVisibilityTypeToggle,
+  clickType,
+  resetType,
+} = searchProjectTypeSlice.actions;
 
 export default searchProjectTypeSlice.reducer;

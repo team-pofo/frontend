@@ -93,7 +93,7 @@ export const SearchStackDropdown = styled.div`
 `;
 
 export const SearchStackNameInput = styled.input`
-  border: 2px solid #d7e2eb;
+  border: 2px solid ${grey};
   border-radius: 5px;
   outline-color: ${blue};
   background: white;
