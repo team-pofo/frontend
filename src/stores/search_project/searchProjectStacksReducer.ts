@@ -2,13 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../index";
 
 interface SearchProjectStack {
-  toggle: boolean;
+  stackToggle: boolean;
   stacks: String[];
   selectedStacks: String[];
 }
 
 const initialState: SearchProjectStack = {
-  toggle: false,
+  stackToggle: false,
   stacks: ["java", "python", "C++"],
   selectedStacks: [],
 };
@@ -18,8 +18,8 @@ export const searchProjectStackSlice = createSlice({
   initialState,
   reducers: {
     // "기술 스택" 토글을 클릭하였을 때
-    clickToggle: (state) => {
-      state.toggle = !state.toggle;
+    clickStackToggle: (state) => {
+      state.stackToggle = !state.stackToggle;
     },
     // 검색창에 기술 스택을 입력하였을 때
     inputStack: (state, action) => {
@@ -42,17 +42,20 @@ export const searchProjectStackSlice = createSlice({
         state.selectedStacks = [...state.selectedStacks, stack];
       }
     },
+    // 기술 스택 초기화
+    resetStack: (state) => {
+      state.selectedStacks = [];
+    },
   },
 });
 
-export const { clickToggle, inputStack, clickStack } =
+export const { clickStackToggle, inputStack, clickStack, resetStack } =
   searchProjectStackSlice.actions;
 
-export const selectToggle = (state: RootState) =>
-  state.searchProjectStack.toggle;
-export const selectStacks = (state: RootState) =>
-  state.searchProjectStack.stacks;
-export const selectSelectedStacks = (state: RootState) =>
-  state.searchProjectStack.selectedStacks;
+// export const stackToggle = (state: RootState) =>
+//   state.searchProjectStack.stackToggle;
+// export const stacks = (state: RootState) => state.searchProjectStack.stacks;
+// export const selectedStacks = (state: RootState) =>
+//   state.searchProjectStack.selectedStacks;
 
 export default searchProjectStackSlice.reducer;

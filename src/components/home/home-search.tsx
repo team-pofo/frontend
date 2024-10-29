@@ -2,12 +2,18 @@
 import * as style from "@/styles/homeSearchStyle";
 import { RootState, useAppDispatch } from "@/stores";
 import {
-  clickToggle,
+  clickStackToggle,
   inputStack,
   clickStack,
-} from "@/stores/search_project/searchProjectStackReducer";
-import { useState } from "react";
+  resetStack,
+} from "@/stores/search_project/searchProjectStacksReducer";
+import {
+  clickTypeToggle,
+  clickType,
+  resetType,
+} from "@/stores/search_project/searchProjectTypesReducer";
 import { useSelector } from "react-redux";
+import { searchProjectTypeSlice } from "@/stores/search_project/searchProjectTypesReducer";
 
 export function SearchName() {
   return (
@@ -22,16 +28,16 @@ export function SearchName() {
 
 export function SearchStack() {
   const dispatch = useAppDispatch();
-  const { toggle, stacks, selectedStacks } = useSelector(
+  const { stackToggle, stacks, selectedStacks } = useSelector(
     (state: RootState) => state.searchProjectStack
   );
   return (
     <style.SearchCard>
-      <style.SearchStackBtn onClick={() => dispatch(clickToggle())}>
+      <style.SearchStackBtn onClick={() => dispatch(clickStackToggle())}>
         기술 스택
       </style.SearchStackBtn>
 
-      {toggle && (
+      {stackToggle && (
         <style.SearchStackDropdown>
           <style.SearchStackNameInput
             type="text"
@@ -59,39 +65,29 @@ export function SearchStack() {
   );
 }
 
-export function SearchTypes({ items }: { items: string[] }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleCheckboxChange = (option: string) => {
-    if (selectedOptions.includes(option)) {
-      setSelectedOptions(selectedOptions.filter((item) => item !== option));
-    } else {
-      setSelectedOptions([...selectedOptions, option]);
-    }
-  };
+export function SearchTypes() {
+  const dispatch = useAppDispatch();
+  const { typeToggle, types, selectedTypes } = useSelector(
+    (state: RootState) => state.searchProjectType
+  );
   return (
     <style.SearchCard>
-      <style.SearchStackBtn onClick={toggleDropdown}>
+      <style.SearchStackBtn onClick={() => dispatch(clickTypeToggle())}>
         프로젝트 구분
       </style.SearchStackBtn>
 
-      {isOpen && (
+      {typeToggle && (
         <style.SearchStackDropdown>
-          {items.map((option, index) => (
+          {types.map((type, index) => (
             <div key={index}>
               <style.SearchDropdownLabel>
                 <style.SearchCheckbox
                   style={{ padding: "10px" }}
                   type="checkbox"
-                  checked={selectedOptions.includes(option)}
-                  onChange={() => handleCheckboxChange(option)}
+                  checked={selectedTypes.includes(type)}
+                  onChange={() => dispatch(clickType(type))}
                 ></style.SearchCheckbox>
-                {option}
+                {type}
               </style.SearchDropdownLabel>
             </div>
           ))}
@@ -103,8 +99,11 @@ export function SearchTypes({ items }: { items: string[] }) {
 
 export function SelectedStacks() {
   const dispatch = useAppDispatch();
-  const { toggle, stacks, selectedStacks } = useSelector(
+  const { stackToggle, stacks, selectedStacks } = useSelector(
     (state: RootState) => state.searchProjectStack
+  );
+  const { typeToggle, types, selectedTypes } = useSelector(
+    (state: RootState) => state.searchProjectType
   );
   return (
     <style.SearchSelectedStackContainer>
@@ -120,20 +119,49 @@ export function SelectedStacks() {
           </button>
         </style.SearchSelectedStackCard>
       ))}
+      {selectedTypes.map((type, index) => (
+        <style.SearchSelectedTypesCard>
+          {type}
+          <button
+            onClick={() => {
+              dispatch(clickType(type));
+            }}
+          >
+            &times;
+          </button>
+        </style.SearchSelectedTypesCard>
+      ))}
+      {!(selectedStacks.length == 0 && selectedTypes.length == 0) && (
+        <style.SearchResetBtn
+          onClick={() => {
+            dispatch(resetStack());
+            dispatch(resetType());
+          }}
+        >
+          초기화
+        </style.SearchResetBtn>
+      )}
     </style.SearchSelectedStackContainer>
   );
+}
+
+export function SearchBtn() {
+  return <style.SearchBtn>검색</style.SearchBtn>;
 }
 
 export default function SearchCardContainer() {
   const types = ["Web", "App", "Game"];
   return (
-    <div>
-      <style.SearchCardContainer>
+    <style.SearchContainer>
+      <style.SearchCardContainer1>
         <SearchName />
+        <SearchBtn />
+      </style.SearchCardContainer1>
+      <style.SearchCardContainer2>
         <SearchStack />
-        <SearchTypes items={types} />
-      </style.SearchCardContainer>
+        <SearchTypes />
+      </style.SearchCardContainer2>
       <SelectedStacks />
-    </div>
+    </style.SearchContainer>
   );
 }
