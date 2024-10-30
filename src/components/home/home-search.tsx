@@ -1,5 +1,5 @@
 "use client";
-import * as style from "@/styles/homeSearchStyle";
+import * as style from "./styles";
 import { RootState, useAppDispatch } from "@/stores";
 import {
   clickStackToggle,
