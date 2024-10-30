@@ -37,6 +37,7 @@ export default function Home() {
     setProjects((prev) => [...prev, ...nextProjects]);
     setPage((prev) => prev + 1);
   };
+  // ??
 
   return (
     <GridContainer>
