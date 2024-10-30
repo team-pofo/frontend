@@ -1,19 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface SearchProjectType {
+interface selectType {
   typeToggle: boolean;
   types: String[];
   selectedTypes: String[];
 }
 
-const initialState: SearchProjectType = {
+const initialState: selectType = {
   typeToggle: false,
   types: ["Web", "App", "Game"],
   selectedTypes: [],
 };
 
-export const searchProjectTypeSlice = createSlice({
-  name: "searchProjectType",
+export const selectTypeSlice = createSlice({
+  name: "selectType",
   initialState,
   reducers: {
     // "프로젝트 종류" 토글을 클릭하였을 때
@@ -45,6 +45,6 @@ export const {
   setVisibilityTypeToggle,
   clickType,
   resetType,
-} = searchProjectTypeSlice.actions;
+} = selectTypeSlice.actions;
 
-export default searchProjectTypeSlice.reducer;
+export default selectTypeSlice.reducer;
