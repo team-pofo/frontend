@@ -1,6 +1,13 @@
 // pages/index.tsx
 import { useState, useEffect, useRef } from "react";
 import ProjectCard from "@/components/ProjectCard/projectCard";
+import Head from "next/head";
+import Image from "next/image";
+import localFont from "next/font/local";
+import styles from "../styles/Home.module.css";
+import { TestEmotion } from "@/styles/aboutStyle";
+import SearchWrapperContainer from "../components/home/home-search";
+import Link from "next/link";
 
 import { GridContainer } from "./styles";
 import dummyData from "@/data/cardDummyDatas";
@@ -39,11 +46,14 @@ export default function Home() {
   };
 
   return (
-    <GridContainer>
-      {projects.map((project, index) => (
-        <ProjectCard key={index} {...project} />
-      ))}
-      <div ref={observerRef} />
-    </GridContainer>
+    <>
+      <SearchWrapperContainer />
+      <GridContainer>
+        {projects.map((project, index) => (
+          <ProjectCard key={index} {...project} />
+        ))}
+        <div ref={observerRef} />
+      </GridContainer>
+    </>
   );
 }
