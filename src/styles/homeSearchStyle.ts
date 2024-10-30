@@ -77,6 +77,7 @@ export const SearchStackBtn = styled.button`
 `;
 
 export const SearchStackDropdown = styled.div`
+  z-index: 10;
   margin-top: 10px;
   border: 2px solid ${lightgrey};
   border-radius: 5px;

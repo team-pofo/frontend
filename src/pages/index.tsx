@@ -47,13 +47,22 @@ export default function Home() {
 
   return (
     <>
-      <SearchWrapperContainer />
-      <GridContainer>
-        {projects.map((project, index) => (
-          <ProjectCard key={index} {...project} />
-        ))}
-        <div ref={observerRef} />
-      </GridContainer>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <SearchWrapperContainer />
+        <GridContainer>
+          {projects.map((project, index) => (
+            <ProjectCard key={index} {...project} />
+          ))}
+          <div ref={observerRef} />
+        </GridContainer>
+      </div>
     </>
   );
 }
