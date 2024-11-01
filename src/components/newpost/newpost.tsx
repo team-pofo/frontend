@@ -1,4 +1,4 @@
-import * as style from "@/styles/newpostStyle";
+import * as style from "./styles";
 import SelectStackType from "../selectStackType/selectStackType";
 import HomePage from "./mdeditor";
 
