@@ -1,5 +1,5 @@
 // components/Navigation.tsx
-import React from "react";
+import React, { useState } from "react";
 import {
   LoginButton,
   Logo,
@@ -8,8 +8,18 @@ import {
   StyledNavLink,
 } from "./styles";
 import Link from "next/link";
+import LoginModal from "../LoginModal/loginModel";
 
 const Navigation: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   return (
     <NavContainer>
       <Link href="/" passHref>
@@ -19,7 +29,10 @@ const Navigation: React.FC = () => {
         <StyledNavLink href="/counter">Home</StyledNavLink>
         <StyledNavLink href="/mypage">MyPage</StyledNavLink>
       </NavItems>
-      <LoginButton>Login</LoginButton>
+      <LoginButton onClick={handleOpenModal}>Login</LoginButton>{" "}
+      {isModalOpen && (
+        <LoginModal onClose={handleCloseModal}>로그인 폼</LoginModal>
+      )}
     </NavContainer>
   );
 };
