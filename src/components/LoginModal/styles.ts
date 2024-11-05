@@ -16,7 +16,7 @@ export const Backdrop = styled.div`
 
 export const ModalColumn = styled.div`
   background: white;
-  border-radius: 8px;
+  border-radius: 16px;
   width: 400px;
   max-width: 90%;
   display: flex;
@@ -58,13 +58,18 @@ export const ButtonBox = styled.div`
   gap: 12px;
 `;
 
-export const Button = styled.button`
+interface ButtonProps {
+  bgColor?: string;
+  textColor?: string;
+}
+
+export const Button = styled.button<ButtonProps>`
   padding: 10px 16px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  background-color: #333;
-  color: #fff;
+  background-color: ${({ bgColor }) => bgColor || "#333"};
+  color: ${({ textColor }) => textColor || "#fff"};
   text-align: center;
   width: 100%;
   font-size: 14px;
@@ -81,7 +86,7 @@ export const CheckboxContainer = styled.div`
   gap: 5px;
   color: black;
   font-size: 14px;
-  margin-top: 20px;
+  margin-top: 30px;
 `;
 
 export const Footer = styled.div`

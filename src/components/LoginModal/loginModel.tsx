@@ -31,8 +31,12 @@ const Modal: React.FC<ModalProps> = ({ onClose }) => {
             <S.Title>POFO 로그인</S.Title>
           </S.Header>
           <S.ButtonBox>
-            <S.Button>Github로 로그인</S.Button>
-            <S.Button>이메일로 로그인</S.Button>
+            <S.Button bgColor="#000000" textColor="#ffffff">
+              Github로 로그인
+            </S.Button>
+            <S.Button bgColor="#5a657726" textColor="#000000">
+              이메일로 로그인
+            </S.Button>
           </S.ButtonBox>
           <S.CheckboxContainer>
             <input type="checkbox" id="stayLoggedIn" />
