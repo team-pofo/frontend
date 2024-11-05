@@ -5,6 +5,9 @@ export const GridContainer = styled.div`
   gap: 16px;
   padding: 20px;
   max-width: 1800px;
+  margin: 0 auto;
+  width: 100%;
+  place-items: center;
 
   // 1920px 이상일 때 5열
   @media (min-width: 1920px) {
