@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import * as S from "./styles";
 import close from "../../../public/icons/close.svg";
 import chevron_left from "../../../public/icons/chevron_left.svg";
@@ -7,12 +7,20 @@ import Image from "next/image";
 interface ModalProps {
   onClose: () => void;
   children?: ReactNode;
+  initialStep?:
+    | "main"
+    | "emailLogin"
+    | "signup"
+    | "emailSignup"
+    | "passwordReset";
 }
 
-const Modal: React.FC<ModalProps> = ({ onClose }) => {
-  const [modalStep, setModalStep] = useState<
-    "main" | "emailLogin" | "signup" | "emailSignup" | "passwordReset"
-  >("main");
+const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
+  const [modalStep, setModalStep] = useState(initialStep);
+
+  useEffect(() => {
+    setModalStep(initialStep);
+  }, [initialStep]);
 
   const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {

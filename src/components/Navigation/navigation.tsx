@@ -1,37 +1,44 @@
 // components/Navigation.tsx
 import React, { useState } from "react";
 import {
-  LoginButton,
+  LoginText,
+  SignUpButton,
   Logo,
   NavContainer,
   NavItems,
   StyledNavLink,
 } from "./styles";
-import Link from "next/link";
 import LoginModal from "../LoginModal/loginModel";
 
 const Navigation: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [initialStep, setInitialStep] = useState<"main" | "signup">("main");
 
-  const handleOpenModal = () => {
+  const handleOpenLoginModal = () => {
+    setInitialStep("main");
+    setIsModalOpen(true);
+  };
+
+  const handleOpenSignupModal = () => {
+    setInitialStep("signup");
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
   return (
     <NavContainer>
-      <Link href="/" passHref>
-        <Logo>POFO</Logo>
-      </Link>
+      <Logo href="/">POFO</Logo>
       <NavItems>
         <StyledNavLink href="/counter">Home</StyledNavLink>
         <StyledNavLink href="/mypage">MyPage</StyledNavLink>
       </NavItems>
-      <LoginButton onClick={handleOpenModal}>Login</LoginButton>{" "}
+      <LoginText onClick={handleOpenLoginModal}>로그인</LoginText>
+      <SignUpButton onClick={handleOpenSignupModal}>회원가입</SignUpButton>
       {isModalOpen && (
-        <LoginModal onClose={handleCloseModal}>로그인 폼</LoginModal>
+        <LoginModal onClose={handleCloseModal} initialStep={initialStep} />
       )}
     </NavContainer>
   );
