@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import * as S from "./styles";
 import close from "../../../public/icons/close.svg";
 import chevron_left from "../../../public/icons/chevron_left.svg";
@@ -6,6 +6,7 @@ import Image from "next/image";
 
 interface ModalProps {
   onClose: () => void;
+  children?: ReactNode;
 }
 
 const Modal: React.FC<ModalProps> = ({ onClose }) => {
