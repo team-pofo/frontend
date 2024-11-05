@@ -5,6 +5,7 @@ import {
   clickType,
   clickTypeToggle,
 } from "@/stores/selectStackType/selectTypesReducer";
+import { setVisibilityStackToggle } from "@/stores/selectStackType/selectStacksReducer";
 
 export default function SelectType() {
   const dispatch = useAppDispatch();
@@ -13,7 +14,10 @@ export default function SelectType() {
   );
   return (
     <Style.SelectStackTypeCard>
-      <Style.SelectStackTypeBtn onClick={() => dispatch(clickTypeToggle())}>
+      <Style.SelectStackTypeBtn onClick={() => {
+        dispatch(clickTypeToggle());
+        dispatch(setVisibilityStackToggle(false));
+      }}>
         프로젝트 구분
       </Style.SelectStackTypeBtn>
 

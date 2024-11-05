@@ -6,6 +6,7 @@ import {
   clickStackToggle,
   inputStack,
 } from "@/stores/selectStackType/selectStacksReducer";
+import { setVisibilityTypeToggle } from "@/stores/selectStackType/selectTypesReducer";
 
 export default function SelectStack() {
   const dispatch = useAppDispatch();
@@ -14,7 +15,10 @@ export default function SelectStack() {
   );
   return (
     <Style.SelectStackTypeCard>
-      <Style.SelectStackTypeBtn onClick={() => dispatch(clickStackToggle())}>
+      <Style.SelectStackTypeBtn onClick={() => {
+        dispatch(clickStackToggle());
+        dispatch(setVisibilityTypeToggle(false));
+      }}>
         기술 스택
       </Style.SelectStackTypeBtn>
 
