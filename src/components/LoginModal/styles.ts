@@ -32,13 +32,19 @@ export const ModalContent = styled.div`
 export const Header = styled.div`
   display: flex;
   align-items: center;
-  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 20px;
+`;
+
+export const HeaderWithBackButton = styled(Header)`
+  justify-content: space-between;
 `;
 
 export const Title = styled.h2`
-  margin-bottom: 30px;
+  font-size: 24px;
+  margin: 0;
   color: black;
-  font-size: 20px;
 `;
 
 export const CloseButton = styled.img`
@@ -61,6 +67,7 @@ export const ButtonBox = styled.div`
 interface ButtonProps {
   bgColor?: string;
   textColor?: string;
+  hoverColor?: string;
 }
 
 export const Button = styled.button<ButtonProps>`
@@ -75,7 +82,7 @@ export const Button = styled.button<ButtonProps>`
   font-size: 14px;
 
   &:hover {
-    background-color: #555;
+    background-color: ${({ hoverColor }) => hoverColor || "#333"};
   }
 `;
 
@@ -87,6 +94,7 @@ export const CheckboxContainer = styled.div`
   color: black;
   font-size: 14px;
   margin-top: 30px;
+  margin-bottom: 20px;
 `;
 
 export const Footer = styled.div`
@@ -103,8 +111,50 @@ export const Footer = styled.div`
 export const SignUpLink = styled.a`
   color: #007bff;
   text-decoration: none;
+  cursor: pointer;
+`;
 
-  &:hover {
-    text-decoration: underline;
+export const BackButton = styled.button`
+  cursor: pointer;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: #000000;
+  position: absolute;
+  left: 0;
+`;
+
+export const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+
+  label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: black;
   }
+
+  input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+`;
+
+export const ForgotLink = styled.a`
+  color: #007bff;
+  text-decoration: none;
+  font-size: 14px;
+  display: block;
+  cursor: pointer;
+`;
+
+export const BackIconContainer = styled.div`
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
 `;
