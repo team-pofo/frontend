@@ -1,4 +1,4 @@
-import * as Style from "@/styles/selectStackType/selectStackTypeStyle";
+import * as Style from "./styles";
 import SelectStack from "./selectStack";
 import SelectType from "./selectType";
 import SelectedStackType from "./selectedStackType";

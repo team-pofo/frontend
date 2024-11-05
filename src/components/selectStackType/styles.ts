@@ -18,6 +18,7 @@ export const SelectStackTypeContainer = styled.div`
 `;
 
 export const SelectStackTypeCard = styled.div`
+z-index: 10;
   width: 100%;
   height: 50px;
   margin-bottom: 20px;
