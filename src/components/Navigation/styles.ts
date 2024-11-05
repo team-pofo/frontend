@@ -113,12 +113,6 @@ export const DrawerMenu = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease-in-out;
-
-  &.open {
-    transform: translateX(0);
-  }
 `;
 
 export const Overlay = styled.div`

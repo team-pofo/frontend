@@ -11,6 +11,8 @@ import {
   Overlay,
 } from "./styles";
 import LoginModal from "../LoginModal/loginModel";
+import hamburger from "../../../public/icons/hamburger.svg";
+import Image from "next/image";
 
 const Navigation: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,7 +45,15 @@ const Navigation: React.FC = () => {
           alignItems: "center",
         }}
       >
-        <HamburgerButton onClick={toggleMenu}>☰</HamburgerButton>
+        <HamburgerButton onClick={toggleMenu}>
+          <Image
+            style={{ cursor: "pointer" }}
+            src={hamburger}
+            width={20}
+            height={20}
+            alt="close button"
+          />
+        </HamburgerButton>
         <div
           style={{
             display: "flex",
