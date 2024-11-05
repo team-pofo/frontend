@@ -1,4 +1,3 @@
-// components/Navigation.tsx
 import React, { useState } from "react";
 import {
   LoginText,
@@ -7,11 +6,15 @@ import {
   NavContainer,
   NavItems,
   StyledNavLink,
+  HamburgerButton,
+  DrawerMenu,
+  Overlay,
 } from "./styles";
 import LoginModal from "../LoginModal/loginModel";
 
 const Navigation: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [initialStep, setInitialStep] = useState<"main" | "signup">("main");
 
   const handleOpenLoginModal = () => {
@@ -28,15 +31,57 @@ const Navigation: React.FC = () => {
     setIsModalOpen(false);
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
   return (
     <NavContainer>
-      <Logo href="/">POFO</Logo>
-      <NavItems>
-        <StyledNavLink href="/counter">Home</StyledNavLink>
-        <StyledNavLink href="/mypage">MyPage</StyledNavLink>
-      </NavItems>
-      <LoginText onClick={handleOpenLoginModal}>로그인</LoginText>
-      <SignUpButton onClick={handleOpenSignupModal}>회원가입</SignUpButton>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <HamburgerButton onClick={toggleMenu}>☰</HamburgerButton>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Logo href="/">POFO</Logo>
+          <NavItems>
+            <StyledNavLink href="/counter">Home</StyledNavLink>
+            <StyledNavLink href="/mypage">MyPage</StyledNavLink>
+          </NavItems>
+        </div>
+      </div>
+      <div className="auth-buttons">
+        <LoginText onClick={handleOpenLoginModal}>로그인</LoginText>
+        <SignUpButton onClick={handleOpenSignupModal}>회원가입</SignUpButton>
+      </div>
+      {isMenuOpen && (
+        <>
+          <Overlay onClick={toggleMenu} />
+          <DrawerMenu className={isMenuOpen ? "open" : ""}>
+            <StyledNavLink href="/counter" onClick={toggleMenu}>
+              Home
+            </StyledNavLink>
+            <StyledNavLink href="/mypage" onClick={toggleMenu}>
+              MyPage
+            </StyledNavLink>
+            <SignUpButton
+              onClick={() => {
+                handleOpenSignupModal();
+                toggleMenu();
+              }}
+            >
+              회원가입
+            </SignUpButton>
+          </DrawerMenu>
+        </>
+      )}
       {isModalOpen && (
         <LoginModal onClose={handleCloseModal} initialStep={initialStep} />
       )}
