@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import counterSlice from "./counterSlice";
-import searchProjectStackSlice from "./search_project/searchProjectStacksReducer";
-import searchProjectTypeSlice from "./search_project/searchProjectTypesReducer";
+import searchProjectStackSlice from "./selectStackType/selectStacksReducer";
+import searchProjectTypeSlice from "./selectStackType/selectTypesReducer";
 
 export const store = configureStore({
   reducer: {
