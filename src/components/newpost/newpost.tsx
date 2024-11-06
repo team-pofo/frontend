@@ -1,6 +1,6 @@
 import * as style from "./styles";
 import SelectStackType from "../selectStackType/selectStackType";
-import HomePage from "./mdeditor";
+import NewpostEditor from "./mdeditor";
 
 export function NewpostName() {
   return (
@@ -26,7 +26,7 @@ export default function NewpostComponents() {
       <NewpostName />
       <SelectStackType />
       <NewpostOneline />
-      <HomePage />
+      <NewpostEditor />
     </style.NewpostContainer>
   );
 }

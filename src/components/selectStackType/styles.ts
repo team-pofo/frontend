@@ -18,7 +18,6 @@ export const SelectStackTypeContainer = styled.div`
 `;
 
 export const SelectStackTypeCard = styled.div`
-z-index: 10;
   width: 100%;
   height: 50px;
   margin-bottom: 20px;
@@ -43,6 +42,7 @@ export const SelectStackTypeBtn = styled.button`
 `;
 
 export const SelectStackTypeDropdown = styled.div`
+  z-index: 10;
   margin-top: 10px;
   border: 2px solid ${lightgrey};
   border-radius: 5px;
