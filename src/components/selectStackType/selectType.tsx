@@ -14,10 +14,12 @@ export default function SelectType() {
   );
   return (
     <Style.SelectStackTypeCard>
-      <Style.SelectStackTypeBtn onClick={() => {
-        dispatch(clickTypeToggle());
-        dispatch(setVisibilityStackToggle(false));
-      }}>
+      <Style.SelectStackTypeBtn
+        onClick={() => {
+          dispatch(clickTypeToggle());
+          dispatch(setVisibilityStackToggle(false));
+        }}
+      >
         프로젝트 구분
       </Style.SelectStackTypeBtn>
 

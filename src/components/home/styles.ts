@@ -13,11 +13,6 @@ export const SearchContainer = styled.div`
   width: 100%;
   padding: 20px 20px 0px 20px;
   margin: auto;
-
-  @media (max-width: 600px) {
-    display: flex;
-    flex-direction: column;
-  }
 `;
 
 export const SearchCardContainerName = styled.div`
@@ -43,7 +38,7 @@ export const SearchCard = styled.div`
 `;
 
 export const SearchNameInput = styled.input`
-  border: 2px solid ${lightgrey};
+  border: 2px solid ${grey};
   border-radius: 5px;
   outline-color: ${blue};
   background: white;

@@ -15,10 +15,12 @@ export default function SelectStack() {
   );
   return (
     <Style.SelectStackTypeCard>
-      <Style.SelectStackTypeBtn onClick={() => {
-        dispatch(clickStackToggle());
-        dispatch(setVisibilityTypeToggle(false));
-      }}>
+      <Style.SelectStackTypeBtn
+        onClick={() => {
+          dispatch(clickStackToggle());
+          dispatch(setVisibilityTypeToggle(false));
+        }}
+      >
         기술 스택
       </Style.SelectStackTypeBtn>
 

@@ -11,8 +11,20 @@ export const NewpostContainer = styled.div`
   max-width: 800px;
   min-height: 100svh;
   align-items: center;
-  padding: 20px 20px 0px 20px;
+  padding: 20px 20px 20px 20px;
   margin: auto;
+`;
+
+export const NewpostCard = styled.div`
+  /* display: flex;
+  flex-direction: column; */
+  width: 100%;
+  margin-bottom: 20px;
+`;
+
+export const NewpostText = styled.p`
+  margin: 0px 0px 10px;
+  font-size: 20px;
 `;
 
 export const NewpostNameInput = styled.input`
@@ -25,12 +37,10 @@ export const NewpostNameInput = styled.input`
   font-size: 25px;
   // padding-inline-start: 10px;
   // padding-inline-end: 10px;
-  margin-bottom: 20px;
 `;
 
 export const NewpostOnelineInput = styled.input`
-  margin-bottom: 20px;
-  border: 2px solid ${lightgrey};
+  border: 2px solid ${grey};
   border-radius: 5px;
   background: white;
   outline: none;
@@ -39,4 +49,25 @@ export const NewpostOnelineInput = styled.input`
   font-size: 20px;
   padding-inline-start: 10px;
   padding-inline-end: 10px;
+`;
+
+// 참고 링크
+export const NewpostLinkContainer = styled.div``;
+
+export const NewpostLinkAddbtn = styled.button`
+  text-align: center;
+  border: 2px solid ${grey};
+  border-radius: 5px;
+  background-color: ${grey};
+  color: white;
+  font-weight: bold;
+  height: 50px;
+  min-width: 50px;
+  font-size: 40px;
+  cursor: pointer;
+
+  &:hover {
+    border: 2px solid ${blue};
+    background: ${blue};
+  }
 `;

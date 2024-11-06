@@ -1,22 +1,10 @@
 "use client";
 import * as style from "./styles";
-import { RootState, useAppDispatch } from "@/stores";
-import {
-  clickStackToggle,
-  setVisibilityStackToggle,
-  inputStack,
-  clickStack,
-  resetStack,
-} from "@/stores/selectStackType/selectStacksReducer";
-import {
-  clickTypeToggle,
-  setVisibilityTypeToggle,
-  clickType,
-  resetType,
-} from "@/stores/selectStackType/selectTypesReducer";
-import { useSelector } from "react-redux";
+import { useAppDispatch } from "@/stores";
+import { setVisibilityStackToggle } from "@/stores/selectStackType/selectStacksReducer";
+import { setVisibilityTypeToggle } from "@/stores/selectStackType/selectTypesReducer";
 import { useEffect, useRef } from "react";
-import SelectStackType from "../selectStackType/selectStackType";
+import SelectStackType from "../SelectStackType/selectStackType";
 
 export function SearchName() {
   return (
@@ -58,6 +46,7 @@ export default function SearchCardContainer() {
         <SearchName />
         <SearchBtn />
       </style.SearchCardContainerName>
+
       <SelectStackType />
     </style.SearchContainer>
   );

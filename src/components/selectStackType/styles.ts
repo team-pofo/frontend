@@ -28,7 +28,7 @@ export const SelectStackTypeBtn = styled.button`
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border: 2px solid ${lightgrey};
+  border: 2px solid ${grey};
   border-radius: 5px;
   background-color: white;
   height: 100%;
@@ -44,7 +44,7 @@ export const SelectStackTypeBtn = styled.button`
 export const SelectStackTypeDropdown = styled.div`
   z-index: 10;
   margin-top: 10px;
-  border: 2px solid ${lightgrey};
+  border: 2px solid ${grey};
   border-radius: 5px;
   border-width: 2px;
   font-size: 20px;
