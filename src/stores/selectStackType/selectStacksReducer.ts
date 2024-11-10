@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface SearchProjectStack {
+interface selectStack {
   stackToggle: boolean;
   stacks: String[];
   selectedStacks: String[];
 }
 
-const initialState: SearchProjectStack = {
+const initialState: selectStack = {
   stackToggle: false,
   stacks: ["java", "python", "C++"],
   selectedStacks: [],
