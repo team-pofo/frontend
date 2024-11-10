@@ -3,7 +3,6 @@
   padding: 0;
   margin: 0;
 }
-
 .w-md-editor {
   height: 600px !important;
   @media (max-width: 695px) {
@@ -45,6 +44,7 @@
 } */
 .w-md-editor .w-md-editor-text {
   font-size: 20px !important;
+  line-height: 1.5 !important;
 }
 .wmde-markdown {
   font-size: 20px !important;

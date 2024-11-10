@@ -35,8 +35,6 @@ export const NewpostNameInput = styled.input`
   height: 70px;
   width: 100%;
   font-size: 25px;
-  // padding-inline-start: 10px;
-  // padding-inline-end: 10px;
 `;
 
 export const NewpostOnelineInput = styled.input`
@@ -55,7 +53,6 @@ export const NewpostOnelineInput = styled.input`
 export const NewpostLinkContainer = styled.div``;
 
 export const NewpostLinkAddbtn = styled.button`
-  text-align: center;
   border: 2px solid ${grey};
   border-radius: 5px;
   background-color: ${grey};
