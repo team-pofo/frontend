@@ -6,25 +6,13 @@ export default function UploadBox() {
   const [isActive, setActive] = useState(false);
   const [imgSrc, setImgSrc] = useState<string[]>([]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (imgSrc.length >= 3) {
-      alert("이미지는 최대 3개까지 등록 가능합니다");
-    }
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-    // 로딩이 완료되면 실행할 콜백 함수 등록
-    fileReader.onload = (e) => {
-      if (typeof e.target?.result === "string") {
-        // setImgSrc(e.target?.result);
-        setImgSrc((prevState) => [...prevState, e.target?.result as string]);
-      }
-    };
-  };
-
   const handleDragStart = () => setActive(true);
-  const handleDragEnd = () => setActive(false);
+  const handleDragEnd = (event: React.DragEvent<HTMLLabelElement>) => {
+    // 드래그가 완전히 벗어난 경우에만 setActive(false)를 호출합니다.
+    if (!event.currentTarget.contains(event.relatedTarget as Node)) {
+      setActive(false);
+    }
+  };
   const handleDragOver = (event: React.DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
   };
@@ -49,20 +37,37 @@ export default function UploadBox() {
     setActive(false);
 
     const file = event.dataTransfer.files[0];
-    setFileInfo(file);
+    if (file) {
+      if (file.type.startsWith("image/")) {
+        setFileInfo(file);
+      } else {
+        alert("이미지 파일만 업로드할 수 있습니다.");
+      }
+    }
   };
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setFileInfo(file);
+      if (file.type.startsWith("image/")) {
+        setFileInfo(file);
+      } else {
+        alert("이미지 파일만 업로드할 수 있습니다.");
+      }
     }
   };
 
   return (
     <Style.ImageUploadContainer>
       {imgSrc.map((img, index) => (
-        <Style.ImagePreview src={img} alt="" width={200} height={150} />
+        // <Style.ImagePreview>
+        //   <img src={img} alt="" width={200} height={200} />
+        //   <Style.CloseButton className="close-button"></Style.CloseButton>
+        // </Style.ImagePreview>
+        <Style.ImagePreview>
+          <img src={img} alt="" width={200} height={200} />
+          <Style.CloseButton className="close-button">×</Style.CloseButton>
+        </Style.ImagePreview>
       ))}
       <Style.ImageUpload
         onDragEnter={handleDragStart}
