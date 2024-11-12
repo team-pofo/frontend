@@ -1,14 +1,18 @@
 import { useState } from "react";
 import { MdUploadFile } from "react-icons/md";
+import { IoClose } from "react-icons/io5";
 import * as Style from "./styles";
 
 export default function UploadBox() {
   const [isActive, setActive] = useState(false);
   const [imgSrc, setImgSrc] = useState<string[]>([]);
 
+  const [showModal, setShowModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   const handleDragStart = () => setActive(true);
   const handleDragEnd = (event: React.DragEvent<HTMLLabelElement>) => {
-    // 드래그가 완전히 벗어난 경우에만 setActive(false)를 호출합니다.
+    // 드래그가 완전히 벗어난 경우에만 setActive(false)를 호출
     if (!event.currentTarget.contains(event.relatedTarget as Node)) {
       setActive(false);
     }
@@ -57,16 +61,54 @@ export default function UploadBox() {
     }
   };
 
+  const closeImage = (idx: number) => {
+    setImgSrc((prevImgSrc) => prevImgSrc.filter((_, i) => i !== idx));
+  };
+
+  const ImageWide = ({
+    src,
+    onClose,
+  }: {
+    src: string;
+    onClose: () => void;
+  }) => (
+    <Style.ModalOverlay onClick={onClose}>
+      <Style.ModalImage src={src} alt="" />
+    </Style.ModalOverlay>
+  );
+
+  const openImagePreview = (src: string) => {
+    setSelectedImage(src);
+    setShowModal(true);
+  };
+
+  const closeImagePreview = () => {
+    setSelectedImage(null);
+    setShowModal(false);
+  };
+
   return (
     <Style.ImageUploadContainer>
-      {imgSrc.map((img, index) => (
-        // <Style.ImagePreview>
-        //   <img src={img} alt="" width={200} height={200} />
-        //   <Style.CloseButton className="close-button"></Style.CloseButton>
-        // </Style.ImagePreview>
+      {imgSrc.map((img, idx) => (
         <Style.ImagePreview>
-          <img src={img} alt="" width={200} height={200} />
-          <Style.CloseButton className="close-button">×</Style.CloseButton>
+          <img
+            src={img}
+            onClick={() => {
+              openImagePreview(img);
+            }}
+            alt=""
+            width={196}
+            height={196}
+          />
+          <Style.CloseButton
+            className="close-button"
+            onClick={() => closeImage(idx)}
+          >
+            <IoClose />
+          </Style.CloseButton>
+          {showModal && selectedImage && (
+            <ImageWide src={selectedImage} onClose={closeImagePreview} />
+          )}
         </Style.ImagePreview>
       ))}
       <Style.ImageUpload
