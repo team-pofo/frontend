@@ -53,10 +53,16 @@ export function NewpostLink() {
       <Style.NewpostText>참고 링크</Style.NewpostText>
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         {links.map((link, idx) => (
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div key={idx} style={{ display: "flex", gap: "10px" }}>
             <Style.NewpostOnelineInput
               type="text"
+              value={link}
               placeholder="링크 입력 (https://github.com)"
+              onChange={(e) => {
+                const newLinks = [...links];
+                newLinks[idx] = e.target.value;
+                setLinks(newLinks);
+              }}
             ></Style.NewpostOnelineInput>
             {idx === 0 ? (
               <Style.NewpostLinkBtn
