@@ -1,9 +1,14 @@
 import * as Style from "./styles";
 import SelectStackType from "../SelectStackType/selectStackType";
 import NewpostEditor from "./mdeditor";
-import { useEffect, useState } from "react";
-import ImageUploadBtn from "./ImageUpload/imageUpload";
+import { useEffect, useRef, useState } from "react";
+import NewpostImages from "./ImageUpload/image-upload";
+import { useAppDispatch } from "@/stores";
+import { setVisibilityStackToggle } from "@/stores/selectStackType/selectStacksReducer";
+import { setVisibilityTypeToggle } from "@/stores/selectStackType/selectTypesReducer";
+import { FaPlus, FaMinus } from "react-icons/fa";
 
+// 프로젝트 이름
 export function NewpostName() {
   return (
     <Style.NewpostCard>
@@ -15,6 +20,7 @@ export function NewpostName() {
   );
 }
 
+// 한 줄 소개글
 export function NewpostOneline() {
   return (
     <Style.NewpostCard>
@@ -27,54 +33,90 @@ export function NewpostOneline() {
   );
 }
 
+// 참고 링크
 export function NewpostLink() {
+  const [links, setLinks] = useState<string[]>([""]);
+
+  const addLink = () => {
+    if (links.length >= 3) {
+      alert("링크는 최대 3개까지 등록 가능합니다");
+      return;
+    }
+    setLinks((previous) => [...previous, ""]);
+  };
+  const minusLink = (trg: number) => {
+    setLinks((previous) => previous.filter((_, idx) => idx !== trg));
+  };
+
   return (
     <Style.NewpostCard>
       <Style.NewpostText>참고 링크</Style.NewpostText>
-      <div style={{ display: "flex", gap: "10px" }}>
-        <Style.NewpostOnelineInput
-          type="text"
-          placeholder="링크 입력 (https://github.com)"
-        ></Style.NewpostOnelineInput>
-        <Style.NewpostLinkAddbtn>+</Style.NewpostLinkAddbtn>
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        {links.map((link, idx) => (
+          <div key={idx} style={{ display: "flex", gap: "10px" }}>
+            <Style.NewpostOnelineInput
+              type="text"
+              value={link}
+              placeholder="링크 입력 (https://github.com)"
+              onChange={(e) => {
+                const newLinks = [...links];
+                newLinks[idx] = e.target.value;
+                setLinks(newLinks);
+              }}
+            ></Style.NewpostOnelineInput>
+            {idx === 0 ? (
+              <Style.NewpostLinkBtn
+                onClick={() => {
+                  addLink();
+                }}
+              >
+                <FaPlus />
+              </Style.NewpostLinkBtn>
+            ) : (
+              <Style.NewpostLinkBtn
+                onClick={() => {
+                  minusLink(idx);
+                }}
+              >
+                <FaMinus />
+              </Style.NewpostLinkBtn>
+            )}
+          </div>
+        ))}
       </div>
     </Style.NewpostCard>
   );
 }
 
 export function NewpostRepresentativeImg() {
-  // const [imgSrc, setImgSrc] = useState<string[]>([]);
-
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (imgSrc.length >= 3) {
-  //     alert("이미지는 최대 3개까지 등록 가능합니다");
-  //   }
-  //   const file = e.target.files?.[0];
-  //   if (!file) return;
-  //   const fileReader = new FileReader();
-  //   fileReader.readAsDataURL(file);
-  //   // 로딩이 완료되면 실행할 콜백 함수 등록
-  //   fileReader.onload = (e) => {
-  //     if (typeof e.target?.result === "string") {
-  //       // setImgSrc(e.target?.result);
-  //       setImgSrc((prevState) => [...prevState, e.target?.result as string]);
-  //     }
-  //   };
-  // };
-
   return (
     <Style.NewpostCard>
       <Style.NewpostText>대표 이미지</Style.NewpostText>
-      <ImageUploadBtn />
-
-      {/* <input type="file" accept="image/*" onChange={handleChange}></input> */}
+      <NewpostImages />
     </Style.NewpostCard>
   );
 }
 
 export default function NewpostComponents() {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const dispatch = useAppDispatch();
+
+  // 화면 바깥 클릭 시 상태 업데이트
+  const handleClickOutside = (event: MouseEvent) => {
+    if (ref.current && !ref.current.contains(event.target as Node)) {
+      dispatch(setVisibilityStackToggle(false));
+      dispatch(setVisibilityTypeToggle(false));
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
-    <Style.NewpostContainer>
+    <Style.NewpostContainer ref={ref}>
       <NewpostName />
       <Style.NewpostText>기술 스택 및 프로젝트 구분</Style.NewpostText>
       <SelectStackType />

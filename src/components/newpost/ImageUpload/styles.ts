@@ -1,17 +1,12 @@
 import styled from "@emotion/styled";
 
-// const lightblue = "#0099FC";
-// const blue = "#0078ff";
 const lightgrey = "#d7e2eb";
 const grey = "#b2c0cc";
-// const lightorange = "#FFF3E0";
-// const lightgreen = "#E0F2F1";
 
 export const ImageUploadContainer = styled.div`
   display: flex;
   white-space: nowrap;
   gap: 20px;
-  padding: 10px;
   justify-content: start;
   align-items: center;
   overflow-x: auto;
@@ -27,7 +22,7 @@ export const ImageUpload = styled.label<DragProps>`
   justify-content: center;
   align-items: center;
   min-width: 200px;
-  min-height: 300px;
+  min-height: 200px;
   align-items: center;
   border: ${({ isActive }) =>
     isActive ? `dashed 2px black` : `dashed 2px ${grey}`};
@@ -39,7 +34,53 @@ export const ImageUpload = styled.label<DragProps>`
   }
 `;
 
-export const ImagePreview = styled.img`
-  min-width: 200px;
-  min-height: 150px;
+export const ImagePreview = styled.div`
+  width: 200px;
+  height: 200px;
+  position: relative;
+  display: inline-block;
+
+  border-radius: 5px;
+
+  img {
+    object-fit: contain;
+  }
+
+  &:hover .close-button {
+    display: flex;
+  }
+`;
+
+export const CloseButton = styled.button`
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  top: 3px;
+  right: 3px;
+  font-size: 30px;
+  background: transparent;
+  border: none;
+  color: black;
+  cursor: pointer;
+`;
+
+export const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+`;
+
+export const ModalImage = styled.img`
+  max-width: 90%;
+  max-height: 90%;
 `;

@@ -29,39 +29,51 @@ export const NewpostText = styled.p`
 
 export const NewpostNameInput = styled.input`
   border: none;
-  border-bottom: 1px solid ${lightgrey};
+  border-bottom: 2px solid ${lightgrey};
   outline: none;
   background: white;
   height: 70px;
   width: 100%;
   font-size: 25px;
+  &:hover {
+    border-color: ${blue};
+  }
+  &:focus {
+    border-color: ${blue};
+  }
 `;
 
 export const NewpostOnelineInput = styled.input`
   border: 2px solid ${grey};
   border-radius: 5px;
   background: white;
-  outline: none;
   height: 50px;
   width: 100%;
   font-size: 20px;
   padding-inline-start: 10px;
   padding-inline-end: 10px;
+  outline-color: ${blue};
+  &:hover {
+    border-color: ${blue};
+  }
 `;
 
 // 참고 링크
 export const NewpostLinkContainer = styled.div``;
 
-export const NewpostLinkAddbtn = styled.button`
+export const NewpostLinkBtn = styled.button`
   border: 2px solid ${grey};
   border-radius: 5px;
   background-color: ${grey};
   color: white;
-  font-weight: bold;
-  height: 50px;
+  min-height: 50px;
   min-width: 50px;
-  font-size: 40px;
+  font-size: 25px;
   cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     border: 2px solid ${blue};
