@@ -1,6 +1,6 @@
 import * as Style from "./styles";
 import SelectStackType from "../SelectStackType/selectStackType";
-import NewpostEditor from "./mdeditor";
+import NewpostEditor from "./MDEditor/mdeditor";
 import { useEffect, useRef, useState } from "react";
 import NewpostImages from "./ImageUpload/image-upload";
 import { useAppDispatch } from "@/stores";
