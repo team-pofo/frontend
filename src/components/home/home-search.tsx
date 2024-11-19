@@ -4,7 +4,7 @@ import { useAppDispatch } from "@/stores";
 import { setVisibilityStackToggle } from "@/stores/selectStackType/selectStacksReducer";
 import { setVisibilityTypeToggle } from "@/stores/selectStackType/selectTypesReducer";
 import { useEffect, useRef } from "react";
-import SelectStackType from "../SelectStackType/selectStackType";
+import SelectStackType from "../selectStackType/selectStackType";
 
 export function SearchName() {
   return (

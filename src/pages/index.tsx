@@ -1,7 +1,7 @@
 // pages/index.tsx
 import { useState, useEffect, useRef } from "react";
 import ProjectCard from "@/components/ProjectCard/projectCard";
-import SearchWrapperContainer from "../components/Home/home-search";
+import SearchWrapperContainer from "../components/home/home-search";
 
 import { GridContainer } from "./styles";
 import dummyData from "@/data/cardDummyDatas";
