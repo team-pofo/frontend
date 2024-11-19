@@ -1,11 +1,8 @@
 import styled from "@emotion/styled";
 
-const lightblue = "#0099FC";
 const blue = "#0078ff";
 const lightgrey = "#d7e2eb";
 const grey = "#b2c0cc";
-const lightorange = "#FFF3E0";
-const lightgreen = "#E0F2F1";
 
 export const NewpostContainer = styled.div`
   max-width: 800px;

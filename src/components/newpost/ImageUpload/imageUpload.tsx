@@ -89,12 +89,12 @@ export default function UploadBox() {
 
   return (
     <Style.ImageUploadContainer>
-      {imgSrc.map((img, idx) => (
-        <Style.ImagePreview>
+      {imgSrc.map((image, index) => (
+        <Style.ImagePreview key={index}>
           <img
-            src={img}
+            src={image}
             onClick={() => {
-              openImagePreview(img);
+              openImagePreview(image);
             }}
             alt=""
             width={196}
@@ -102,7 +102,7 @@ export default function UploadBox() {
           />
           <Style.CloseButton
             className="close-button"
-            onClick={() => closeImage(idx)}
+            onClick={() => closeImage(index)}
           >
             <IoClose />
           </Style.CloseButton>

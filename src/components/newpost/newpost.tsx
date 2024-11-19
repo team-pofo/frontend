@@ -2,7 +2,7 @@ import * as Style from "./styles";
 import SelectStackType from "../SelectStackType/selectStackType";
 import NewpostEditor from "./mdeditor";
 import { useEffect, useRef, useState } from "react";
-import NewpostImages from "./ImageUpload/image-upload";
+import NewpostImages from "./ImageUpload/imageUpload";
 import { useAppDispatch } from "@/stores";
 import { setVisibilityStackToggle } from "@/stores/selectStackType/selectStacksReducer";
 import { setVisibilityTypeToggle } from "@/stores/selectStackType/selectTypesReducer";

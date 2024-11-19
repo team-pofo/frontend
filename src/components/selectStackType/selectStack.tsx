@@ -7,12 +7,21 @@ import {
   inputStack,
 } from "@/stores/selectStackType/selectStacksReducer";
 import { setVisibilityTypeToggle } from "@/stores/selectStackType/selectTypesReducer";
+import useDebounce from "./debounce";
+import { useEffect, useState } from "react";
 
 export default function SelectStack() {
   const dispatch = useAppDispatch();
   const { stackToggle, stacks, selectedStacks } = useSelector(
     (state: RootState) => state.searchProjectStack
   );
+  const [searchStackWord, setSearchStackWrod] = useState("");
+  const debouncedSearchStackWord = useDebounce(searchStackWord, 300);
+
+  useEffect(() => {
+    dispatch(inputStack(debouncedSearchStackWord));
+  }, [debouncedSearchStackWord, dispatch]);
+
   return (
     <Style.SelectStackTypeCard>
       <Style.SelectStackTypeBtn
@@ -29,8 +38,9 @@ export default function SelectStack() {
           <Style.SelectStackNameInput
             type="text"
             placeholder="검색"
-            onChange={(input) => {
-              dispatch(inputStack(input.target.value));
+            onChange={(event) => {
+              setSearchStackWrod(event.target.value);
+              // dispatch(inputStack(debouncedSearchStackWord));
             }}
           ></Style.SelectStackNameInput>
 
