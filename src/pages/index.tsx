@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import ProjectCard from "@/components/ProjectCard/projectCard";
 import SearchWrapperContainer from "../components/home/home-search";
 
-import { GridContainer } from "./styles";
+import { GridContainer } from "../styles/container";
 import dummyData from "@/data/cardDummyDatas";
 
 interface Project {

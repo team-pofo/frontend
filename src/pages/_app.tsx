@@ -5,7 +5,7 @@ import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 import localFont from "next/font/local";
 
-const myFont = localFont({ src: "./fonts/PretendardVariable.woff2" });
+const myFont = localFont({ src: "../fonts/PretendardVariable.woff2" });
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
