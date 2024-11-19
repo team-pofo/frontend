@@ -1,28 +1,31 @@
 import { RootState, useAppDispatch } from "@/stores";
 import { useSelector } from "react-redux";
-import * as Style from "./styles";
+import * as Style from "./Styles";
 import {
   clickStack,
   resetStack,
-} from "@/stores/selectStackType/selectStacksReducer";
+} from "@/stores/SelectStackType/SelectStacksReducer";
 import {
   clickType,
   resetType,
-} from "@/stores/selectStackType/selectTypesReducer";
+} from "@/stores/SelectStackType/SelectTypesReducer";
 
 export default function SelectedStackType() {
   const dispatch = useAppDispatch();
-  const { stackToggle, stacks, selectedStacks } = useSelector(
+  // const { stackToggle, stacks, selectedStacks } = useSelector(
+  //   (state: RootState) => state.searchProjectStack
+  // );
+  const { selectedStacks } = useSelector(
     (state: RootState) => state.searchProjectStack
   );
-  const { typeToggle, types, selectedTypes } = useSelector(
+  const { selectedTypes } = useSelector(
     (state: RootState) => state.searchProjectType
   );
   return (
     !(selectedStacks.length == 0 && selectedTypes.length == 0) && (
       <Style.SelectedStackTypeContainer>
         {selectedStacks.map((stack, index) => (
-          <Style.SelectedStackCard>
+          <Style.SelectedStackCard key={index}>
             {stack}
             <button
               onClick={() => {
@@ -34,7 +37,7 @@ export default function SelectedStackType() {
           </Style.SelectedStackCard>
         ))}
         {selectedTypes.map((type, index) => (
-          <Style.SelectedTypeCard>
+          <Style.SelectedTypeCard key={index}>
             {type}
             <button
               onClick={() => {

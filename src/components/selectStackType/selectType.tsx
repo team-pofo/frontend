@@ -1,11 +1,11 @@
 import { RootState, useAppDispatch } from "@/stores";
 import { useSelector } from "react-redux";
-import * as Style from "./styles";
+import * as Style from "./Styles";
 import {
   clickType,
   clickTypeToggle,
-} from "@/stores/selectStackType/selectTypesReducer";
-import { setVisibilityStackToggle } from "@/stores/selectStackType/selectStacksReducer";
+} from "@/stores/SelectStackType/SelectTypesReducer";
+import { setVisibilityStackToggle } from "@/stores/SelectStackType/SelectStacksReducer";
 
 export default function SelectType() {
   const dispatch = useAppDispatch();

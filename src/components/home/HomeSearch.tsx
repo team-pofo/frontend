@@ -1,10 +1,10 @@
 "use client";
-import * as style from "./styles";
+import * as style from "./Styles";
 import { useAppDispatch } from "@/stores";
-import { setVisibilityStackToggle } from "@/stores/selectStackType/selectStacksReducer";
-import { setVisibilityTypeToggle } from "@/stores/selectStackType/selectTypesReducer";
+import { setVisibilityStackToggle } from "@/stores/SelectStackType/SelectStacksReducer";
+import { setVisibilityTypeToggle } from "@/stores/SelectStackType/SelectTypesReducer";
 import { useEffect, useRef } from "react";
-import SelectStackType from "../selectStackType/selectStackType";
+import SelectStackType from "../SelectStackType/SelectStackType";
 
 export function SearchName() {
   return (
@@ -38,7 +38,7 @@ export default function SearchCardContainer() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  });
 
   return (
     <style.SearchContainer ref={ref}>

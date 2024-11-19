@@ -1,4 +1,4 @@
-import NewpostComponents from "@/components/newpost/newpost";
+import NewpostComponents from "@/components/Newpost/Newpost";
 
 export default function Newpost() {
   return (

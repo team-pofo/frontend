@@ -1,7 +1,7 @@
 // pages/index.tsx
 import { useState, useEffect, useRef } from "react";
-import ProjectCard from "@/components/ProjectCard/projectCard";
-import SearchWrapperContainer from "../components/home/home-search";
+import ProjectCard from "@/components/ProjectCard/ProjectCard";
+import SearchWrapperContainer from "../components/Home/HomeSearch";
 
 import { GridContainer } from "../styles/container";
 import dummyData from "@/data/cardDummyDatas";
@@ -31,7 +31,7 @@ export default function Home() {
 
     if (observerRef.current) observer.observe(observerRef.current);
     return () => observer.disconnect();
-  }, []);
+  });
 
   const loadMoreProjects = () => {
     const nextProjects = dummyData.slice(page * 10, (page + 1) * 10);

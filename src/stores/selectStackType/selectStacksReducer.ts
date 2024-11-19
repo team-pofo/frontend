@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface selectStack {
   stackToggle: boolean;
-  stacks: String[];
-  selectedStacks: String[];
+  stacks: string[];
+  selectedStacks: string[];
 }
 
 const initialState: selectStack = {

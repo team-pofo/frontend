@@ -1,4 +1,4 @@
-import Counter from "@/components/counter";
+import Counter from "@/components/Counter";
 
 const CounterPage: React.FC = () => {
   return (
