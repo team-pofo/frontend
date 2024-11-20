@@ -1,32 +1,12 @@
 import styled from "@emotion/styled";
 
-const lightblue = "#0099FC";
 const blue = "#0078ff";
-const lightgrey = "#d7e2eb";
 const grey = "#b2c0cc";
 const lightorange = "#FFF3E0";
 const lightgreen = "#E0F2F1";
 
-export const SearchContainer = styled.div`
-  max-width: 800px;
-  align-items: center;
-  width: 100%;
-  padding: 20px 20px 0px 20px;
-  margin: auto;
-
-  @media (max-width: 600px) {
-    display: flex;
-    flex-direction: column;
-  }
-`;
-
-export const SearchCardContainer1 = styled.div`
-  display: flex;
-  width: 100%;
-  column-gap: 20px;
-`;
-
-export const SearchCardContainer2 = styled.div`
+// stack, type 선택 창
+export const SelectStackTypeContainer = styled.div`
   display: flex;
   width: 100%;
   column-gap: 20px;
@@ -36,34 +16,18 @@ export const SearchCardContainer2 = styled.div`
   }
 `;
 
-export const SearchCard = styled.div`
+export const SelectStackTypeCard = styled.div`
   width: 100%;
   height: 50px;
   margin-bottom: 20px;
 `;
 
-export const SearchNameInput = styled.input`
-  border: 2px solid ${lightgrey};
-  border-radius: 5px;
-  outline-color: ${blue};
-  background: white;
-  height: 100%;
-  width: 100%;
-  font-size: 20px;
-  padding-inline-start: 10px;
-  padding-inline-end: 10px;
-
-  &:hover {
-    border-color: ${blue};
-  }
-`;
-
-export const SearchStackBtn = styled.button`
+export const SelectStackTypeBtn = styled.button`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border: 2px solid ${lightgrey};
+  border: 2px solid ${grey};
   border-radius: 5px;
   background-color: white;
   height: 100%;
@@ -76,10 +40,10 @@ export const SearchStackBtn = styled.button`
   }
 `;
 
-export const SearchStackDropdown = styled.div`
+export const SelectStackTypeDropdown = styled.div`
   z-index: 10;
   margin-top: 10px;
-  border: 2px solid ${lightgrey};
+  border: 2px solid ${grey};
   border-radius: 5px;
   border-width: 2px;
   font-size: 20px;
@@ -93,7 +57,7 @@ export const SearchStackDropdown = styled.div`
   }
 `;
 
-export const SearchStackNameInput = styled.input`
+export const SelectStackNameInput = styled.input`
   border: 2px solid ${grey};
   border-radius: 5px;
   outline-color: ${blue};
@@ -104,28 +68,28 @@ export const SearchStackNameInput = styled.input`
   font-size: 20px;
   padding-inline-start: 10px;
   padding-inline-end: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 
   &:hover {
     border-color: ${blue};
   }
 `;
 
-export const SearchDropdownLabel = styled.label`
+export const SelectStackTypeLabel = styled.label`
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  width: 100%;
 
-  /* 자식 요소의 shrink 방지 */
   & > * {
     flex-shrink: 0;
   }
 `;
 
-export const SearchCheckbox = styled.input`
+export const SelectStackTypeCheckobx = styled.input`
   appearance: none;
   width: 25px;
   height: 25px;
@@ -154,40 +118,20 @@ export const SearchCheckbox = styled.input`
   }
 `;
 
-export const SearchBtn = styled.button`
-  text-align: center;
-  padding: 10px;
-  border: 2px solid ${lightblue};
-  border-radius: 5px;
-  background-color: ${lightblue};
-  color: white;
-  font-size: 5px;
-  font-weight: bold;
-  height: 100%;
-  width: 80px;
-  cursor: pointer;
-  font-size: 20px;
-
-  &:hover {
-    border: 2px solid ${blue};
-    background: ${blue};
-  }
-`;
-
-export const SearchSelectedStackContainer = styled.div`
+// 선택된 stack, type 보여주는 창
+export const SelectedStackTypeContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  height: 30px;
   width: 100%;
-  margin: 0 auto;
   margin-bottom: 10px;
 `;
 
-export const SearchSelectedStackCard = styled.div`
+export const SelectedStackCard = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px 10px 10px 20px;
+  height: 40px;
   margin-bottom: 10px;
   margin-right: 10px;
   border-radius: 5px;
@@ -213,11 +157,12 @@ export const SearchSelectedStackCard = styled.div`
   }
 `;
 
-export const SearchSelectedTypesCard = styled.div`
+export const SelectedTypeCard = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px 10px 10px 20px;
+  height: 40px;
   margin-bottom: 10px;
   margin-right: 10px;
   border-radius: 5px;
@@ -243,11 +188,12 @@ export const SearchSelectedTypesCard = styled.div`
   }
 `;
 
-export const SearchResetBtn = styled.div`
+export const SelectedStackTypeResetBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px 20px 10px 20px;
+  height: 40px;
   margin-bottom: 10px;
   margin-right: 10px;
   border-radius: 5px;

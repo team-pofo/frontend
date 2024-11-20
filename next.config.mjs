@@ -1,3 +1,5 @@
+import removeImports from "next-remove-imports";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -10,6 +12,10 @@ const nextConfig = {
       },
     ],
   },
+  output: "standalone",
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
 };
 
-export default nextConfig;
+export default removeImports()(nextConfig);
