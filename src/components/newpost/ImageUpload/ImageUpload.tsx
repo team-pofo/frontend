@@ -2,7 +2,7 @@ import { useState } from "react";
 import { MdUploadFile } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import Image from "next/image";
-import * as Style from "./Styles";
+import * as Style from "./styles";
 
 export default function UploadBox() {
   const [isActive, setActive] = useState(false);

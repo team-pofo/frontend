@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import * as S from "./Styles";
+import * as S from "./styles";
 import Image from "next/image";
 import empty_heart from "../../../public/icons/empty_heart.svg";
 import fill_heart from "../../../public/icons/fill_heart.svg";

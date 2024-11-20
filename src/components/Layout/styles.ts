@@ -1,4 +1,3 @@
-// styles/Layout.styles.ts
 import styled from "@emotion/styled";
 
 export const LayoutContainer = styled.div`

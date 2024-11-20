@@ -9,7 +9,7 @@ import {
   HamburgerButton,
   DrawerMenu,
   Overlay,
-} from "./Styles";
+} from "./styles";
 import LoginModal from "../LoginModal/LoginModel";
 import hamburger from "../../../public/icons/hamburger.svg";
 import Image from "next/image";

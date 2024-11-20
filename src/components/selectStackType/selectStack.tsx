@@ -1,6 +1,6 @@
 import { RootState, useAppDispatch } from "@/stores";
 import { useSelector } from "react-redux";
-import * as Style from "./Styles";
+import * as Style from "./styles";
 import {
   clickStack,
   clickStackToggle,

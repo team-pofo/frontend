@@ -1,10 +1,9 @@
-"use client";
-import * as style from "./Styles";
+import * as style from "./styles";
 import { useAppDispatch } from "@/stores";
 import { setVisibilityStackToggle } from "@/stores/SelectStackType/SelectStacksReducer";
 import { setVisibilityTypeToggle } from "@/stores/SelectStackType/SelectTypesReducer";
 import { useEffect, useRef } from "react";
-import SelectStackType from "../SelectStackType/SelectStackType";
+import SelectStackType from "../selectStackType/SelectStackType";
 
 export function SearchName() {
   return (
