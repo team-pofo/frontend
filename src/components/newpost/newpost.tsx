@@ -4,8 +4,8 @@ import NewpostEditor from "./Mdeditor";
 import { useEffect, useRef, useState } from "react";
 import NewpostImages from "./ImageUpload/ImageUpload";
 import { useAppDispatch } from "@/stores";
-import { setVisibilityStackToggle } from "@/stores/SelectStackType/SelectStacksReducer";
-import { setVisibilityTypeToggle } from "@/stores/SelectStackType/SelectTypesReducer";
+import { setVisibilityStackToggle } from "@/stores/selectStackType/selectStacksReducer";
+import { setVisibilityTypeToggle } from "@/stores/selectStackType/selectTypesReducer";
 import { FaPlus, FaMinus } from "react-icons/fa";
 
 // 프로젝트 이름

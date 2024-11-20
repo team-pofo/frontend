@@ -4,11 +4,11 @@ import * as Style from "./styles";
 import {
   clickStack,
   resetStack,
-} from "@/stores/SelectStackType/SelectStacksReducer";
+} from "@/stores/selectStackType/selectStacksReducer";
 import {
   clickType,
   resetType,
-} from "@/stores/SelectStackType/SelectTypesReducer";
+} from "@/stores/selectStackType/selectTypesReducer";
 
 export default function SelectedStackType() {
   const dispatch = useAppDispatch();

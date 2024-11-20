@@ -1,7 +1,7 @@
 import * as style from "./styles";
 import { useAppDispatch } from "@/stores";
-import { setVisibilityStackToggle } from "@/stores/SelectStackType/SelectStacksReducer";
-import { setVisibilityTypeToggle } from "@/stores/SelectStackType/SelectTypesReducer";
+import { setVisibilityStackToggle } from "@/stores/selectStackType/selectStacksReducer";
+import { setVisibilityTypeToggle } from "@/stores/selectStackType/selectTypesReducer";
 import { useEffect, useRef } from "react";
 import SelectStackType from "../selectStackType/SelectStackType";
 

@@ -4,8 +4,8 @@ import * as Style from "./styles";
 import {
   clickType,
   clickTypeToggle,
-} from "@/stores/SelectStackType/SelectTypesReducer";
-import { setVisibilityStackToggle } from "@/stores/SelectStackType/SelectStacksReducer";
+} from "@/stores/selectStackType/selectTypesReducer";
+import { setVisibilityStackToggle } from "@/stores/selectStackType/selectStacksReducer";
 
 export default function SelectType() {
   const dispatch = useAppDispatch();

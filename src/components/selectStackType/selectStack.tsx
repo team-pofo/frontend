@@ -5,8 +5,8 @@ import {
   clickStack,
   clickStackToggle,
   inputStack,
-} from "@/stores/SelectStackType/SelectStacksReducer";
-import { setVisibilityTypeToggle } from "@/stores/SelectStackType/SelectTypesReducer";
+} from "@/stores/selectStackType/selectStacksReducer";
+import { setVisibilityTypeToggle } from "@/stores/selectStackType/selectTypesReducer";
 
 export default function SelectStack() {
   const dispatch = useAppDispatch();
