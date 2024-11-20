@@ -1,8 +1,8 @@
 import * as Style from "./styles";
-import SelectStackType from "../selectStackType/selectStackType";
-import NewpostEditor from "./mdeditor";
+import SelectStackType from "../selectStackType/SelectStackType";
+import NewpostEditor from "./Mdeditor";
 import { useEffect, useRef, useState } from "react";
-import NewpostImages from "./ImageUpload/image-upload";
+import NewpostImages from "./ImageUpload/ImageUpload";
 import { useAppDispatch } from "@/stores";
 import { setVisibilityStackToggle } from "@/stores/selectStackType/selectStacksReducer";
 import { setVisibilityTypeToggle } from "@/stores/selectStackType/selectTypesReducer";
@@ -52,19 +52,19 @@ export function NewpostLink() {
     <Style.NewpostCard>
       <Style.NewpostText>참고 링크</Style.NewpostText>
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-        {links.map((link, idx) => (
-          <div key={idx} style={{ display: "flex", gap: "10px" }}>
+        {links.map((link, index) => (
+          <div key={index} style={{ display: "flex", gap: "10px" }}>
             <Style.NewpostOnelineInput
               type="text"
               value={link}
               placeholder="링크 입력 (https://github.com)"
               onChange={(e) => {
                 const newLinks = [...links];
-                newLinks[idx] = e.target.value;
+                newLinks[index] = e.target.value;
                 setLinks(newLinks);
               }}
             ></Style.NewpostOnelineInput>
-            {idx === 0 ? (
+            {index === 0 ? (
               <Style.NewpostLinkBtn
                 onClick={() => {
                   addLink();
@@ -75,7 +75,7 @@ export function NewpostLink() {
             ) : (
               <Style.NewpostLinkBtn
                 onClick={() => {
-                  minusLink(idx);
+                  minusLink(index);
                 }}
               >
                 <FaMinus />
@@ -114,7 +114,7 @@ export default function NewpostComponents() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  });
   return (
     <Style.NewpostContainer ref={ref}>
       <NewpostName />

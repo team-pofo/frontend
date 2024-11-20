@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface selectType {
   typeToggle: boolean;
-  types: String[];
-  selectedTypes: String[];
+  types: string[];
+  selectedTypes: string[];
 }
 
 const initialState: selectType = {

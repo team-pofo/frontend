@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 
 const blue = "#0078ff";
-const lightgrey = "#d7e2eb";
 const grey = "#b2c0cc";
 const lightorange = "#FFF3E0";
 const lightgreen = "#E0F2F1";

@@ -1,7 +1,7 @@
 import * as Style from "./styles";
-import SelectStack from "./selectStack";
-import SelectType from "./selectType";
-import SelectedStackType from "./selectedStackType";
+import SelectStack from "./SelectStack";
+import SelectType from "./SelectType";
+import SelectedStackType from "./SelectedStackType";
 
 export default function SelectStackType() {
   return (

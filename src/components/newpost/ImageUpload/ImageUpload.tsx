@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MdUploadFile } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
+import Image from "next/image";
 import * as Style from "./styles";
 
 export default function UploadBox() {
@@ -89,9 +90,9 @@ export default function UploadBox() {
 
   return (
     <Style.ImageUploadContainer>
-      {imgSrc.map((img, idx) => (
-        <Style.ImagePreview>
-          <img
+      {imgSrc.map((img, index) => (
+        <Style.ImagePreview key={index}>
+          <Image
             src={img}
             onClick={() => {
               openImagePreview(img);
@@ -102,7 +103,7 @@ export default function UploadBox() {
           />
           <Style.CloseButton
             className="close-button"
-            onClick={() => closeImage(idx)}
+            onClick={() => closeImage(index)}
           >
             <IoClose />
           </Style.CloseButton>

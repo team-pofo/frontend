@@ -12,6 +12,10 @@ const nextConfig = {
       },
     ],
   },
+  output: "standalone",
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
 };
 
 export default removeImports()(nextConfig);

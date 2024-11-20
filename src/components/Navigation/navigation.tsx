@@ -10,7 +10,7 @@ import {
   DrawerMenu,
   Overlay,
 } from "./styles";
-import LoginModal from "../LoginModal/loginModel";
+import LoginModal from "../LoginModal/LoginModel";
 import hamburger from "../../../public/icons/hamburger.svg";
 import Image from "next/image";
 
