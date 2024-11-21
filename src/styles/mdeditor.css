@@ -1,0 +1,49 @@
+.w-md-editor {
+  height: 600px !important;
+  @media (max-width: 695px) {
+    height: 640px !important;
+  }
+}
+
+.w-md-editor-toolbar {
+  height: 40px !important;
+  @media (max-width: 695px) {
+    height: 80px !important;
+  }
+  button {
+    width: 36px;
+    height: 36px !important;
+    font-size: 16px;
+    /* padding: 8px; */
+    &svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  button svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+.w-md-editor-toolbar-divider {
+  margin: 0px 0px 0px 0px !important;
+  height: 25px !important;
+}
+
+.w-md-editor-content {
+  height: 560px !important;
+}
+
+.w-md-editor-text {
+  font-size: 21px !important;
+  line-height: 26px !important;
+}
+.wmde-markdown {
+  font-size: 20px !important;
+}
+.w-md-editor-fullscreen {
+  height: 100vh !important;
+  .w-md-editor-content {
+    height: 100vh !important;
+  }
+}
