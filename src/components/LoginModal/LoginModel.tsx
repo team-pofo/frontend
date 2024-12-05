@@ -3,6 +3,8 @@ import * as S from "./styles";
 import close from "../../../public/icons/close.svg";
 import chevron_left from "../../../public/icons/chevron_left.svg";
 import Image from "next/image";
+import { useAuthStore } from "@/stores/authStore";
+import { login } from "@/services/auth";
 
 interface ModalProps {
   onClose: () => void;
@@ -17,10 +19,24 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
   const [modalStep, setModalStep] = useState(initialStep);
+  const { login: setLoginState } = useAuthStore();
 
   useEffect(() => {
     setModalStep(initialStep);
   }, [initialStep]);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const user = await login("email", "password");
+      setLoginState(user);
+      console.log(user);
+      alert("로그인 성공!");
+    } catch (error) {
+      console.error(error);
+      alert("로그인 실패!");
+    }
+  };
 
   const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
@@ -77,6 +93,14 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
                 onClick={handleSwitchToEmailLogin}
               >
                 이메일로 로그인
+              </S.Button>
+              <S.Button
+                bgColor="#ff000014"
+                hoverColor="#6aff0024"
+                textColor="#000000"
+                onClick={handleLogin}
+              >
+                로그인 테스트
               </S.Button>
             </S.ButtonBox>
             <S.CheckboxContainer>
