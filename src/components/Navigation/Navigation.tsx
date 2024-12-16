@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   LoginText,
   SignUpButton,
@@ -13,11 +13,32 @@ import {
 import LoginModal from "../LoginModal/LoginModel";
 import hamburger from "../../../public/icons/hamburger.svg";
 import Image from "next/image";
+import { useAuthStore } from "@/stores/authStore";
+import userIcon from "../../../public/icons/user.svg";
+import { logout } from "@/services/auth";
 
 const Navigation: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [initialStep, setInitialStep] = useState<"main" | "signup">("main");
+  const { isLoggedIn, logout: clearAuthState } = useAuthStore();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setIsModalOpen(false);
+    }
+  }, [isLoggedIn]);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      clearAuthState();
+      alert("로그아웃 성공!");
+    } catch (error) {
+      console.error(error);
+      alert("로그아웃 실패!");
+    }
+  };
 
   const handleOpenLoginModal = () => {
     setInitialStep("main");
@@ -67,9 +88,31 @@ const Navigation: React.FC = () => {
           </NavItems>
         </div>
       </div>
-      <div className="auth-buttons">
-        <LoginText onClick={handleOpenLoginModal}>로그인</LoginText>
-        <SignUpButton onClick={handleOpenSignupModal}>회원가입</SignUpButton>
+      <div className="">
+        {isLoggedIn ? (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <LoginText onClick={handleLogout}>로그아웃</LoginText>
+            <Image
+              style={{ cursor: "pointer" }}
+              src={userIcon}
+              width={38}
+              height={38}
+              alt="mypage"
+            />
+          </div>
+        ) : (
+          <>
+            <LoginText onClick={handleOpenLoginModal}>로그인</LoginText>
+            <SignUpButton onClick={handleOpenSignupModal}>
+              회원가입
+            </SignUpButton>
+          </>
+        )}
       </div>
       {isMenuOpen && (
         <>
