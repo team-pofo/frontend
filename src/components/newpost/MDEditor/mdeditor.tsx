@@ -3,7 +3,7 @@ import "@uiw/react-markdown-preview/markdown.css";
 import Spinners from "@/components/Common/Spinners";
 import { uploadImage } from "@/pages/api/NewPost/mdeditor-image-upload";
 import dynamic from "next/dynamic";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import * as Style from "./styles";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
@@ -22,13 +22,9 @@ function MdEditor() {
       setIsActive(false);
     }
   };
-  const handleDragOver = useCallback(
-    (event: React.DragEvent<HTMLDivElement>) => {
-      event.preventDefault();
-      event.stopPropagation();
-    },
-    []
-  );
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -47,8 +43,9 @@ function MdEditor() {
             if (imageUrl) {
               setValue(
                 (prev) =>
-                  prev +
-                  `\n![image](https://www.kookmin.ac.kr/content/05sub/style0005/images/sub/ui_5_col_image_3.jpg)\n`
+                  prev.substring(0, cursorPosition) +
+                  `\n![image](https://www.kookmin.ac.kr/content/05sub/style0005/images/sub/ui_5_col_image_3.jpg)\n` +
+                  prev.substring(cursorPosition)
               );
             }
             setLoading(false);
@@ -133,18 +130,12 @@ function MdEditor() {
           onPaste={handlePaste}
           textareaProps={{
             onFocus: handleFocus,
-            onSelect: handleSelect, // 텍스트 선택 시 커서 위치 추적
-            onMouseUp: handleMouseUp, // 마우스 클릭 시 커서 위치 추적
-            onKeyUp: handleKeyUp, // 방향키로 커서 이동 시 커서 위치 추적
+            onSelect: handleSelect,
+            onMouseUp: handleMouseUp,
+            onKeyUp: handleKeyUp,
             disabled: loading,
           }}
-          style={{
-            pointerEvents: loading ? "none" : "auto",
-            opacity: loading ? 0.3 : 1,
-            backgroundColor: "#ffffff",
-          }}
         />
-
         {loading && (
           <div
             style={{
