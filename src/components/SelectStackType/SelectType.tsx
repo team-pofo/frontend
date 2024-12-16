@@ -1,23 +1,18 @@
-import { RootState, useAppDispatch } from "@/stores";
-import { useSelector } from "react-redux";
 import * as Style from "./styles";
-import {
-  clickType,
-  clickTypeToggle,
-} from "@/stores/selectStackType/selectTypesReducer";
-import { setVisibilityStackToggle } from "@/stores/selectStackType/selectStacksReducer";
+import { useSelectTypes } from "@/stores/selectStackType/selectTypesStore";
+import { useSelectStacks } from "@/stores/selectStackType/selectStacksStore";
 
 export default function SelectType() {
-  const dispatch = useAppDispatch();
-  const { typeToggle, types, selectedTypes } = useSelector(
-    (state: RootState) => state.searchProjectType
-  );
+  const { typeToggle, types, selectedTypes, clickTypeToggle, clickType } =
+    useSelectTypes();
+  const { setVisibilityStackToggle } = useSelectStacks();
+
   return (
     <Style.SelectStackTypeCard>
       <Style.SelectStackTypeBtn
         onClick={() => {
-          dispatch(clickTypeToggle());
-          dispatch(setVisibilityStackToggle(false));
+          clickTypeToggle();
+          setVisibilityStackToggle(false);
         }}
       >
         프로젝트 구분
@@ -32,7 +27,7 @@ export default function SelectType() {
                   style={{ padding: "10px" }}
                   type="checkbox"
                   checked={selectedTypes.includes(type)}
-                  onChange={() => dispatch(clickType(type))}
+                  onChange={() => clickType(type)}
                 ></Style.SelectStackTypeCheckobx>
                 {type}
               </Style.SelectStackTypeLabel>

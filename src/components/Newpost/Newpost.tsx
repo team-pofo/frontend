@@ -3,9 +3,8 @@ import SelectStackType from "../SelectStackType/SelectStackType";
 import NewpostEditor from "./MDEditor/mdeditor";
 import { useEffect, useRef, useState } from "react";
 import NewpostImages from "./ImageUpload/ImageUpload";
-import { useAppDispatch } from "@/stores";
-import { setVisibilityStackToggle } from "@/stores/selectStackType/selectStacksReducer";
-import { setVisibilityTypeToggle } from "@/stores/selectStackType/selectTypesReducer";
+import { useSelectStacks } from "@/stores/selectStackType/selectStacksStore";
+import { useSelectTypes } from "@/stores/selectStackType/selectTypesStore";
 import { FaPlus, FaMinus } from "react-icons/fa";
 
 // 프로젝트 이름
@@ -99,13 +98,15 @@ export function NewpostRepresentativeImg() {
 
 export default function NewpostComponents() {
   const ref = useRef<HTMLDivElement | null>(null);
-  const dispatch = useAppDispatch();
+
+  const { setVisibilityStackToggle } = useSelectStacks();
+  const { setVisibilityTypeToggle } = useSelectTypes();
 
   // 화면 바깥 클릭 시 상태 업데이트
   const handleClickOutside = (event: MouseEvent) => {
     if (ref.current && !ref.current.contains(event.target as Node)) {
-      dispatch(setVisibilityStackToggle(false));
-      dispatch(setVisibilityTypeToggle(false));
+      setVisibilityStackToggle(false);
+      setVisibilityTypeToggle(false);
     }
   };
 

@@ -1,9 +1,8 @@
 import * as style from "./styles";
-import { useAppDispatch } from "@/stores";
-import { setVisibilityStackToggle } from "@/stores/selectStackType/selectStacksReducer";
-import { setVisibilityTypeToggle } from "@/stores/selectStackType/selectTypesReducer";
 import { useEffect, useRef } from "react";
 import SelectStackType from "../SelectStackType/SelectStackType";
+import { useSelectStacks } from "@/stores/selectStackType/selectStacksStore";
+import { useSelectTypes } from "@/stores/selectStackType/selectTypesStore";
 
 export function SearchName() {
   return (
@@ -22,13 +21,15 @@ export function SearchBtn() {
 
 export default function SearchCardContainer() {
   const ref = useRef<HTMLDivElement | null>(null);
-  const dispatch = useAppDispatch();
+
+  const { setVisibilityStackToggle } = useSelectStacks();
+  const { setVisibilityTypeToggle } = useSelectTypes();
 
   // 화면 바깥 클릭 시 상태 업데이트
   const handleClickOutside = (event: MouseEvent) => {
     if (ref.current && !ref.current.contains(event.target as Node)) {
-      dispatch(setVisibilityStackToggle(false));
-      dispatch(setVisibilityTypeToggle(false));
+      setVisibilityStackToggle(false);
+      setVisibilityTypeToggle(false);
     }
   };
 
