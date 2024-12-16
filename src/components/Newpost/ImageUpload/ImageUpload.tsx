@@ -11,8 +11,8 @@ export default function UploadBox() {
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const handleDragStart = () => setActive(true);
-  const handleDragEnd = (event: React.DragEvent<HTMLLabelElement>) => {
+  const handleDragEnter = () => setActive(true);
+  const handleDragLeave = (event: React.DragEvent<HTMLLabelElement>) => {
     // 드래그가 완전히 벗어난 경우에만 setActive(false)를 호출
     if (!event.currentTarget.contains(event.relatedTarget as Node)) {
       setActive(false);
@@ -113,9 +113,9 @@ export default function UploadBox() {
         </Style.ImagePreview>
       ))}
       <Style.ImageUpload
-        onDragEnter={handleDragStart}
+        onDragEnter={handleDragEnter}
         onDragOver={handleDragOver}
-        onDragLeave={handleDragEnd}
+        onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         isActive={isActive}
       >
