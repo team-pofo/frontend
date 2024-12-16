@@ -5,6 +5,10 @@ import chevron_left from "../../../public/icons/chevron_left.svg";
 import Image from "next/image";
 import { useAuthStore } from "@/stores/authStore";
 import { login } from "@/services/auth";
+import { Button } from "../ui/button";
+import KeepLogin from "./KeepLogin";
+import { Input } from "../ui/input";
+import { Checkbox } from "../ui/checkbox";
 
 interface ModalProps {
   onClose: () => void;
@@ -83,34 +87,19 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
               <S.Title>POFO 로그인</S.Title>
             </S.Header>
             <S.ButtonBox>
-              <S.Button bgColor="#000000" textColor="#ffffff">
-                Github로 로그인
-              </S.Button>
-              <S.Button
-                bgColor="#5a657617"
-                hoverColor="#5a657726"
-                textColor="#000000"
-                onClick={handleSwitchToEmailLogin}
-              >
+              <Button>Github로 로그인</Button>
+              <Button variant={"secondary"} onClick={handleSwitchToEmailLogin}>
                 이메일로 로그인
-              </S.Button>
-              <S.Button
-                bgColor="#ff000014"
-                hoverColor="#6aff0024"
-                textColor="#000000"
-                onClick={handleLogin}
-              >
+              </Button>
+              <Button variant={"destructive"} onClick={handleLogin}>
                 로그인 테스트
-              </S.Button>
+              </Button>
             </S.ButtonBox>
-            <S.CheckboxContainer>
-              <input type="checkbox" id="stayLoggedIn" />
-              <label htmlFor="stayLoggedIn">로그인 상태 유지</label>
-            </S.CheckboxContainer>
+            <KeepLogin />
             <S.Footer>
-              아직 회원이 아니신가요?{" "}
+              아직 회원이 아니신가요?
               <S.SignUpLink onClick={handleSwitchToSignup}>
-                회원 가입
+                회원가입
               </S.SignUpLink>
             </S.Footer>
           </S.ModalContent>
@@ -131,24 +120,13 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
             </S.Header>
             <S.InputContainer>
               <label htmlFor="email">이메일</label>
-              <input
-                type="email"
-                id="email"
-                placeholder="이메일을 입력하세요"
-              />
+              <Input type="email" placeholder="이메일을 입력하세요" />
             </S.InputContainer>
             <S.InputContainer>
               <label htmlFor="password">비밀번호</label>
-              <input
-                type="password"
-                id="password"
-                placeholder="비밀번호를 입력하세요"
-              />
+              <Input type="password" placeholder="비밀번호를 입력하세요" />
             </S.InputContainer>
-            <S.CheckboxContainer>
-              <input type="checkbox" id="stayLoggedInEmail" />
-              <label htmlFor="stayLoggedInEmail">로그인 상태 유지</label>
-            </S.CheckboxContainer>
+            <KeepLogin />
             <S.Button bgColor="#000000" textColor="#ffffff">
               로그인
             </S.Button>
@@ -161,7 +139,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
             <S.Footer>
               아직 회원이 아니신가요?
               <S.SignUpLink onClick={handleSwitchToSignup}>
-                회원 가입
+                회원가입
               </S.SignUpLink>
             </S.Footer>
           </S.ModalContent>
@@ -172,20 +150,13 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
               <S.Title>POFO에 오신 것을 환영합니다.</S.Title>
             </S.Header>
             <S.ButtonBox>
-              <S.Button bgColor="#000000" textColor="#ffffff">
-                Github로 가입
-              </S.Button>
-              <S.Button
-                bgColor="#5a657617"
-                hoverColor="#5a657726"
-                textColor="#000000"
-                onClick={handleSwitchToEmailSignup}
-              >
+              <Button>Github로 가입</Button>
+              <Button variant={"secondary"} onClick={handleSwitchToEmailSignup}>
                 이메일로 가입
-              </S.Button>
+              </Button>
             </S.ButtonBox>
             <S.Footer>
-              이미 회원이신가요?{" "}
+              이미 회원이신가요?
               <S.SignUpLink onClick={handleSwitchToMainLogin}>
                 로그인
               </S.SignUpLink>
@@ -208,26 +179,18 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
             </S.Header>
             <S.InputContainer>
               <label htmlFor="name">이름</label>
-              <input type="text" id="name" placeholder="이름을 입력하세요" />
+              <Input type="email" placeholder="이름을 입력하세요" />
             </S.InputContainer>
             <S.InputContainer>
               <label htmlFor="email">이메일</label>
-              <input
-                type="email"
-                id="email"
-                placeholder="이메일을 입력하세요"
-              />
+              <Input type="email" placeholder="이메일을 입력하세요" />
             </S.InputContainer>
             <S.InputContainer>
               <label htmlFor="password">비밀번호</label>
-              <input
-                type="password"
-                id="password"
-                placeholder="비밀번호를 입력하세요"
-              />
+              <Input type="password" placeholder="비밀번호를 입력하세요" />
             </S.InputContainer>
             <S.CheckboxContainer>
-              <input type="checkbox" id="agreeTerms" />
+              <Checkbox id="agreeTerms" />
               <label htmlFor="agreeTerms">다음 약관에 모두 동의합니다.</label>
               <S.ForgotLink href="#">약관 보기</S.ForgotLink>
             </S.CheckboxContainer>
@@ -235,7 +198,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
               가입하기
             </S.Button>
             <S.Footer>
-              이미 회원이신가요?{" "}
+              이미 회원이신가요?
               <S.SignUpLink onClick={handleSwitchToMainLogin}>
                 로그인
               </S.SignUpLink>
@@ -272,7 +235,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
               임시 비밀번호 전송
             </S.Button>
             <S.Footer>
-              비밀번호가 기억나셨나요?{" "}
+              비밀번호가 기억나셨나요?
               <S.SignUpLink onClick={handleSwitchToMainLogin}>
                 로그인
               </S.SignUpLink>
