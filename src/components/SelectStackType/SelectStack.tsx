@@ -1,24 +1,24 @@
-import { RootState, useAppDispatch } from "@/stores";
-import { useSelector } from "react-redux";
+import { useSelectStacks } from "@/stores/selectStackType/selectStacksStore";
+import { useSelectTypes } from "@/stores/selectStackType/selectTypesStore";
 import * as Style from "./styles";
-import {
-  clickStack,
-  clickStackToggle,
-  inputStack,
-} from "@/stores/selectStackType/selectStacksReducer";
-import { setVisibilityTypeToggle } from "@/stores/selectStackType/selectTypesReducer";
 
 export default function SelectStack() {
-  const dispatch = useAppDispatch();
-  const { stackToggle, stacks, selectedStacks } = useSelector(
-    (state: RootState) => state.searchProjectStack
-  );
+  const {
+    stackToggle,
+    stacks,
+    selectedStacks,
+    clickStackToggle,
+
+    inputStack,
+    clickStack,
+  } = useSelectStacks();
+  const { setVisibilityTypeToggle } = useSelectTypes();
   return (
     <Style.SelectStackTypeCard>
       <Style.SelectStackTypeBtn
         onClick={() => {
-          dispatch(clickStackToggle());
-          dispatch(setVisibilityTypeToggle(false));
+          clickStackToggle();
+          setVisibilityTypeToggle(false);
         }}
       >
         기술 스택
@@ -30,7 +30,7 @@ export default function SelectStack() {
             type="text"
             placeholder="검색"
             onChange={(input) => {
-              dispatch(inputStack(input.target.value));
+              inputStack(input.target.value);
             }}
           ></Style.SelectStackNameInput>
 
@@ -40,7 +40,7 @@ export default function SelectStack() {
                 <Style.SelectStackTypeCheckobx
                   type="checkbox"
                   checked={selectedStacks.includes(stack)}
-                  onChange={() => dispatch(clickStack(stack))}
+                  onChange={() => clickStack(stack)}
                 ></Style.SelectStackTypeCheckobx>
                 {stack}
               </Style.SelectStackTypeLabel>
