@@ -6,7 +6,6 @@ import Image from "next/image";
 import { useAuthStore } from "@/stores/authStore";
 import { getUserInfo, login, signup } from "@/services/auth";
 import { Button } from "../ui/button";
-import KeepLogin from "./KeepLogin";
 import { Input } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
 
@@ -33,7 +32,6 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
   // 로그인관련 상태
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [keepLogin, setKeepLogin] = useState(false);
   const { login: setLoginState } = useAuthStore();
   const { setAccessToken } = useAuthStore();
 
@@ -147,7 +145,6 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
                 이메일로 로그인
               </Button>
             </S.ButtonBox>
-            <KeepLogin />
             <S.Footer>
               아직 회원이 아니신가요?
               <S.SignUpLink onClick={() => switchModalStep("signup")}>
@@ -190,14 +187,6 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </S.InputContainer>
-            <S.CheckboxContainer>
-              <Checkbox
-                id="keepLogin"
-                checked={keepLogin}
-                onCheckedChange={(checked) => setKeepLogin(!!checked)}
-              />
-              <label htmlFor="keepLogin">자동 로그인</label>
-            </S.CheckboxContainer>
             <Button onClick={handleEmailLogin}>로그인</Button>
             <S.Footer style={{ marginBottom: "0px" }}>
               비밀번호를 잊으셨나요?
