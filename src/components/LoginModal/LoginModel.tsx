@@ -4,7 +4,7 @@ import close from "../../../public/icons/close.svg";
 import chevron_left from "../../../public/icons/chevron_left.svg";
 import Image from "next/image";
 import { useAuthStore } from "@/stores/authStore";
-import { login, signup } from "@/services/auth";
+import { getUserInfo, login, signup } from "@/services/auth";
 import { Button } from "../ui/button";
 import KeepLogin from "./KeepLogin";
 import { Input } from "../ui/input";
@@ -23,12 +23,17 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
   const [modalStep, setModalStep] = useState(initialStep);
+  // 회원가입관련 상태
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     agreeTerms: false,
   });
+  // 로그인관련 상태
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [keepLogin, setKeepLogin] = useState(false);
   const { login: setLoginState } = useAuthStore();
   const { setAccessToken } = useAuthStore();
 
@@ -57,7 +62,6 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
       const response = await signup(email, password);
       console.log("response");
       console.log(response);
-      setAccessToken(response.accessToken); // 액세스 토큰 저장
       alert("회원가입 성공!");
       setModalStep("main"); // 메인 화면으로 이동
     } catch (error) {
@@ -66,16 +70,41 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
     }
   };
 
-  const handleLogin = async (e: React.FormEvent) => {
+  // 입력값 검증 및 로그인 요청
+  const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // 입력값 검증
+    if (!email.trim() || !password.trim()) {
+      alert("이메일과 비밀번호를 모두 입력해주세요.");
+      return;
+    }
+
     try {
-      const user = await login("email", "password");
-      setLoginState(user);
-      console.log(user);
-      alert("로그인 성공!");
+      // 서버로 로그인 요청
+      const response = await login(email, password);
+      console.log("response");
+      console.log(response);
+      const token = response.data.accessToken;
+      if (response.success) {
+        setAccessToken(response.data.accessToken);
+
+        try {
+          const response = await getUserInfo();
+          if (response.success) {
+            setLoginState(token, response.data);
+          }
+          console.log(response);
+        } catch {
+          console.log("error");
+        }
+
+        alert("로그인 성공!");
+        onClose();
+      }
     } catch (error) {
-      console.error(error);
-      alert("로그인 실패!");
+      console.error("로그인 실패:", error);
+      alert("이메일 또는 비밀번호가 잘못되었습니다.");
     }
   };
 
@@ -128,9 +157,6 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
               <Button variant={"secondary"} onClick={handleSwitchToEmailLogin}>
                 이메일로 로그인
               </Button>
-              <Button variant={"destructive"} onClick={handleLogin}>
-                로그인 테스트
-              </Button>
             </S.ButtonBox>
             <KeepLogin />
             <S.Footer>
@@ -157,14 +183,33 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
             </S.Header>
             <S.InputContainer>
               <label htmlFor="email">이메일</label>
-              <Input type="email" placeholder="이메일을 입력하세요" />
+              <Input
+                id="email"
+                type="email"
+                placeholder="이메일을 입력하세요"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </S.InputContainer>
             <S.InputContainer>
               <label htmlFor="password">비밀번호</label>
-              <Input type="password" placeholder="비밀번호를 입력하세요" />
+              <Input
+                id="password"
+                type="password"
+                placeholder="비밀번호를 입력하세요"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </S.InputContainer>
-            <KeepLogin />
-            <Button>로그인</Button>
+            <S.CheckboxContainer>
+              <Checkbox
+                id="keepLogin"
+                checked={keepLogin}
+                onCheckedChange={(checked) => setKeepLogin(!!checked)}
+              />
+              <label htmlFor="keepLogin">자동 로그인</label>
+            </S.CheckboxContainer>
+            <Button onClick={handleEmailLogin}>로그인</Button>
             <S.Footer style={{ marginBottom: "0px" }}>
               비밀번호를 잊으셨나요?
               <S.SignUpLink onClick={handleSwitchToPasswordReset}>

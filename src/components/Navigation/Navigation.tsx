@@ -31,7 +31,8 @@ const Navigation: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      await logout();
+      const response = await logout();
+      console.log(response);
       clearAuthState();
       alert("로그아웃 성공!");
     } catch (error) {
