@@ -127,9 +127,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
               <Input type="password" placeholder="비밀번호를 입력하세요" />
             </S.InputContainer>
             <KeepLogin />
-            <S.Button bgColor="#000000" textColor="#ffffff">
-              로그인
-            </S.Button>
+            <Button>로그인</Button>
             <S.Footer style={{ marginBottom: "0px" }}>
               비밀번호를 잊으셨나요?
               <S.SignUpLink onClick={handleSwitchToPasswordReset}>
