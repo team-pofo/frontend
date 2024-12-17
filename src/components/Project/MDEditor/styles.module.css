@@ -1,0 +1,15 @@
+/* 컨테이너 스타일 */
+.editor {
+  min-height: 800px; /* 전체 에디터 높이 지정 */
+}
+
+/* MDEditor 내부 스타일 */
+.editor :global(.w-md-editor-content) {
+  min-height: 800px; /* 내용 영역 높이 설정 */
+  font-size: 16px; /* 글꼴 크기 설정 */
+}
+
+.editor :global(.w-md-editor-text-input) {
+  height: 100%; /* 입력 영역을 꽉 채우도록 설정 */
+  font-size: 16px; /* 글꼴 크기 설정 */
+}
