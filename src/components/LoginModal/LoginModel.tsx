@@ -114,24 +114,10 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
     }
   };
 
-  const handleSwitchToEmailLogin = () => {
-    setModalStep("emailLogin");
-  };
-
-  const handleSwitchToSignup = () => {
-    setModalStep("signup");
-  };
-
-  const handleSwitchToEmailSignup = () => {
-    setModalStep("emailSignup");
-  };
-
-  const handleSwitchToPasswordReset = () => {
-    setModalStep("passwordReset");
-  };
-
-  const handleSwitchToMainLogin = () => {
-    setModalStep("main");
+  const switchModalStep = (
+    step: Exclude<ModalProps["initialStep"], undefined>,
+  ) => {
+    setModalStep(step);
   };
 
   return (
@@ -154,14 +140,17 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
             </S.Header>
             <S.ButtonBox>
               <Button>Github로 로그인</Button>
-              <Button variant={"secondary"} onClick={handleSwitchToEmailLogin}>
+              <Button
+                variant={"secondary"}
+                onClick={() => switchModalStep("emailLogin")}
+              >
                 이메일로 로그인
               </Button>
             </S.ButtonBox>
             <KeepLogin />
             <S.Footer>
               아직 회원이 아니신가요?
-              <S.SignUpLink onClick={handleSwitchToSignup}>
+              <S.SignUpLink onClick={() => switchModalStep("signup")}>
                 회원가입
               </S.SignUpLink>
             </S.Footer>
@@ -176,7 +165,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
                   width={24}
                   height={24}
                   alt="back"
-                  onClick={handleSwitchToSignup}
+                  onClick={() => switchModalStep("signup")}
                 />
               </S.BackIconContainer>
               <S.Title>Email로 로그인</S.Title>
@@ -212,13 +201,13 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
             <Button onClick={handleEmailLogin}>로그인</Button>
             <S.Footer style={{ marginBottom: "0px" }}>
               비밀번호를 잊으셨나요?
-              <S.SignUpLink onClick={handleSwitchToPasswordReset}>
+              <S.SignUpLink onClick={() => switchModalStep("passwordReset")}>
                 비밀번호 찾기
               </S.SignUpLink>
             </S.Footer>
             <S.Footer>
               아직 회원이 아니신가요?
-              <S.SignUpLink onClick={handleSwitchToSignup}>
+              <S.SignUpLink onClick={() => switchModalStep("signup")}>
                 회원가입
               </S.SignUpLink>
             </S.Footer>
@@ -231,13 +220,16 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
             </S.Header>
             <S.ButtonBox>
               <Button>Github로 가입</Button>
-              <Button variant={"secondary"} onClick={handleSwitchToEmailSignup}>
+              <Button
+                variant={"secondary"}
+                onClick={() => switchModalStep("emailSignup")}
+              >
                 이메일로 가입
               </Button>
             </S.ButtonBox>
             <S.Footer>
               이미 회원이신가요?
-              <S.SignUpLink onClick={handleSwitchToMainLogin}>
+              <S.SignUpLink onClick={() => switchModalStep("main")}>
                 로그인
               </S.SignUpLink>
             </S.Footer>
@@ -252,7 +244,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
                   width={24}
                   height={24}
                   alt="back"
-                  onClick={handleSwitchToSignup}
+                  onClick={() => switchModalStep("signup")}
                 />
               </S.BackIconContainer>
               <S.Title>Email로 가입</S.Title>
@@ -299,7 +291,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
             <Button onClick={handleSignUp}>가입하기</Button>
             <S.Footer>
               이미 회원이신가요?
-              <S.SignUpLink onClick={handleSwitchToMainLogin}>
+              <S.SignUpLink onClick={() => switchModalStep("main")}>
                 로그인
               </S.SignUpLink>
             </S.Footer>
@@ -314,7 +306,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
                   width={24}
                   height={24}
                   alt="back"
-                  onClick={handleSwitchToSignup}
+                  onClick={() => switchModalStep("signup")}
                 />
               </S.BackIconContainer>
               <S.Title>비밀번호 찾기</S.Title>
@@ -336,7 +328,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
             </S.Button>
             <S.Footer>
               비밀번호가 기억나셨나요?
-              <S.SignUpLink onClick={handleSwitchToMainLogin}>
+              <S.SignUpLink onClick={() => switchModalStep("main")}>
                 로그인
               </S.SignUpLink>
             </S.Footer>
