@@ -4,7 +4,7 @@ import close from "../../../public/icons/close.svg";
 import chevron_left from "../../../public/icons/chevron_left.svg";
 import Image from "next/image";
 import { useAuthStore } from "@/stores/authStore";
-import { login } from "@/services/auth";
+import { login, signup } from "@/services/auth";
 import { Button } from "../ui/button";
 import KeepLogin from "./KeepLogin";
 import { Input } from "../ui/input";
@@ -23,11 +23,48 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
   const [modalStep, setModalStep] = useState(initialStep);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    agreeTerms: false,
+  });
   const { login: setLoginState } = useAuthStore();
+  const { setAccessToken } = useAuthStore();
 
   useEffect(() => {
     setModalStep(initialStep);
   }, [initialStep]);
+
+  // 입력값 변경 핸들러
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value, type, checked } = e.target;
+    setFormData({ ...formData, [id]: type === "checkbox" ? checked : value });
+  };
+
+  // 회원가입 요청 처리
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const { email, password, name, agreeTerms } = formData;
+
+    // 유효성 검사
+    if (!name || !email || !password || !agreeTerms) {
+      alert("모든 필드를 입력하고 약관에 동의해주세요.");
+      return;
+    }
+
+    try {
+      const response = await signup(email, password);
+      console.log("response");
+      console.log(response);
+      setAccessToken(response.accessToken); // 액세스 토큰 저장
+      alert("회원가입 성공!");
+      setModalStep("main"); // 메인 화면으로 이동
+    } catch (error) {
+      console.error("회원가입 실패:", error);
+      alert("회원가입 중 오류가 발생했습니다.");
+    }
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -177,24 +214,44 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
             </S.Header>
             <S.InputContainer>
               <label htmlFor="name">이름</label>
-              <Input type="email" placeholder="이름을 입력하세요" />
+              <Input
+                id="name"
+                placeholder="이름을 입력하세요"
+                value={formData.name}
+                onChange={handleChange}
+              />
             </S.InputContainer>
             <S.InputContainer>
               <label htmlFor="email">이메일</label>
-              <Input type="email" placeholder="이메일을 입력하세요" />
+              <Input
+                id="email"
+                type="email"
+                placeholder="이메일을 입력하세요"
+                value={formData.email}
+                onChange={handleChange}
+              />
             </S.InputContainer>
             <S.InputContainer>
               <label htmlFor="password">비밀번호</label>
-              <Input type="password" placeholder="비밀번호를 입력하세요" />
+              <Input
+                id="password"
+                type="password"
+                placeholder="비밀번호를 입력하세요"
+                value={formData.password}
+                onChange={handleChange}
+              />
             </S.InputContainer>
             <S.CheckboxContainer>
-              <Checkbox id="agreeTerms" />
+              <Checkbox
+                id="agreeTerms"
+                checked={formData.agreeTerms}
+                onCheckedChange={(checked) =>
+                  setFormData({ ...formData, agreeTerms: !!checked })
+                }
+              />
               <label htmlFor="agreeTerms">다음 약관에 모두 동의합니다.</label>
-              <S.ForgotLink href="#">약관 보기</S.ForgotLink>
             </S.CheckboxContainer>
-            <S.Button bgColor="#000000" textColor="#ffffff">
-              가입하기
-            </S.Button>
+            <Button onClick={handleSignUp}>가입하기</Button>
             <S.Footer>
               이미 회원이신가요?
               <S.SignUpLink onClick={handleSwitchToMainLogin}>
