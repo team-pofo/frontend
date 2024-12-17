@@ -108,7 +108,8 @@ export const Footer = styled.div`
 `;
 
 export const SignUpLink = styled.a`
-  color: #007bff;
+  color: black;
+  font-weight: bold;
   text-decoration: none;
   cursor: pointer;
 `;
@@ -124,6 +125,7 @@ export const BackButton = styled.button`
 `;
 
 export const InputContainer = styled.div`
+  color: black;
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
@@ -143,7 +145,8 @@ export const InputContainer = styled.div`
 `;
 
 export const ForgotLink = styled.a`
-  color: #007bff;
+  color: black;
+  font-weight: bold;
   text-decoration: none;
   font-size: 14px;
   display: block;
