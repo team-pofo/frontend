@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useAuthStore } from "@/stores/authStore";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+// const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const BASE_URL = "/api"; // rewrite하기 위해 localhost의 api로 보내는 것
 
 const apiClient = axios.create({
   baseURL: BASE_URL,

@@ -6,10 +6,14 @@ export const signup = async (email: string, password: string) => {
 };
 
 export const login = async (email: string, password: string) => {
-  const response = await apiClient.post("/user/login", {
-    email,
-    password,
-  });
+  const response = await apiClient.post(
+    "/user/login",
+    {
+      email,
+      password,
+    },
+    { withCredentials: true },
+  );
   return response.data;
 };
 

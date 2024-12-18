@@ -12,30 +12,20 @@ interface AuthState {
   setAccessToken: (accessToken: string) => void;
 }
 
-const getInitialAccessToken = () => {
-  if (typeof window !== "undefined") {
-    return localStorage.getItem("accessToken") || null;
-  }
-  return null;
-};
-
 export const useAuthStore = create<AuthState>((set) => ({
-  isLoggedIn: !!getInitialAccessToken(),
-  accessToken: getInitialAccessToken(),
+  isLoggedIn: false,
+  accessToken: null,
   user: null,
 
   login: (token, user) => {
-    localStorage.setItem("accessToken", token);
     set({ isLoggedIn: true, user });
   },
 
   logout: () => {
-    localStorage.removeItem("accessToken");
     set({ isLoggedIn: false, accessToken: null, user: null });
   },
 
   setAccessToken: (token) => {
-    localStorage.setItem("accessToken", token);
     set({ accessToken: token });
   },
 }));
