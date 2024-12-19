@@ -1,5 +1,7 @@
 import removeImports from "next-remove-imports";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
@@ -21,7 +23,7 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "http://34.54.228.181/:path*",
+        destination: `${BASE_URL}/:path*`,
       },
     ];
   },
