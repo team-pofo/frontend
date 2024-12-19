@@ -1,8 +1,10 @@
 import removeImports from "next-remove-imports";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   images: {
     remotePatterns: [
       {
@@ -15,6 +17,15 @@ const nextConfig = {
   output: "standalone",
   eslint: {
     ignoreDuringBuilds: false,
+  },
+  // 리프레시 토큰을 요청에 실어서 보내기 위함. 도메인이 달라서 안 실어짐
+  rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: `${BASE_URL}/:path*`,
+      },
+    ];
   },
 };
 

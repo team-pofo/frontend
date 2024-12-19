@@ -14,24 +14,54 @@ import LoginModal from "../LoginModal/LoginModel";
 import hamburger from "../../../public/icons/hamburger.svg";
 import Image from "next/image";
 import { useAuthStore } from "@/stores/authStore";
+import { getUserInfo, logout } from "@/services/auth";
+import apiClient from "@/services/axiosClient";
 import userIcon from "../../../public/icons/user.svg";
-import { logout } from "@/services/auth";
 
 const Navigation: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [initialStep, setInitialStep] = useState<"main" | "signup">("main");
-  const { isLoggedIn, logout: clearAuthState } = useAuthStore();
+  const [isAuthLoading, setIsAuthLoading] = useState(true); // 로그인 관련 로딩 상태
+  const {
+    isLoggedIn,
+    setAccessToken,
+    login,
+    logout: clearAuthState,
+  } = useAuthStore();
 
+  // 자동 로그인 처리
   useEffect(() => {
-    if (isLoggedIn) {
-      setIsModalOpen(false);
-    }
-  }, [isLoggedIn]);
+    const autoLogin = async () => {
+      try {
+        const refreshResponse = await apiClient.post(
+          "/user/re-issue",
+          {},
+          { withCredentials: true },
+        );
+        const newAccessToken = refreshResponse.data.data.accessToken;
+
+        if (newAccessToken) {
+          setAccessToken(newAccessToken);
+          apiClient.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
+          const userInfo = await getUserInfo();
+          login(newAccessToken, userInfo);
+        }
+      } catch (error) {
+        console.error("자동 로그인 실패:", error);
+        clearAuthState(); // 로그아웃 상태로 초기화
+      } finally {
+        setIsAuthLoading(false); // 로그인 관련 로딩 완료
+      }
+    };
+
+    autoLogin();
+  }, [setAccessToken, login, clearAuthState]);
 
   const handleLogout = async () => {
     try {
-      await logout();
+      const response = await logout();
+      console.log(response);
       clearAuthState();
       alert("로그아웃 성공!");
     } catch (error) {
@@ -88,8 +118,10 @@ const Navigation: React.FC = () => {
           </NavItems>
         </div>
       </div>
-      <div className="">
-        {isLoggedIn ? (
+
+      <div>
+        {/* 로그인 상태 부분만 로딩 상태 관리 */}
+        {isAuthLoading ? null : isLoggedIn ? (
           <div
             style={{
               display: "flex",
@@ -114,6 +146,7 @@ const Navigation: React.FC = () => {
           </>
         )}
       </div>
+
       {isMenuOpen && (
         <>
           <Overlay onClick={toggleMenu} />
@@ -135,6 +168,7 @@ const Navigation: React.FC = () => {
           </DrawerMenu>
         </>
       )}
+
       {isModalOpen && (
         <LoginModal onClose={handleCloseModal} initialStep={initialStep} />
       )}
