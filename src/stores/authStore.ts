@@ -2,14 +2,30 @@ import { create } from "zustand";
 
 interface AuthState {
   isLoggedIn: boolean;
-  user: { id: string; name: string } | null;
-  login: (user: { id: string; name: string }) => void;
+  accessToken: string | null;
+  user: { id: number; email: string; role: string } | null;
+  login: (
+    token: string,
+    user: { id: number; email: string; role: string },
+  ) => void;
   logout: () => void;
+  setAccessToken: (accessToken: string) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   isLoggedIn: false,
+  accessToken: null,
   user: null,
-  login: (user) => set({ isLoggedIn: true, user }),
-  logout: () => set({ isLoggedIn: false, user: null }),
+
+  login: (token, user) => {
+    set({ isLoggedIn: true, user });
+  },
+
+  logout: () => {
+    set({ isLoggedIn: false, accessToken: null, user: null });
+  },
+
+  setAccessToken: (token) => {
+    set({ accessToken: token });
+  },
 }));

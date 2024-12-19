@@ -1,13 +1,46 @@
-import axios from "axios";
+import apiClient from "./axiosClient";
 
-const BASE_URL = "/api";
-// const BASE_URL = "백엔드 api";
-
-export const login = async (email: string, password: string) => {
-  const response = await axios.post(`${BASE_URL}/login`, { email, password });
+export const signup = async (email: string, password: string) => {
+  const response = await apiClient.post("/user", { email, password });
   return response.data;
 };
 
+export const login = async (email: string, password: string) => {
+  const response = await apiClient.post(
+    "/user/login",
+    {
+      email,
+      password,
+    },
+    { withCredentials: true },
+  );
+  return response.data;
+};
+
+export const getUserInfo = async () => {
+  try {
+    const response = await apiClient.get("/user/me");
+    return response.data;
+  } catch (error) {
+    console.error("유저 정보 가져오기 실패:", error);
+    throw error;
+  }
+};
+
 export const logout = async () => {
-  await axios.post(`${BASE_URL}/logout`);
+  try {
+    const response = await apiClient.post("/user/logout");
+    return response.data;
+  } catch (error) {
+    console.error("로그아웃 실패:", error);
+    throw error;
+  }
+};
+
+export const reIssue = async (email: string, password: string) => {
+  const response = await apiClient.post("/user/re-issue", {
+    email,
+    password,
+  });
+  return response.data;
 };
