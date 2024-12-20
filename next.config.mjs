@@ -12,6 +12,12 @@ const nextConfig = {
         hostname: "velog.velcdn.com", // 도메인 설정
         pathname: "/**", // 경로 설정, 모든 경로 허용
       },
+
+      {
+        // 외부 이미지 테스트를 위한 경로 등록(국민대)
+        protocol: "https",
+        hostname: "www.kookmin.ac.kr",
+      },
     ],
   },
   output: "standalone",

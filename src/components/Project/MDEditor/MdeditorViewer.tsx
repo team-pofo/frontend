@@ -8,7 +8,7 @@ const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
 function MDEditorViewer() {
   return (
-    <div>
+    <div style={{ marginTop: "20px" }}>
       <MDEditor
         className={styles.editor}
         preview={"preview"}

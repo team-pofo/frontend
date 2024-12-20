@@ -98,8 +98,7 @@ export default function UploadBox() {
               openImagePreview(img);
             }}
             alt=""
-            width={196}
-            height={196}
+            layout="fill"
           />
           <Style.CloseButton
             className="close-button"
