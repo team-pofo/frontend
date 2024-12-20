@@ -8,7 +8,7 @@ import * as Style from "./styles";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
-function MdEditor() {
+function MDEditorWriter() {
   const [value, setValue] = useState<string>("**프로젝트 소개를 입력하세요**");
   const [loading, setLoading] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -45,7 +45,7 @@ function MdEditor() {
                 (prev) =>
                   prev.substring(0, cursorPosition) +
                   `\n![image](https://www.kookmin.ac.kr/content/05sub/style0005/images/sub/ui_5_col_image_3.jpg)\n` +
-                  prev.substring(cursorPosition)
+                  prev.substring(cursorPosition),
               );
             }
             setLoading(false);
@@ -77,7 +77,7 @@ function MdEditor() {
             (prev) =>
               prev.substring(0, cursorPosition) +
               `\n![image](https://www.kookmin.ac.kr/content/05sub/style0005/images/sub/ui_5_col_image_2.jpg)\n` +
-              prev.substring(cursorPosition)
+              prev.substring(cursorPosition),
           );
         }
         setLoading(false);
@@ -154,4 +154,4 @@ function MdEditor() {
   );
 }
 
-export default MdEditor;
+export default MDEditorWriter;

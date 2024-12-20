@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 
-const blue = "#0078ff";
 const grey = "#b2c0cc";
 const lightorange = "#FFF3E0";
 const lightgreen = "#E0F2F1";
+const black = "#09090B";
 
 // stack, type 선택 창
 export const SelectStackTypeContainer = styled.div`
@@ -60,7 +60,7 @@ export const SelectStackTypeDropdown = styled.div`
 export const SelectStackNameInput = styled.input`
   border: 2px solid ${grey};
   border-radius: 5px;
-  outline-color: ${blue};
+  outline-color: ${black};
   background: white;
   padding: 5px;
   margin-bottom: 10px;
@@ -71,10 +71,6 @@ export const SelectStackNameInput = styled.input`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-
-  &:hover {
-    border-color: ${blue};
-  }
 `;
 
 export const SelectStackTypeLabel = styled.label`
@@ -98,13 +94,9 @@ export const SelectStackTypeCheckobx = styled.input`
   position: relative;
   cursor: pointer;
 
-  &:hover {
-    border: 2px solid ${blue};
-  }
-
   &:checked {
-    border: 2px solid ${blue};
-    background-color: ${blue};
+    border: 2px solid ${black};
+    background-color: ${black};
   }
 
   &:checked::before {
@@ -183,7 +175,7 @@ export const SelectedTypeCard = styled.div`
     font-size: 30px;
 
     &:hover {
-      color: ${blue};
+      color: ${black};
     }
   }
 `;
