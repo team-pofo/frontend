@@ -4,6 +4,7 @@ export const ProjectDetailContainer = styled.div`
   max-width: 1200px;
   align-items: center;
   padding: 20px 20px 20px 20px;
+  margin: auto;
 `;
 
 export const ProjectDetailTitle = styled.p`
