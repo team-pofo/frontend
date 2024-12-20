@@ -35,11 +35,11 @@
 }
 
 .w-md-editor-text {
-  font-size: 21px !important;
-  line-height: 26px !important;
+  font-size: 16px !important;
+  line-height: 20px !important;
 }
 .wmde-markdown {
-  font-size: 20px !important;
+  font-size: 16px !important;
 }
 .w-md-editor-fullscreen {
   height: 100vh !important;

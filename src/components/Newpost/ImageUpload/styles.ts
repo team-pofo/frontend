@@ -4,8 +4,7 @@ const lightgrey = "#d7e2eb";
 const grey = "#b2c0cc";
 
 export const ImageUploadContainer = styled.div`
-  display: flex;
-  white-space: nowrap;
+  display: fixed;
   gap: 20px;
   justify-content: start;
   align-items: center;
@@ -38,16 +37,8 @@ export const ImagePreview = styled.div`
   width: 200px;
   height: 200px;
   position: relative;
-  display: inline-block;
-
-  border-radius: 5px;
-
   img {
-    object-fit: contain;
-  }
-
-  &:hover .close-button {
-    display: flex;
+    object-fit: cover;
   }
 `;
 
