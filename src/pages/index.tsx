@@ -32,16 +32,35 @@ const GET_COUNTRY = gql`
   }
 `;
 
+const getProjectId = gql`
+  query MyQuery {
+    projectById(projectId: "1") {
+      bio
+      category
+      content
+      id
+      imageUrls
+      isApproved
+      urls
+      title
+    }
+  }
+`;
+
 export default function Home() {
   const [projects, setProjects] = useState<Project[]>(dummyData.slice(0, 10));
   const [page, setPage] = useState(1);
   const observerRef = useRef<HTMLDivElement>(null);
-  const { data, loading, error } = useQuery(GET_COUNTRY, {
-    variables: { code: "KR" }, // 대한민국의 ISO 국가 코드
-  });
+  const { data, loading, error } = useQuery(getProjectId);
 
   // if (loading) return <p>Loading...</p>;
   // if (error) return <p>Error: {error.message}</p>;
+
+  // return (
+  //   <div>
+  //     <data value=""></data>
+  //   </div>
+  // );
 
   // return (
   //   <div>
