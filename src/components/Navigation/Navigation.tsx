@@ -56,7 +56,7 @@ const Navigation: React.FC = () => {
     };
 
     autoLogin();
-  }, [setAccessToken, login, clearAuthState]);
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -113,8 +113,8 @@ const Navigation: React.FC = () => {
         >
           <Logo href="/">POFO</Logo>
           <NavItems>
-            <StyledNavLink href="/counter">Home</StyledNavLink>
-            <StyledNavLink href="/mypage">MyPage</StyledNavLink>
+            <StyledNavLink href="/newpost">Home</StyledNavLink>
+            <StyledNavLink href="/project/1">MyPage</StyledNavLink>
           </NavItems>
         </div>
       </div>

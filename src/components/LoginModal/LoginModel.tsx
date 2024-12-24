@@ -118,6 +118,10 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
     setModalStep(step);
   };
 
+  const handleGitHubLogin = () => {
+    window.location.href = "http://localhost:3000/api/user/oauth2-login/github";
+  };
+
   return (
     <S.Backdrop onClick={handleBackdropClick}>
       <S.ModalColumn>
@@ -137,7 +141,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
               <S.Title>POFO 로그인</S.Title>
             </S.Header>
             <S.ButtonBox>
-              <Button>Github로 로그인</Button>
+              <Button onClick={handleGitHubLogin}>Github로 로그인</Button>
               <Button
                 variant={"secondary"}
                 onClick={() => switchModalStep("emailLogin")}
@@ -208,7 +212,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
               <S.Title>POFO에 오신 것을 환영합니다.</S.Title>
             </S.Header>
             <S.ButtonBox>
-              <Button>Github로 가입</Button>
+              <Button onClick={handleGitHubLogin}>Github로 가입</Button>
               <Button
                 variant={"secondary"}
                 onClick={() => switchModalStep("emailSignup")}
