@@ -40,32 +40,32 @@ export default function Home() {
     variables: { code: "KR" }, // 대한민국의 ISO 국가 코드
   });
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  // if (loading) return <p>Loading...</p>;
+  // if (error) return <p>Error: {error.message}</p>;
 
-  return (
-    <div>
-      <h1>Country Information</h1>
-      <p>
-        <strong>Name:</strong> {data.country.name}
-      </p>
-      <p>
-        <strong>Native Name:</strong> {data.country.native}
-      </p>
-      <p>
-        <strong>Capital:</strong> {data.country.capital}
-      </p>
-      <p>
-        <strong>Currency:</strong> {data.country.currency}
-      </p>
-      <ul>
-        <strong>Languages:</strong>
-        {data.country.languages.map((lang: any, index: number) => (
-          <li key={index}>{lang.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
+  // return (
+  //   <div>
+  //     <h1>Country Information</h1>
+  //     <p>
+  //       <strong>Name:</strong> {data.country.name}
+  //     </p>
+  //     <p>
+  //       <strong>Native Name:</strong> {data.country.native}
+  //     </p>
+  //     <p>
+  //       <strong>Capital:</strong> {data.country.capital}
+  //     </p>
+  //     <p>
+  //       <strong>Currency:</strong> {data.country.currency}
+  //     </p>
+  //     <ul>
+  //       <strong>Languages:</strong>
+  //       {data.country.languages.map((lang: any, index: number) => (
+  //         <li key={index}>{lang.name}</li>
+  //       ))}
+  //     </ul>
+  //   </div>
+  // );
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -74,7 +74,7 @@ export default function Home() {
           loadMoreProjects();
         }
       },
-      { threshold: 1.0 }
+      { threshold: 1.0 },
     );
 
     if (observerRef.current) observer.observe(observerRef.current);

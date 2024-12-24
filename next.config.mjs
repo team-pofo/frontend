@@ -1,8 +1,10 @@
 import removeImports from "next-remove-imports";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   images: {
     remotePatterns: [
       {
@@ -10,11 +12,26 @@ const nextConfig = {
         hostname: "velog.velcdn.com", // 도메인 설정
         pathname: "/**", // 경로 설정, 모든 경로 허용
       },
+
+      {
+        // 외부 이미지 테스트를 위한 경로 등록(국민대)
+        protocol: "https",
+        hostname: "www.kookmin.ac.kr",
+      },
     ],
   },
   output: "standalone",
   eslint: {
     ignoreDuringBuilds: false,
+  },
+  // 리프레시 토큰을 요청에 실어서 보내기 위함. 도메인이 달라서 안 실어짐
+  rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: `${BASE_URL}/:path*`,
+      },
+    ];
   },
 };
 

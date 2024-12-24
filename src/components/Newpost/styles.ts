@@ -5,7 +5,7 @@ const lightgrey = "#d7e2eb";
 const grey = "#b2c0cc";
 
 export const NewpostContainer = styled.div`
-  max-width: 800px;
+  max-width: 1200px;
   min-height: 100svh;
   align-items: center;
   padding: 20px 20px 20px 20px;

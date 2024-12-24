@@ -1,26 +1,11 @@
-import { RootState, useAppDispatch } from "@/stores";
-import { useSelector } from "react-redux";
 import * as Style from "./styles";
-import {
-  clickStack,
-  resetStack,
-} from "@/stores/selectStackType/selectStacksReducer";
-import {
-  clickType,
-  resetType,
-} from "@/stores/selectStackType/selectTypesReducer";
+import { useSelectStacks } from "@/stores/selectStackType/selectStacksStore";
+import { useSelectTypes } from "@/stores/selectStackType/selectTypesStore";
 
 export default function SelectedStackType() {
-  const dispatch = useAppDispatch();
-  // const { stackToggle, stacks, selectedStacks } = useSelector(
-  //   (state: RootState) => state.searchProjectStack
-  // );
-  const { selectedStacks } = useSelector(
-    (state: RootState) => state.searchProjectStack
-  );
-  const { selectedTypes } = useSelector(
-    (state: RootState) => state.searchProjectType
-  );
+  const { selectedStacks, clickStack, resetStack } = useSelectStacks();
+  const { selectedTypes, clickType, resetType } = useSelectTypes();
+
   return (
     !(selectedStacks.length == 0 && selectedTypes.length == 0) && (
       <Style.SelectedStackTypeContainer>
@@ -29,7 +14,7 @@ export default function SelectedStackType() {
             {stack}
             <button
               onClick={() => {
-                dispatch(clickStack(stack));
+                clickStack(stack);
               }}
             >
               &times;
@@ -41,7 +26,7 @@ export default function SelectedStackType() {
             {type}
             <button
               onClick={() => {
-                dispatch(clickType(type));
+                clickType(type);
               }}
             >
               &times;
@@ -51,8 +36,8 @@ export default function SelectedStackType() {
         {!(selectedStacks.length == 0 && selectedTypes.length == 0) && (
           <Style.SelectedStackTypeResetBtn
             onClick={() => {
-              dispatch(resetStack());
-              dispatch(resetType());
+              resetStack();
+              resetType();
             }}
           >
             초기화

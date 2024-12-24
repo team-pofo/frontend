@@ -11,6 +11,7 @@ export const NavContainer = styled.nav`
   position: sticky;
   top: 0;
   width: 100%;
+  height: 80px;
   z-index: 1000;
   justify-content: space-between;
 
