@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
 
-const blue = "#0078ff";
 const grey = "#b2c0cc";
 const lightorange = "#FFF3E0";
 const lightgreen = "#E0F2F1";
+const black = "#09090B";
 
 // stack, type 선택 창
 export const SelectStackTypeContainer = styled.div`
@@ -60,7 +60,7 @@ export const SelectStackTypeDropdown = styled.div`
 export const SelectStackNameInput = styled.input`
   border: 2px solid ${grey};
   border-radius: 5px;
-  outline-color: ${blue};
+  outline-color: ${black};
   background: white;
   padding: 5px;
   margin-bottom: 10px;
@@ -71,10 +71,6 @@ export const SelectStackNameInput = styled.input`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-
-  &:hover {
-    border-color: ${blue};
-  }
 `;
 
 export const SelectStackTypeLabel = styled.label`
@@ -98,18 +94,17 @@ export const SelectStackTypeCheckobx = styled.input`
   position: relative;
   cursor: pointer;
 
-  &:hover {
-    border: 2px solid ${blue};
-  }
-
   &:checked {
-    border: 2px solid ${blue};
-    background-color: ${blue};
+    border: 2px solid ${black};
+    background-color: ${black};
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
+    background-size: 30px;
+    background-position: center;
   }
 
   &:checked::before {
-    content: "✔";
-    color: white;
+    /* content: "✔"; */
+    color: black;
     font-size: 20px;
     position: absolute;
     top: 50%;
@@ -181,10 +176,6 @@ export const SelectedTypeCard = styled.div`
     justify-content: center;
     align-items: center;
     font-size: 30px;
-
-    &:hover {
-      color: ${blue};
-    }
   }
 `;
 
@@ -200,8 +191,4 @@ export const SelectedStackTypeResetBtn = styled.div`
   background-color: #d6ecfa;
   font-size: 20px;
   font-weight: bold;
-
-  &:hover {
-    color: red;
-  }
 `;
