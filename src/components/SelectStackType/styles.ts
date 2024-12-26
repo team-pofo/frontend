@@ -48,7 +48,7 @@ export const SelectStackTypeDropdown = styled.div`
   border-width: 2px;
   font-size: 20px;
   padding: 10px;
-  height: 200px;
+  height: 400px;
   overflow-y: scroll;
   background-color: white;
   position: relative;

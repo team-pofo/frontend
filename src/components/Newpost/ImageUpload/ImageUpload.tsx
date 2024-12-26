@@ -90,6 +90,7 @@ export default function UploadBox() {
 
   return (
     <Style.ImageUploadContainer>
+      {/* 이미지 미리보기기 */}
       {imgSrc.map((img, index) => (
         <Style.ImagePreview key={index}>
           <Image
@@ -111,6 +112,7 @@ export default function UploadBox() {
           )}
         </Style.ImagePreview>
       ))}
+      {/* 이미지 업로드 */}
       <Style.ImageUpload
         onDragEnter={handleDragEnter}
         onDragOver={handleDragOver}
