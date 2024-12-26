@@ -8,7 +8,6 @@ export default function SelectStack() {
     stacks,
     selectedStacks,
     clickStackToggle,
-
     inputStack,
     clickStack,
   } = useSelectStacks();
@@ -38,6 +37,7 @@ export default function SelectStack() {
             <div key={index}>
               <Style.SelectStackTypeLabel>
                 <Style.SelectStackTypeCheckobx
+                  style={{ padding: "10px" }}
                   type="checkbox"
                   checked={selectedStacks.includes(stack)}
                   onChange={() => clickStack(stack)}
