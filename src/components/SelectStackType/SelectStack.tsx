@@ -13,6 +13,14 @@ export default function SelectStack() {
     clickStack,
   } = useSelectStacks();
   const { setVisibilityTypeToggle } = useSelectTypes();
+
+  // const [searchStackWord, setSearchStackWrod] = useState("");
+  // const debouncedSearchStackWord = useDebounce(searchStackWord, 300);
+
+  // useEffect(() => {
+  //   dispatch(inputStack(debouncedSearchStackWord));
+  // }, [debouncedSearchStackWord, dispatch]);
+
   return (
     <Style.SelectStackTypeCard>
       <Style.SelectStackTypeBtn
