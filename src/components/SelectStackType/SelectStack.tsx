@@ -1,23 +1,24 @@
 import { useSelectStacks } from "@/stores/selectStackType/selectStacksStore";
 import { useSelectTypes } from "@/stores/selectStackType/selectTypesStore";
 import * as Style from "./styles";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useDebounce from "./debounce";
 
 export default function SelectStack() {
   const {
     stackToggle,
     stacks,
+    searchWord,
     searching,
     selectedStacks,
     clickStackToggle,
+    updateSearchWord,
     inputStack,
     clickStack,
   } = useSelectStacks();
   const { setVisibilityTypeToggle } = useSelectTypes();
 
-  const [searchStackWord, setSearchStackWord] = useState("");
-  const debouncedSearchStackWord = useDebounce(searchStackWord, 550);
+  const debouncedSearchStackWord = useDebounce(searchWord, 550);
   useEffect(() => {
     inputStack(debouncedSearchStackWord);
   }, [debouncedSearchStackWord, inputStack]);
@@ -38,8 +39,9 @@ export default function SelectStack() {
           <Style.SelectStackNameInput
             type="text"
             placeholder="검색"
+            value={searchWord}
             onChange={(input) => {
-              setSearchStackWord(input.target.value);
+              updateSearchWord(input.target.value);
             }}
           ></Style.SelectStackNameInput>
 
