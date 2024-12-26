@@ -1,8 +1,7 @@
 import styled from "@emotion/styled";
 
-const lightblue = "#0099FC";
-const blue = "#0078ff";
 const grey = "#b2c0cc";
+const black = "#09060B";
 
 export const SearchContainer = styled.div`
   max-width: 800px;
@@ -37,35 +36,11 @@ export const SearchCard = styled.div`
 export const SearchNameInput = styled.input`
   border: 2px solid ${grey};
   border-radius: 5px;
-  outline-color: ${blue};
+  outline-color: ${black};
   background: white;
-  height: 100%;
+  height: 50px;
   width: 100%;
   font-size: 20px;
   padding-inline-start: 10px;
   padding-inline-end: 10px;
-
-  &:hover {
-    border-color: ${blue};
-  }
-`;
-
-export const SearchBtn = styled.button`
-  text-align: center;
-  padding: 10px;
-  border: 2px solid ${lightblue};
-  border-radius: 5px;
-  background-color: ${lightblue};
-  color: white;
-  font-size: 5px;
-  font-weight: bold;
-  height: 100%;
-  width: 80px;
-  cursor: pointer;
-  font-size: 20px;
-
-  &:hover {
-    border: 2px solid ${blue};
-    background: ${blue};
-  }
 `;

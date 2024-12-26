@@ -14,7 +14,7 @@ import LoginModal from "../LoginModal/LoginModel";
 import hamburger from "../../../public/icons/hamburger.svg";
 import Image from "next/image";
 import { useAuthStore } from "@/stores/authStore";
-import { getUserInfo, logout } from "@/services/auth";
+import { getUserInfo, logout, reIssue } from "@/services/auth";
 import apiClient from "@/services/axiosClient";
 import userIcon from "../../../public/icons/user.svg";
 
@@ -34,12 +34,9 @@ const Navigation: React.FC = () => {
   useEffect(() => {
     const autoLogin = async () => {
       try {
-        const refreshResponse = await apiClient.post(
-          "/user/re-issue",
-          {},
-          { withCredentials: true },
-        );
-        const newAccessToken = refreshResponse.data.data.accessToken;
+        const refreshResponse = await reIssue();
+        console.log(refreshResponse);
+        const newAccessToken = refreshResponse.data.accessToken;
 
         if (newAccessToken) {
           setAccessToken(newAccessToken);
@@ -56,7 +53,7 @@ const Navigation: React.FC = () => {
     };
 
     autoLogin();
-  }, [setAccessToken, login, clearAuthState]);
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -113,8 +110,8 @@ const Navigation: React.FC = () => {
         >
           <Logo href="/">POFO</Logo>
           <NavItems>
-            <StyledNavLink href="/counter">Home</StyledNavLink>
-            <StyledNavLink href="/mypage">MyPage</StyledNavLink>
+            <StyledNavLink href="/newpost">Home</StyledNavLink>
+            <StyledNavLink href="/project/1">MyPage</StyledNavLink>
           </NavItems>
         </div>
       </div>

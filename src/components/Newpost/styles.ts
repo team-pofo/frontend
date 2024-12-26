@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
 
-const blue = "#0078ff";
 const lightgrey = "#d7e2eb";
 const grey = "#b2c0cc";
+const black = "#09090B";
 
 export const NewpostContainer = styled.div`
   max-width: 1200px;
@@ -32,11 +32,8 @@ export const NewpostNameInput = styled.input`
   height: 70px;
   width: 100%;
   font-size: 25px;
-  &:hover {
-    border-color: ${blue};
-  }
   &:focus {
-    border-color: ${blue};
+    border-color: ${black};
   }
 `;
 
@@ -49,10 +46,7 @@ export const NewpostOnelineInput = styled.input`
   font-size: 20px;
   padding-inline-start: 10px;
   padding-inline-end: 10px;
-  outline-color: ${blue};
-  &:hover {
-    border-color: ${blue};
-  }
+  outline-color: ${black};
 `;
 
 // 참고 링크
@@ -73,7 +67,7 @@ export const NewpostLinkBtn = styled.button`
   align-items: center;
 
   &:hover {
-    border: 2px solid ${blue};
-    background: ${blue};
+    border: 2px solid ${black};
+    background: ${black};
   }
 `;
