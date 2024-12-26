@@ -1,11 +1,15 @@
+import { stackAutoComplete } from "@/services/stackAutoComplete";
 import { create } from "zustand";
 
 interface SelectStacks {
   stackToggle: boolean;
   stacks: string[];
+  searchWord: string;
+  searching: boolean;
   selectedStacks: string[];
   clickStackToggle: () => void;
   setVisibilityStackToggle: (stackToggle: boolean) => void;
+  updateSearchWord: (word: string) => void;
   inputStack: (searchStack: string) => void;
   clickStack: (stack: string) => void;
   resetStack: () => void;
@@ -13,7 +17,9 @@ interface SelectStacks {
 
 export const useSelectStacks = create<SelectStacks>((set) => ({
   stackToggle: false,
-  stacks: ["java", "python", "C++"],
+  stacks: [],
+  searchWord: "",
+  searching: false,
   selectedStacks: [],
 
   // 기술 스택 토글을 클릭할 때
@@ -23,15 +29,21 @@ export const useSelectStacks = create<SelectStacks>((set) => ({
   setVisibilityStackToggle: (stackToggle: boolean) => set({ stackToggle }),
 
   // 검색창에 기술 스택을 입력할 때
-  // Todo: 서버에서 기술 스택 목록 받아오기
-  inputStack: (searchStack: string) =>
-    set(() => {
-      if (searchStack === "") {
-        return { stacks: ["java", "python", "C++"] }; // 기본값으로 복원
-      } else {
-        return { stacks: ["java", "python", "C++", searchStack] }; // 검색된 스택 추가
-      }
-    }),
+  updateSearchWord: (word: string) => {
+    set(() => ({ searchWord: word }));
+  },
+
+  inputStack: async (searchStack: string) => {
+    if (searchStack === "") {
+      set(() => ({ stacks: [], searching: false }));
+    } else {
+      const searchedStacks = await stackAutoComplete(searchStack);
+      set(() => ({
+        stacks: searchedStacks,
+        searching: true,
+      }));
+    }
+  },
 
   // 기술 스택을 선택할 때
   clickStack: (stack: string) =>
