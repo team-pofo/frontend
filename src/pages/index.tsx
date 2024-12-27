@@ -4,107 +4,116 @@ import ProjectCard from "@/components/ProjectCard/ProjectCard";
 import SearchWrapperContainer from "../components/Home/HomeSearch";
 
 import { GridContainer } from "../styles/container";
-import dummyData from "@/data/cardDummyDatas";
 
 // GraphQL 관련
 import { useQuery } from "@apollo/client";
 import { gql } from "@apollo/client";
 
 interface Project {
-  imageSrc: string;
+  // likes: number;
+  // author: string;
+
+  __typename: string;
   title: string;
-  description: string;
-  likes: number;
-  author: string;
+  imageUrls: string;
+  id: string;
+  bio: string;
 }
 
-const GET_COUNTRY = gql`
-  query GetCountry($code: ID!) {
-    country(code: $code) {
-      name
-      native
-      capital
-      currency
-      languages {
-        name
+const getProjectId = gql`
+  query ProjectById {
+    projectById(projectId: 1) {
+      id
+      title
+      bio
+      urls
+      imageUrls
+      content
+      isApproved
+      category
+    }
+  }
+`;
+
+const getProjects = gql`
+  query getAllProjectsByPagination($size: Int!, $cursor: Int!) {
+    getAllProjectsByPagination(size: $size, cursor: $cursor) {
+      hasNext
+      projectCount
+      projects {
+        title
+        imageUrls
+        id
+        bio
       }
     }
   }
 `;
 
-const getProjectId = gql`
-  query MyQuery {
-    projectById(projectId: "1") {
-      bio
-      category
-      content
-      id
-      imageUrls
-      isApproved
-      urls
-      title
-    }
-  }
-`;
-
 export default function Home() {
-  const [projects, setProjects] = useState<Project[]>(dummyData.slice(0, 10));
-  const [page, setPage] = useState(1);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [cursor, setCursor] = useState(40);
+  const [hasNext, setHasNext] = useState(false);
+
   const observerRef = useRef<HTMLDivElement>(null);
-  const { data, loading, error } = useQuery(getProjectId);
-
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>Error: {error.message}</p>;
-
-  // return (
-  //   <div>
-  //     <data value=""></data>
-  //   </div>
-  // );
-
-  // return (
-  //   <div>
-  //     <h1>Country Information</h1>
-  //     <p>
-  //       <strong>Name:</strong> {data.country.name}
-  //     </p>
-  //     <p>
-  //       <strong>Native Name:</strong> {data.country.native}
-  //     </p>
-  //     <p>
-  //       <strong>Capital:</strong> {data.country.capital}
-  //     </p>
-  //     <p>
-  //       <strong>Currency:</strong> {data.country.currency}
-  //     </p>
-  //     <ul>
-  //       <strong>Languages:</strong>
-  //       {data.country.languages.map((lang: any, index: number) => (
-  //         <li key={index}>{lang.name}</li>
-  //       ))}
-  //     </ul>
-  //   </div>
-  // );
+  const { data, loading, error, fetchMore } = useQuery(getProjects, {
+    variables: { size: 20, cursor: 21 },
+  });
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
+        console.log("Intersection entries:", entries);
+        console.log(entries[0].isIntersecting);
+        console.log(hasNext);
+        console.log(data?.getAllProjectsByPagination.hasNext);
+        console.log(data?.getAllProjectsByPagination);
+        console.log(data);
+        if (entries[0].isIntersecting && hasNext) {
+          console.log("Loading more projects...");
           loadMoreProjects();
         }
       },
-      { threshold: 1.0 },
+      { threshold: 0.8 },
     );
 
     if (observerRef.current) observer.observe(observerRef.current);
     return () => observer.disconnect();
-  });
+  }, [observerRef, data]);
+
+  useEffect(() => {
+    if (data) {
+      setProjects((prev) => [
+        ...prev,
+        ...data.getAllProjectsByPagination.projects,
+      ]);
+      setHasNext(data.getAllProjectsByPagination.hasNext);
+      console.log(data.getAllProjectsByPagination.projects);
+    }
+  }, [data]);
 
   const loadMoreProjects = () => {
-    const nextProjects = dummyData.slice(page * 10, (page + 1) * 10);
-    setProjects((prev) => [...prev, ...nextProjects]);
-    setPage((prev) => prev + 1);
+    fetchMore({
+      variables: { cursor: cursor },
+      updateQuery: (prevResult, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prevResult;
+        return {
+          getAllProjectsByPagination: {
+            ...fetchMoreResult.getAllProjectsByPagination,
+            projects: [
+              // ...prevResult.getAllProjectsByPagination.projects,
+              ...fetchMoreResult.getAllProjectsByPagination.projects,
+            ],
+          },
+        };
+      },
+    });
+
+    setCursor((prev) => prev + 20); // cursor 값 업데이트
   };
+
+  if (loading) return <p>Loading...</p>; // 로딩중일 때 카드 스켈레톤 보여주기
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <>
@@ -117,11 +126,15 @@ export default function Home() {
         }}
       >
         <SearchWrapperContainer />
+        <div onClick={loadMoreProjects}>loadMore</div>
         <GridContainer>
           {projects.map((project, index) => (
             <ProjectCard key={index} {...project} />
           ))}
-          <div ref={observerRef} />
+          <div
+            ref={observerRef}
+            style={{ height: "1px", backgroundColor: "transparent" }}
+          />
         </GridContainer>
       </div>
     </>
