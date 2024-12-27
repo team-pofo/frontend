@@ -6,17 +6,12 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 const nextConfig = {
   reactStrictMode: false,
   images: {
+    loader: "default",
+    domains: [], // 특정 도메인을 지정하지 않음
     remotePatterns: [
       {
-        protocol: "https", // 프로토콜 설정 (http 또는 https)
-        hostname: "velog.velcdn.com", // 도메인 설정
-        pathname: "/**", // 경로 설정, 모든 경로 허용
-      },
-
-      {
-        // 외부 이미지 테스트를 위한 경로 등록(국민대)
         protocol: "https",
-        hostname: "www.kookmin.ac.kr",
+        hostname: "**", // 모든 호스트를 허용
       },
     ],
   },
