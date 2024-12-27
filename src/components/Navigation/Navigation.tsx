@@ -21,7 +21,9 @@ import userIcon from "../../../public/icons/user.svg";
 const Navigation: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [initialStep, setInitialStep] = useState<"main" | "signup">("main");
+  const [initialStep, setInitialStep] = useState<
+    "main" | "signup" | "emailLogin" | "emailSignup"
+  >("main");
   const [isAuthLoading, setIsAuthLoading] = useState(true); // 로그인 관련 로딩 상태
   const {
     isLoggedIn,
@@ -68,12 +70,12 @@ const Navigation: React.FC = () => {
   };
 
   const handleOpenLoginModal = () => {
-    setInitialStep("main");
+    setInitialStep("emailLogin");
     setIsModalOpen(true);
   };
 
   const handleOpenSignupModal = () => {
-    setInitialStep("signup");
+    setInitialStep("emailSignup");
     setIsModalOpen(true);
   };
 

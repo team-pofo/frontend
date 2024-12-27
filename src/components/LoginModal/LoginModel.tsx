@@ -12,15 +12,13 @@ import { Checkbox } from "../ui/checkbox";
 interface ModalProps {
   onClose: () => void;
   children?: ReactNode;
-  initialStep?:
-    | "main"
-    | "emailLogin"
-    | "signup"
-    | "emailSignup"
-    | "passwordReset";
+  initialStep?: "emailLogin" | "emailSignup" | "passwordReset";
 }
 
-const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
+const Modal: React.FC<ModalProps> = ({
+  onClose,
+  initialStep = "emailLogin",
+}) => {
   const [modalStep, setModalStep] = useState(initialStep);
   // 회원가입관련 상태
   const [formData, setFormData] = useState({
@@ -135,7 +133,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
             onClick={onClose}
           />
         </S.CloseButtonContainer>
-        {modalStep === "main" && (
+        {/* {modalStep === "main" && (
           <S.ModalContent>
             <S.Header>
               <S.Title>POFO 로그인</S.Title>
@@ -156,11 +154,11 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
               </S.SignUpLink>
             </S.Footer>
           </S.ModalContent>
-        )}
+        )} */}
         {modalStep === "emailLogin" && (
           <S.ModalContent>
             <S.Header>
-              <S.BackIconContainer>
+              {/* <S.BackIconContainer>
                 <Image
                   src={chevron_left}
                   width={24}
@@ -168,8 +166,8 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
                   alt="back"
                   onClick={() => switchModalStep("signup")}
                 />
-              </S.BackIconContainer>
-              <S.Title>Email로 로그인</S.Title>
+              </S.BackIconContainer> */}
+              <S.Title>로그인</S.Title>
             </S.Header>
             <S.InputContainer>
               <label htmlFor="email">이메일</label>
@@ -191,22 +189,32 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </S.InputContainer>
-            <Button onClick={handleEmailLogin}>로그인</Button>
-            <S.Footer style={{ marginBottom: "0px" }}>
+            <Button style={{ marginTop: "10px" }} onClick={handleEmailLogin}>
+              로그인
+            </Button>
+            <S.Footer style={{ marginBottom: "0px", marginTop: "20px" }}>
               비밀번호를 잊으셨나요?
               <S.SignUpLink onClick={() => switchModalStep("passwordReset")}>
                 비밀번호 찾기
               </S.SignUpLink>
             </S.Footer>
-            <S.Footer>
+            <S.Footer style={{ marginBottom: "20px" }}>
               아직 회원이 아니신가요?
-              <S.SignUpLink onClick={() => switchModalStep("signup")}>
+              <S.SignUpLink onClick={() => switchModalStep("emailSignup")}>
                 회원가입
               </S.SignUpLink>
             </S.Footer>
+            <div
+              style={{
+                border: "0.5px solid #c8c8c8",
+                width: "100%",
+                marginBottom: "20px",
+              }}
+            />
+            <Button onClick={handleGitHubLogin}>Github로 계속하기</Button>
           </S.ModalContent>
         )}
-        {modalStep === "signup" && (
+        {/* {modalStep === "signup" && (
           <S.ModalContent>
             <S.Header>
               <S.Title>POFO에 오신 것을 환영합니다.</S.Title>
@@ -227,11 +235,11 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
               </S.SignUpLink>
             </S.Footer>
           </S.ModalContent>
-        )}
+        )} */}
         {modalStep === "emailSignup" && (
           <S.ModalContent>
             <S.Header>
-              <S.BackIconContainer>
+              {/* <S.BackIconContainer>
                 <Image
                   src={chevron_left}
                   width={24}
@@ -239,8 +247,8 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
                   alt="back"
                   onClick={() => switchModalStep("signup")}
                 />
-              </S.BackIconContainer>
-              <S.Title>Email로 가입</S.Title>
+              </S.BackIconContainer> */}
+              <S.Title>회원가입</S.Title>
             </S.Header>
             <S.InputContainer>
               <label htmlFor="name">이름</label>
@@ -282,12 +290,20 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
               <label htmlFor="agreeTerms">다음 약관에 모두 동의합니다.</label>
             </S.CheckboxContainer>
             <Button onClick={handleSignUp}>가입하기</Button>
-            <S.Footer>
+            <S.Footer style={{ marginBottom: "20px", marginTop: "20px" }}>
               이미 회원이신가요?
-              <S.SignUpLink onClick={() => switchModalStep("main")}>
+              <S.SignUpLink onClick={() => switchModalStep("emailLogin")}>
                 로그인
               </S.SignUpLink>
             </S.Footer>
+            <div
+              style={{
+                border: "0.5px solid #c8c8c8",
+                width: "100%",
+                marginBottom: "20px",
+              }}
+            />
+            <Button onClick={handleGitHubLogin}>Github로 계속하기</Button>
           </S.ModalContent>
         )}
         {modalStep === "passwordReset" && (
@@ -299,7 +315,7 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
                   width={24}
                   height={24}
                   alt="back"
-                  onClick={() => switchModalStep("signup")}
+                  onClick={() => switchModalStep("emailLogin")}
                 />
               </S.BackIconContainer>
               <S.Title>비밀번호 찾기</S.Title>
@@ -316,12 +332,16 @@ const Modal: React.FC<ModalProps> = ({ onClose, initialStep = "main" }) => {
                 placeholder="이메일을 입력하세요"
               />
             </S.InputContainer>
-            <S.Button bgColor="#000000" textColor="#ffffff">
+            <S.Button
+              style={{ marginTop: "10px" }}
+              bgColor="#000000"
+              textColor="#ffffff"
+            >
               임시 비밀번호 전송
             </S.Button>
-            <S.Footer>
+            <S.Footer style={{ marginBottom: "20px", marginTop: "20px" }}>
               비밀번호가 기억나셨나요?
-              <S.SignUpLink onClick={() => switchModalStep("main")}>
+              <S.SignUpLink onClick={() => switchModalStep("emailLogin")}>
                 로그인
               </S.SignUpLink>
             </S.Footer>
