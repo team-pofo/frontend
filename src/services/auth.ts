@@ -2,6 +2,11 @@ import apiClient from "./axiosClient";
 
 const version = "/v1";
 
+export const checkNicknameAvailability = async (nickName: string) => {
+  const response = await apiClient.post(`${version}/nickname`, { nickName });
+  return response.data;
+};
+
 export const signup = async (email: string, password: string) => {
   const response = await apiClient.post(`${version}/user`, { email, password });
   return response.data;

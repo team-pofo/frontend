@@ -4,7 +4,12 @@ import close from "../../../public/icons/close.svg";
 import chevron_left from "../../../public/icons/chevron_left.svg";
 import Image from "next/image";
 import { useAuthStore } from "@/stores/authStore";
-import { getUserInfo, login, signup } from "@/services/auth";
+import {
+  checkNicknameAvailability,
+  getUserInfo,
+  login,
+  signup,
+} from "@/services/auth";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
@@ -21,26 +26,26 @@ const Modal: React.FC<ModalProps> = ({
   initialStep = "emailLogin",
 }) => {
   const [modalStep, setModalStep] = useState(initialStep);
+
   // 회원가입관련 상태
   const [formData, setFormData] = useState({
-    name: "",
+    Nickname: "",
     email: "",
     password: "",
     agreeTerms: false,
   });
+  const [isNicknameAvailable, setIsNicknameAvailable] = useState(false);
+  const [showNicknameError, setShowNicknameError] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isAgreeContract, setIsAgreeContract] = useState(false);
+  const [isPossibleSignup, setIsPossibleSignup] = useState(false);
+
   // 로그인관련 상태
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login: setLoginState } = useAuthStore();
   const { setAccessToken } = useAuthStore();
-
-  const [isNickNameAvailable, setIsNickNameAvailable] = useState(false);
-  const [isPossibleToShowNicknameError, setIsPossibleToShowNicknameError] =
-    useState(false);
-  const [isEmailValid, setIsEmailValid] = useState(false);
-  const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const [isAgreeContract, setIsAgreeContract] = useState(false);
-  const [isPossibleSignup, setIsPossibleSignup] = useState(false);
 
   useEffect(() => {
     setModalStep(initialStep);
@@ -74,9 +79,9 @@ const Modal: React.FC<ModalProps> = ({
     setIsPasswordValid(validatePassword(passwordValue));
   };
 
-  const handleNickNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const nickNameValue = e.target.value;
-    setFormData({ ...formData, name: nickNameValue });
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const NicknameValue = e.target.value;
+    setFormData({ ...formData, Nickname: NicknameValue });
   };
 
   const handleAgreeTermsChange = (checked: boolean) => {
@@ -86,35 +91,31 @@ const Modal: React.FC<ModalProps> = ({
   };
 
   // 닉네임 중복 확인
-  const handleNickNameCheck = async () => {
-    if (!formData.name.trim()) {
+  const handleNicknameCheck = async () => {
+    if (!formData.Nickname.trim()) {
       alert("닉네임을 입력해주세요.");
-      setIsPossibleToShowNicknameError(false);
+      setShowNicknameError(false);
       return;
     }
-    setIsPossibleToShowNicknameError(true);
+    setShowNicknameError(true);
     try {
-      const response = await fetch("/api/check-nickname", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: formData.name }),
-      });
-      const result = await response.json();
-      setIsNickNameAvailable(result.isAvailable);
-      if (result.isAvailable) {
-        setIsNickNameAvailable(true);
+      const response = await checkNicknameAvailability(formData.Nickname);
+      console.log(response);
+      setIsNicknameAvailable(response.isAvailable);
+      if (response.isAvailable) {
+        setIsNicknameAvailable(true);
       }
     } catch (error) {
       console.error("닉네임 중복 확인 실패:", error);
       alert("닉네임 중복 확인 중 오류가 발생했습니다.");
     }
-    // setIsNickNameAvailable(true);
+    // setIsNicknameAvailable(true);
   };
 
   // 입력값 상태 바뀔때마다 회원가입 요건 충족했는지 확인
   useEffect(() => {
     if (
-      isNickNameAvailable &&
+      isNicknameAvailable &&
       isEmailValid &&
       isPasswordValid &&
       isAgreeContract
@@ -123,12 +124,12 @@ const Modal: React.FC<ModalProps> = ({
     } else {
       setIsPossibleSignup(false);
     }
-  }, [isNickNameAvailable, isEmailValid, isPasswordValid, isAgreeContract]);
+  }, [isNicknameAvailable, isEmailValid, isPasswordValid, isAgreeContract]);
 
   // 회원가입 요청 처리
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { email, password, name } = formData;
+    const { email, password, Nickname } = formData;
 
     // TODO 닉네임도 회원가입때 같이 넘겨야함
     try {
@@ -269,24 +270,24 @@ const Modal: React.FC<ModalProps> = ({
               <S.Title>회원가입</S.Title>
             </S.Header>
             <S.InputContainer>
-              <label htmlFor="name">닉네임</label>
+              <label htmlFor="Nickname">닉네임</label>
               <div style={{ display: "flex", gap: "12px" }}>
                 <Input
-                  id="name"
+                  id="Nickname"
                   placeholder="닉네임을 입력하세요"
-                  value={formData.name}
-                  onChange={handleNickNameChange}
+                  value={formData.Nickname}
+                  onChange={handleNicknameChange}
                 />
                 <Popover>
                   <PopoverTrigger>
-                    <Button variant="outline" onClick={handleNickNameCheck}>
+                    <Button variant="outline" onClick={handleNicknameCheck}>
                       중복 확인
                     </Button>
                   </PopoverTrigger>
-                  {isPossibleToShowNicknameError && (
+                  {showNicknameError && (
                     <PopoverContent style={{ width: "100%" }}>
                       <label style={{ fontSize: "14px" }}>
-                        {isNickNameAvailable
+                        {isNicknameAvailable
                           ? "사용 가능한 닉네임입니다"
                           : "이미 사용중인 닉네임입니다"}
                       </label>
@@ -294,7 +295,7 @@ const Modal: React.FC<ModalProps> = ({
                   )}
                 </Popover>
               </div>
-              {formData.name && !isNickNameAvailable && (
+              {formData.Nickname && !isNicknameAvailable && (
                 <label
                   style={{
                     color: "red",
