@@ -34,7 +34,7 @@ const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
     };
 
     return (
-      <Link href={`/project/${id}`}>
+      <Link style={{ width: "100%" }} href={`/project/${id}`}>
         <S.Card ref={ref}>
           <S.ImageWrapper>
             <Image
