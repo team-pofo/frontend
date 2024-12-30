@@ -35,18 +35,16 @@ const Modal: React.FC<ModalProps> = ({
   const { setAccessToken } = useAuthStore();
 
   const [isNickNameAvailable, setIsNickNameAvailable] = useState(false);
+  const [isPossibleToShowNicknameError, setIsPossibleToShowNicknameError] =
+    useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isAgreeContract, setIsAgreeContract] = useState(false);
+  const [isPossibleSignup, setIsPossibleSignup] = useState(false);
 
   useEffect(() => {
     setModalStep(initialStep);
   }, [initialStep]);
-
-  // 입력값 변경 핸들러
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value, type, checked } = e.target;
-    setFormData({ ...formData, [id]: type === "checkbox" ? checked : value });
-  };
 
   // 이메일 유효성 검사
   const validateEmail = (email: string): boolean => {
@@ -79,15 +77,22 @@ const Modal: React.FC<ModalProps> = ({
   const handleNickNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nickNameValue = e.target.value;
     setFormData({ ...formData, name: nickNameValue });
-    setIsNickNameAvailable(false);
+  };
+
+  const handleAgreeTermsChange = (checked: boolean) => {
+    const isChecked = !!checked;
+    setFormData((prevFormData) => ({ ...prevFormData, agreeTerms: isChecked }));
+    setIsAgreeContract(isChecked);
   };
 
   // 닉네임 중복 확인
   const handleNickNameCheck = async () => {
     if (!formData.name.trim()) {
       alert("닉네임을 입력해주세요.");
+      setIsPossibleToShowNicknameError(false);
       return;
     }
+    setIsPossibleToShowNicknameError(true);
     try {
       const response = await fetch("/api/check-nickname", {
         method: "POST",
@@ -103,33 +108,29 @@ const Modal: React.FC<ModalProps> = ({
       console.error("닉네임 중복 확인 실패:", error);
       alert("닉네임 중복 확인 중 오류가 발생했습니다.");
     }
+    // setIsNickNameAvailable(true);
   };
+
+  // 입력값 상태 바뀔때마다 회원가입 요건 충족했는지 확인
+  useEffect(() => {
+    if (
+      isNickNameAvailable &&
+      isEmailValid &&
+      isPasswordValid &&
+      isAgreeContract
+    ) {
+      setIsPossibleSignup(true);
+    } else {
+      setIsPossibleSignup(false);
+    }
+  }, [isNickNameAvailable, isEmailValid, isPasswordValid, isAgreeContract]);
 
   // 회원가입 요청 처리
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { email, password, name, agreeTerms } = formData;
+    const { email, password, name } = formData;
 
-    // 유효성 검사
-    if (!name || !email || !password || !agreeTerms) {
-      alert("모든 필드를 입력하고 약관에 동의해주세요.");
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      setIsEmailValid(false);
-      return;
-    } else {
-      setIsEmailValid(true);
-    }
-
-    if (!validatePassword(password)) {
-      setIsPasswordValid(false);
-      return;
-    } else {
-      setIsPasswordValid(true);
-    }
-
+    // TODO 닉네임도 회원가입때 같이 넘겨야함
     try {
       const response = await signup(email, password);
       console.log("response");
@@ -282,16 +283,18 @@ const Modal: React.FC<ModalProps> = ({
                       중복 확인
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent style={{ width: "100%" }}>
-                    <label style={{ fontSize: "14px" }}>
-                      {isNickNameAvailable
-                        ? "사용 가능한 닉네임입니다"
-                        : "이미 사용중인 닉네임입니다"}
-                    </label>
-                  </PopoverContent>
+                  {isPossibleToShowNicknameError && (
+                    <PopoverContent style={{ width: "100%" }}>
+                      <label style={{ fontSize: "14px" }}>
+                        {isNickNameAvailable
+                          ? "사용 가능한 닉네임입니다"
+                          : "이미 사용중인 닉네임입니다"}
+                      </label>
+                    </PopoverContent>
+                  )}
                 </Popover>
               </div>
-              {!isNickNameAvailable && (
+              {formData.name && !isNickNameAvailable && (
                 <label
                   style={{
                     color: "red",
@@ -313,7 +316,7 @@ const Modal: React.FC<ModalProps> = ({
                 value={formData.email}
                 onChange={handleEmailChange}
               />
-              {!isEmailValid && (
+              {formData.email && !isEmailValid && (
                 <label
                   style={{
                     color: "red",
@@ -335,7 +338,7 @@ const Modal: React.FC<ModalProps> = ({
                 value={formData.password}
                 onChange={handlePasswordChange}
               />
-              {!isPasswordValid && (
+              {formData.password && !isPasswordValid && (
                 <label
                   style={{
                     color: "red",
@@ -352,13 +355,13 @@ const Modal: React.FC<ModalProps> = ({
               <Checkbox
                 id="agreeTerms"
                 checked={formData.agreeTerms}
-                onCheckedChange={(checked) =>
-                  setFormData({ ...formData, agreeTerms: !!checked })
-                }
+                onCheckedChange={handleAgreeTermsChange}
               />
               <label htmlFor="agreeTerms">다음 약관에 모두 동의합니다.</label>
             </S.CheckboxContainer>
-            <Button onClick={handleSignUp}>가입하기</Button>
+            <Button disabled={!isPossibleSignup} onClick={handleSignUp}>
+              가입하기
+            </Button>
             <S.Footer style={{ marginBottom: "20px", marginTop: "20px" }}>
               이미 회원이신가요?
               <S.SignUpLink onClick={() => switchModalStep("emailLogin")}>
