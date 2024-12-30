@@ -10,7 +10,7 @@ export const Backdrop = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 10;
 `;
 
 export const ModalColumn = styled.div`
@@ -127,7 +127,7 @@ export const InputContainer = styled.div`
   color: black;
   display: flex;
   flex-direction: column;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 
   label {
     margin-bottom: 8px;

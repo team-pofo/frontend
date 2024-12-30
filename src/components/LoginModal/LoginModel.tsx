@@ -8,6 +8,7 @@ import { getUserInfo, login, signup } from "@/services/auth";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Checkbox } from "../ui/checkbox";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 interface ModalProps {
   onClose: () => void;
@@ -33,6 +34,10 @@ const Modal: React.FC<ModalProps> = ({
   const { login: setLoginState } = useAuthStore();
   const { setAccessToken } = useAuthStore();
 
+  const [isNickNameAvailable, setIsNickNameAvailable] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+
   useEffect(() => {
     setModalStep(initialStep);
   }, [initialStep]);
@@ -41,6 +46,63 @@ const Modal: React.FC<ModalProps> = ({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value, type, checked } = e.target;
     setFormData({ ...formData, [id]: type === "checkbox" ? checked : value });
+  };
+
+  // 이메일 유효성 검사
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // 비밀번호 유효성 검사
+  const validatePassword = (password: string): boolean => {
+    const specialCharCount = password.replace(
+      /[^!@#$%^&*(),.?":{}|<>]/g,
+      "",
+    ).length;
+    const numberCount = password.replace(/[^0-9]/g, "").length;
+    return password.length >= 10 && specialCharCount >= 2 && numberCount >= 2;
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const emailValue = e.target.value;
+    setFormData({ ...formData, email: emailValue });
+    setIsEmailValid(validateEmail(emailValue));
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const passwordValue = e.target.value;
+    setFormData({ ...formData, password: passwordValue });
+    setIsPasswordValid(validatePassword(passwordValue));
+  };
+
+  const handleNickNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nickNameValue = e.target.value;
+    setFormData({ ...formData, name: nickNameValue });
+    setIsNickNameAvailable(false);
+  };
+
+  // 닉네임 중복 확인
+  const handleNickNameCheck = async () => {
+    if (!formData.name.trim()) {
+      alert("닉네임을 입력해주세요.");
+      return;
+    }
+    try {
+      const response = await fetch("/api/check-nickname", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: formData.name }),
+      });
+      const result = await response.json();
+      setIsNickNameAvailable(result.isAvailable);
+      if (result.isAvailable) {
+        setIsNickNameAvailable(true);
+      }
+    } catch (error) {
+      console.error("닉네임 중복 확인 실패:", error);
+      alert("닉네임 중복 확인 중 오류가 발생했습니다.");
+    }
   };
 
   // 회원가입 요청 처리
@@ -54,12 +116,26 @@ const Modal: React.FC<ModalProps> = ({
       return;
     }
 
+    if (!validateEmail(email)) {
+      setIsEmailValid(false);
+      return;
+    } else {
+      setIsEmailValid(true);
+    }
+
+    if (!validatePassword(password)) {
+      setIsPasswordValid(false);
+      return;
+    } else {
+      setIsPasswordValid(true);
+    }
+
     try {
       const response = await signup(email, password);
       console.log("response");
       console.log(response);
       alert("회원가입 성공!");
-      setModalStep("main"); // 메인 화면으로 이동
+      setModalStep("emailLogin");
     } catch (error) {
       console.error("회원가입 실패:", error);
       alert("회원가입 중 오류가 발생했습니다.");
@@ -72,7 +148,6 @@ const Modal: React.FC<ModalProps> = ({
 
     // 입력값 검증
     if (!email.trim() || !password.trim()) {
-      alert("이메일과 비밀번호를 모두 입력해주세요.");
       return;
     }
 
@@ -133,40 +208,11 @@ const Modal: React.FC<ModalProps> = ({
             onClick={onClose}
           />
         </S.CloseButtonContainer>
-        {/* {modalStep === "main" && (
-          <S.ModalContent>
-            <S.Header>
-              <S.Title>POFO 로그인</S.Title>
-            </S.Header>
-            <S.ButtonBox>
-              <Button onClick={handleGitHubLogin}>Github로 로그인</Button>
-              <Button
-                variant={"secondary"}
-                onClick={() => switchModalStep("emailLogin")}
-              >
-                이메일로 로그인
-              </Button>
-            </S.ButtonBox>
-            <S.Footer>
-              아직 회원이 아니신가요?
-              <S.SignUpLink onClick={() => switchModalStep("signup")}>
-                회원가입
-              </S.SignUpLink>
-            </S.Footer>
-          </S.ModalContent>
-        )} */}
+
+        {/* 로그인 부분 */}
         {modalStep === "emailLogin" && (
           <S.ModalContent>
             <S.Header>
-              {/* <S.BackIconContainer>
-                <Image
-                  src={chevron_left}
-                  width={24}
-                  height={24}
-                  alt="back"
-                  onClick={() => switchModalStep("signup")}
-                />
-              </S.BackIconContainer> */}
               <S.Title>로그인</S.Title>
             </S.Header>
             <S.InputContainer>
@@ -214,50 +260,49 @@ const Modal: React.FC<ModalProps> = ({
             <Button onClick={handleGitHubLogin}>Github로 계속하기</Button>
           </S.ModalContent>
         )}
-        {/* {modalStep === "signup" && (
-          <S.ModalContent>
-            <S.Header>
-              <S.Title>POFO에 오신 것을 환영합니다.</S.Title>
-            </S.Header>
-            <S.ButtonBox>
-              <Button onClick={handleGitHubLogin}>Github로 가입</Button>
-              <Button
-                variant={"secondary"}
-                onClick={() => switchModalStep("emailSignup")}
-              >
-                이메일로 가입
-              </Button>
-            </S.ButtonBox>
-            <S.Footer>
-              이미 회원이신가요?
-              <S.SignUpLink onClick={() => switchModalStep("main")}>
-                로그인
-              </S.SignUpLink>
-            </S.Footer>
-          </S.ModalContent>
-        )} */}
+
+        {/* 회원가입 부분 */}
         {modalStep === "emailSignup" && (
           <S.ModalContent>
             <S.Header>
-              {/* <S.BackIconContainer>
-                <Image
-                  src={chevron_left}
-                  width={24}
-                  height={24}
-                  alt="back"
-                  onClick={() => switchModalStep("signup")}
-                />
-              </S.BackIconContainer> */}
               <S.Title>회원가입</S.Title>
             </S.Header>
             <S.InputContainer>
-              <label htmlFor="name">이름</label>
-              <Input
-                id="name"
-                placeholder="이름을 입력하세요"
-                value={formData.name}
-                onChange={handleChange}
-              />
+              <label htmlFor="name">닉네임</label>
+              <div style={{ display: "flex", gap: "12px" }}>
+                <Input
+                  id="name"
+                  placeholder="닉네임을 입력하세요"
+                  value={formData.name}
+                  onChange={handleNickNameChange}
+                />
+                <Popover>
+                  <PopoverTrigger>
+                    <Button variant="outline" onClick={handleNickNameCheck}>
+                      중복 확인
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent style={{ width: "100%" }}>
+                    <label style={{ fontSize: "14px" }}>
+                      {isNickNameAvailable
+                        ? "사용 가능한 닉네임입니다"
+                        : "이미 사용중인 닉네임입니다"}
+                    </label>
+                  </PopoverContent>
+                </Popover>
+              </div>
+              {!isNickNameAvailable && (
+                <label
+                  style={{
+                    color: "red",
+                    fontSize: "14px",
+                    marginLeft: "4px",
+                    marginTop: "6px",
+                  }}
+                >
+                  닉네임 중복 확인이 필요합니다
+                </label>
+              )}
             </S.InputContainer>
             <S.InputContainer>
               <label htmlFor="email">이메일</label>
@@ -266,8 +311,20 @@ const Modal: React.FC<ModalProps> = ({
                 type="email"
                 placeholder="이메일을 입력하세요"
                 value={formData.email}
-                onChange={handleChange}
+                onChange={handleEmailChange}
               />
+              {!isEmailValid && (
+                <label
+                  style={{
+                    color: "red",
+                    fontSize: "14px",
+                    marginLeft: "4px",
+                    marginTop: "6px",
+                  }}
+                >
+                  올바른 이메일 형식이 아닙니다
+                </label>
+              )}
             </S.InputContainer>
             <S.InputContainer>
               <label htmlFor="password">비밀번호</label>
@@ -276,8 +333,20 @@ const Modal: React.FC<ModalProps> = ({
                 type="password"
                 placeholder="비밀번호를 입력하세요"
                 value={formData.password}
-                onChange={handleChange}
+                onChange={handlePasswordChange}
               />
+              {!isPasswordValid && (
+                <label
+                  style={{
+                    color: "red",
+                    fontSize: "14px",
+                    marginLeft: "4px",
+                    marginTop: "6px",
+                  }}
+                >
+                  특수문자 2자리, 숫자 2자리 포함 10자 이상이어야 합니다
+                </label>
+              )}
             </S.InputContainer>
             <S.CheckboxContainer>
               <Checkbox
@@ -306,6 +375,8 @@ const Modal: React.FC<ModalProps> = ({
             <Button onClick={handleGitHubLogin}>Github로 계속하기</Button>
           </S.ModalContent>
         )}
+
+        {/* 비밀번호 찾기 부분 */}
         {modalStep === "passwordReset" && (
           <S.ModalContent>
             <S.Header>
