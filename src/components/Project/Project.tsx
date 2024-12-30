@@ -4,37 +4,55 @@ import MDEditorViewer from "./MDEditor/MdeditorViewer";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 
-const imgList: string[] = [
-  `https://www.kookmin.ac.kr/content/05sub/style0005/images/sub/ui_5_col_image_1.jpg`,
-  `https://www.kookmin.ac.kr/content/05sub/style0005/images/sub/ui_5_col_image_2.jpg`,
-  `https://www.kookmin.ac.kr/content/05sub/style0005/images/sub/ui_5_col_image_3.jpg`,
-];
-
-const linkList: string[] = [
-  `https://github.com/team-pofo/frontend`,
-  `https://google.com`,
-];
-
-function ProjectTittle() {
-  const router = useRouter();
-  const { id } = router.query;
-  return (
-    <Styles.ProjectDetailTitle>외국민 (id:{id})</Styles.ProjectDetailTitle>
-  );
+interface Project {
+  id: string;
+  bio: string;
+  category: string;
+  content: string;
+  imageUrls: string[];
+  title: string;
+  urls: string[];
 }
 
-function ProjectIntroduction() {
+interface ProjectProps {
+  project: Project;
+}
+
+export const getProjectById = gql`
+  query ProjectById($projectId: ID!) {
+    projectById(projectId: $projectId) {
+      id
+      title
+      bio
+      urls
+      imageUrls
+      content
+      isApproved
+      category
+    }
+  }
+`;
+
+function ProjectTittle({ project }: ProjectProps) {
+  return <Styles.ProjectDetailTitle>{project.title}</Styles.ProjectDetailTitle>;
+}
+
+function ProjectIntroduction({ project }: ProjectProps) {
   return (
     <div>
       <Styles.ProjectDetailIntroduction>
-        외국인 유학생 앱입니다
+        {project.bio}
       </Styles.ProjectDetailIntroduction>
     </div>
   );
 }
 
-function ProjectRepresentativeImages() {
+function ProjectRepresentativeImages({ project }: ProjectProps) {
+  const imgList: string[] = project.imageUrls;
+
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -81,7 +99,8 @@ function ProjectRepresentativeImages() {
   );
 }
 
-function ProjectLinks() {
+function ProjectLinks({ project }: ProjectProps) {
+  const linkList: string[] = project.urls;
   return (
     <div>
       {linkList.map((link, index) => (
@@ -98,13 +117,25 @@ function ProjectLinks() {
 }
 
 export default function ProjectComponents() {
+  const router = useRouter();
+  const { id } = router.query;
+
+  const { data, loading, error } = useQuery(getProjectById, {
+    variables: { projectId: parseInt(id as string) },
+  });
+
+  if (loading) return;
+  if (error)
+    return <p style={{ margin: "20px 20px" }}>Error: {error.message}</p>;
+
+  const project: Project = data?.projectById;
   return (
     <Styles.ProjectDetailContainer>
-      <ProjectTittle />
-      <ProjectIntroduction />
-      <ProjectRepresentativeImages />
-      <ProjectLinks />
-      <MDEditorViewer />
+      <ProjectTittle project={project} />
+      <ProjectIntroduction project={project} />
+      <ProjectRepresentativeImages project={project} />
+      <ProjectLinks project={project} />
+      <MDEditorViewer content={project.content} />
     </Styles.ProjectDetailContainer>
   );
 }
