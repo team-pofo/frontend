@@ -5,6 +5,8 @@ import NewpostImages from "./ImageUpload/ImageUpload";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { useState } from "react";
 import { Button } from "../ui/button";
+import { CREATE_PROJECT } from "@/services/gql/createProjectById";
+import { useMutation } from "@apollo/client";
 
 // 프로젝트 이름
 function NewpostName() {
@@ -94,6 +96,30 @@ function NewpostRepresentativeImg() {
     </Styles.NewpostCard>
   );
 }
+function CreateProjectButton() {
+  const [createProject, { data, loading, error }] = useMutation(CREATE_PROJECT);
+
+  if (loading) return "Submitting...";
+  if (error) {
+    console.log(error.message);
+    return `Submission error! ${error.message}`;
+  }
+
+  console.log(data);
+
+  return (
+    <Button
+      style={{ fontSize: "20px", padding: "20px" }}
+      onClick={() =>
+        createProject({
+          variables: { title: "123" },
+        })
+      }
+    >
+      프로젝트 등록
+    </Button>
+  );
+}
 
 export default function NewpostComponents() {
   return (
@@ -108,9 +134,7 @@ export default function NewpostComponents() {
         <NewpostEditor />
       </Styles.NewpostCard>
       <NewpostRepresentativeImg />
-      <Button style={{ fontSize: "20px", padding: "20px" }}>
-        프로젝트 등록
-      </Button>
+      <CreateProjectButton />
     </Styles.NewpostContainer>
   );
 }
