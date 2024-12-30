@@ -4,9 +4,10 @@ import NewpostEditor from "./MDEditor/MdeditorWriter";
 import NewpostImages from "./ImageUpload/ImageUpload";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { useState } from "react";
+import { Button } from "../ui/button";
 
 // 프로젝트 이름
-export function NewpostName() {
+function NewpostName() {
   return (
     <Styles.NewpostCard>
       <Styles.NewpostNameInput
@@ -18,7 +19,7 @@ export function NewpostName() {
 }
 
 // 한 줄 소개글
-export function NewpostOneline() {
+function NewpostOneline() {
   return (
     <Styles.NewpostCard>
       <Styles.NewpostText>한 줄 소개글</Styles.NewpostText>
@@ -31,7 +32,7 @@ export function NewpostOneline() {
 }
 
 // 참고 링크
-export function NewpostLink() {
+function NewpostLink() {
   const [links, setLinks] = useState<string[]>([""]);
 
   const addLink = () => {
@@ -85,7 +86,7 @@ export function NewpostLink() {
   );
 }
 
-export function NewpostRepresentativeImg() {
+function NewpostRepresentativeImg() {
   return (
     <Styles.NewpostCard>
       <Styles.NewpostText>대표 이미지</Styles.NewpostText>
@@ -107,6 +108,9 @@ export default function NewpostComponents() {
         <NewpostEditor />
       </Styles.NewpostCard>
       <NewpostRepresentativeImg />
+      <Button style={{ fontSize: "20px", padding: "20px" }}>
+        프로젝트 등록
+      </Button>
     </Styles.NewpostContainer>
   );
 }
