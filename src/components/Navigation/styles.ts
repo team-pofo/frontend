@@ -12,7 +12,7 @@ export const NavContainer = styled.nav`
   top: 0;
   width: 100%;
   height: 80px;
-  z-index: 1000;
+  z-index: 10;
   justify-content: space-between;
 
   @media (max-width: 768px) {
@@ -110,7 +110,7 @@ export const DrawerMenu = styled.div`
   height: 100%;
   background-color: #ffffff;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  z-index: 1100;
+  z-index: 11;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -123,5 +123,5 @@ export const Overlay = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 1099;
+  z-index: 10;
 `;

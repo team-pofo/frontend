@@ -10,7 +10,7 @@ export const Backdrop = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 10;
 `;
 
 export const ModalColumn = styled.div`
@@ -25,7 +25,7 @@ export const ModalColumn = styled.div`
 export const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0px 40px;
+  padding: 0px 40px 30px;
 `;
 
 export const Header = styled.div`
@@ -92,7 +92,7 @@ export const CheckboxContainer = styled.div`
   gap: 5px;
   color: black;
   font-size: 14px;
-  margin-top: 30px;
+  margin-top: 10px;
   margin-bottom: 20px;
 `;
 
@@ -100,8 +100,7 @@ export const Footer = styled.div`
   display: flex;
   justify-content: center;
   text-align: center;
-  margin-top: 20px;
-  margin-bottom: 40px;
+  margin-top: 8px;
   color: black;
   gap: 12px;
   font-size: 14px;
@@ -128,7 +127,7 @@ export const InputContainer = styled.div`
   color: black;
   display: flex;
   flex-direction: column;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 
   label {
     margin-bottom: 8px;
