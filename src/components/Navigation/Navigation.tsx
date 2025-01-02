@@ -130,7 +130,6 @@ const Navigation: React.FC = () => {
               alignItems: "center",
             }}
           >
-            <LoginText onClick={handleLogout}>로그아웃</LoginText>
             <Popover>
               <PopoverTrigger>
                 <Image
@@ -143,35 +142,37 @@ const Navigation: React.FC = () => {
               </PopoverTrigger>
               <PopoverContent>
                 <Button variant="ghost" className="w-full justify-start">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="mr-2 h-4 w-4"
-                  >
-                    <circle cx="8" cy="18" r="4" />
-                    <path d="M12 18V2l7 4" />
-                  </svg>
+                  <Image
+                    style={{ cursor: "pointer", marginRight: "8px" }}
+                    src={"/icons/user_2.svg"}
+                    width={18}
+                    height={18}
+                    alt="mypage"
+                  />
                   내 정보
                 </Button>
                 <Button variant="ghost" className="w-full justify-start">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="mr-2 h-4 w-4"
-                  >
-                    <circle cx="8" cy="18" r="4" />
-                    <path d="M12 18V2l7 4" />
-                  </svg>
+                  <Image
+                    style={{ cursor: "pointer", marginRight: "8px" }}
+                    src={"/icons/heart.svg"}
+                    width={18}
+                    height={18}
+                    alt="mypage"
+                  />
+                  찜한 프로젝트
+                </Button>
+                <Button
+                  onClick={handleLogout}
+                  variant="ghost"
+                  className="w-full justify-start"
+                >
+                  <Image
+                    style={{ cursor: "pointer", marginRight: "8px" }}
+                    src={"/icons/power.svg"}
+                    width={18}
+                    height={18}
+                    alt="mypage"
+                  />
                   로그아웃
                 </Button>
               </PopoverContent>
