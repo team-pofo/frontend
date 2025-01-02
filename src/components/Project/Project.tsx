@@ -5,39 +5,33 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
-import { gql } from "@apollo/client";
-
-interface Project {
-  id: string;
-  bio: string;
-  category: string;
-  content: string;
-  imageUrls: string[];
-  title: string;
-  urls: string[];
-}
-
-interface ProjectProps {
-  project: Project;
-}
-
-export const getProjectById = gql`
-  query ProjectById($projectId: ID!) {
-    projectById(projectId: $projectId) {
-      id
-      title
-      bio
-      urls
-      imageUrls
-      content
-      isApproved
-      category
-    }
-  }
-`;
+import { GET_PROJECT_BY_ID } from "@/services/gql/getProjectDetailById";
+import { Project, ProjectProps } from "@/libs/interface/project";
 
 function ProjectTittle({ project }: ProjectProps) {
   return <Styles.ProjectDetailTitle>{project.title}</Styles.ProjectDetailTitle>;
+}
+
+function ProjectStacks({ project }: ProjectProps) {
+  const stackList = project.stacks;
+  return (
+    <div>
+      {stackList === undefined
+        ? null
+        : stackList.map((stack, index) => <p key={index}>{stack}</p>)}
+    </div>
+  );
+}
+
+function ProjectCategory({ project }: ProjectProps) {
+  const categoryList = project.categories;
+  return (
+    <div>
+      {categoryList === undefined
+        ? null
+        : categoryList.map((category, index) => <p key={index}>{category}</p>)}
+    </div>
+  );
 }
 
 function ProjectIntroduction({ project }: ProjectProps) {
@@ -80,21 +74,23 @@ function ProjectRepresentativeImages({ project }: ProjectProps) {
 
   return (
     <Styles.ProjectDetailRepresentativeImageContainer>
-      {imgList.map((img, index) => (
-        <Styles.ImagePreview key={index}>
-          <Image
-            src={img}
-            onClick={() => {
-              openImagePreview(img);
-            }}
-            alt=""
-            layout="fill"
-          />
-          {showModal && selectedImage && (
-            <ImageWide src={selectedImage} onClose={closeImagePreview} />
-          )}
-        </Styles.ImagePreview>
-      ))}
+      {imgList === null
+        ? null
+        : imgList.map((img, index) => (
+            <Styles.ImagePreview key={index}>
+              <Image
+                src={img}
+                onClick={() => {
+                  openImagePreview(img);
+                }}
+                alt=""
+                layout="fill"
+              />
+              {showModal && selectedImage && (
+                <ImageWide src={selectedImage} onClose={closeImagePreview} />
+              )}
+            </Styles.ImagePreview>
+          ))}
     </Styles.ProjectDetailRepresentativeImageContainer>
   );
 }
@@ -103,15 +99,17 @@ function ProjectLinks({ project }: ProjectProps) {
   const linkList: string[] = project.urls;
   return (
     <div>
-      {linkList.map((link, index) => (
-        <Link key={index} href={link} legacyBehavior>
-          <Styles.ProjectDetailLink target="_blank">
-            링크 {index + 1}:{" "}
-            <span style={{ textDecoration: "underline" }}>{link}</span>
-            <br />
-          </Styles.ProjectDetailLink>
-        </Link>
-      ))}
+      {linkList === null
+        ? null
+        : linkList.map((link, index) => (
+            <Link key={index} href={link} legacyBehavior>
+              <Styles.ProjectDetailLink target="_blank">
+                링크 {index + 1}:{" "}
+                <span style={{ textDecoration: "underline" }}>{link}</span>
+                <br />
+              </Styles.ProjectDetailLink>
+            </Link>
+          ))}
     </div>
   );
 }
@@ -120,22 +118,24 @@ export default function ProjectComponents() {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data, loading, error } = useQuery(getProjectById, {
+  const { data, loading, error } = useQuery(GET_PROJECT_BY_ID, {
     variables: { projectId: parseInt(id as string) },
   });
 
   if (loading) return;
   if (error)
     return <p style={{ margin: "20px 20px" }}>Error: {error.message}</p>;
-
   const project: Project = data?.projectById;
+
   return (
     <Styles.ProjectDetailContainer>
       <ProjectTittle project={project} />
       <ProjectIntroduction project={project} />
+      <ProjectStacks project={project} />
+      <ProjectCategory project={project} />
       <ProjectRepresentativeImages project={project} />
       <ProjectLinks project={project} />
-      <MDEditorViewer content={project.content} />
+      <MDEditorViewer project={project} />
     </Styles.ProjectDetailContainer>
   );
 }

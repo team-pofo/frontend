@@ -2,15 +2,11 @@ import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import styles from "./styles.module.css";
 import dynamic from "next/dynamic";
-// import { testReadme } from "./TestReadme";
-
-interface ProjectContentProps {
-  content: string;
-}
+import { ProjectProps } from "@/libs/interface/project";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
-function MDEditorViewer({ content }: ProjectContentProps) {
+function MDEditorViewer({ project }: ProjectProps) {
   return (
     <div style={{ marginTop: "20px" }}>
       <MDEditor
@@ -19,7 +15,7 @@ function MDEditorViewer({ content }: ProjectContentProps) {
         hideToolbar={true}
         visiableDragbar={false}
         tabSize={2}
-        value={content}
+        value={project.content}
       />
     </div>
   );

@@ -1,6 +1,7 @@
 import * as Style from "./styles";
 import { useSelectStacks } from "@/stores/selectStackType/selectStacksStore";
 import { useSelectTypes } from "@/stores/selectStackType/selectTypesStore";
+import { IoClose } from "react-icons/io5";
 
 export default function SelectedStackType() {
   const { selectedStacks, clickStack, resetStack } = useSelectStacks();
@@ -17,7 +18,7 @@ export default function SelectedStackType() {
                 clickStack(stack);
               }}
             >
-              &times;
+              <IoClose />
             </button>
           </Style.SelectedStackCard>
         ))}
@@ -29,7 +30,7 @@ export default function SelectedStackType() {
                 clickType(type);
               }}
             >
-              &times;
+              <IoClose />
             </button>
           </Style.SelectedTypeCard>
         ))}

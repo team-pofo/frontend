@@ -1,27 +1,27 @@
 import { create } from "zustand";
+import { ProjectCategory } from "@/libs/enum/projectCategoryEnum";
 
 interface SelectTypes {
   typeToggle: boolean;
-  types: string[];
-  selectedTypes: string[];
+  types: ProjectCategory[];
+  selectedTypes: ProjectCategory[];
   clickTypeToggle: () => void;
   setVisibilityTypeToggle: (typeToggle: boolean) => void;
-  clickType: (type: string) => void;
+  clickType: (type: ProjectCategory) => void;
   resetType: () => void;
 }
 
 export const useSelectTypes = create<SelectTypes>((set) => ({
   typeToggle: false,
   types: [
-    "전체",
-    "웹",
-    "앱",
-    "게임",
-    "그래픽",
-    "AI",
-    "임베디드",
-    "라이브러리",
-    "기타",
+    ProjectCategory.WEB,
+    ProjectCategory.APP,
+    ProjectCategory.GAME,
+    ProjectCategory.GRAPHIC,
+    ProjectCategory.AI,
+    ProjectCategory.EMBEDDED,
+    ProjectCategory.LIBRARY,
+    ProjectCategory.ETC,
   ],
   selectedTypes: [],
 
@@ -33,19 +33,13 @@ export const useSelectTypes = create<SelectTypes>((set) => ({
     set({ typeToggle: typeToggle }),
 
   // 프로젝트 종류를 선택할 때
-  clickType: (type: string) =>
+  clickType: (type: ProjectCategory) =>
     set((state) => {
       let selectedTypes;
       if (state.selectedTypes.includes(type)) {
         selectedTypes = state.selectedTypes.filter((item) => item !== type); // 이미 선택된 종류는 제거
       } else {
-        if (type == "전체") {
-          selectedTypes = [type];
-        } else if (state.selectedTypes.includes("전체")) {
-          selectedTypes = [type];
-        } else {
-          selectedTypes = [...state.selectedTypes, type]; // 선택되지 않은 종류는 추가
-        }
+        selectedTypes = [...state.selectedTypes, type]; // 선택되지 않은 종류는 추가
       }
 
       return { selectedTypes };

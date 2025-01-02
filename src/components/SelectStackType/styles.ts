@@ -134,21 +134,15 @@ export const SelectedStackCard = styled.div`
   font-size: 20px;
 
   button {
-    width: 20px;
-    height: 20px;
-    border: none;
-    background-color: ${lightorange};
-    margin-left: 5px;
-    cursor: pointer;
-    font-size: 25px;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 25px;
+    height: 25px;
+    border: none;
+    margin-left: 5px;
+    cursor: pointer;
     font-size: 30px;
-
-    &:hover {
-      color: #0078ff;
-    }
   }
 `;
 
@@ -165,16 +159,15 @@ export const SelectedTypeCard = styled.div`
   font-size: 20px;
 
   button {
-    width: 20px;
-    height: 20px;
-    border: none;
-    background-color: ${lightgreen};
-    margin-left: 5px;
-    cursor: pointer;
-    font-size: 25px;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 25px;
+    height: 25px;
+    border: none;
+
+    margin-left: 5px;
+    cursor: pointer;
     font-size: 30px;
   }
 `;

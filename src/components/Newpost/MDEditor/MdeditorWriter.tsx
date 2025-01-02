@@ -8,8 +8,14 @@ import * as Style from "./styles";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
-function MDEditorWriter() {
-  const [value, setValue] = useState<string>("**프로젝트 소개를 입력하세요**");
+function MDEditorWriter({
+  content,
+  setContent,
+}: {
+  content: string;
+  setContent: (title: string) => void;
+}) {
+  // const [value, setValue] = useState<string>("**프로젝트 소개를 입력하세요**");
   const [loading, setLoading] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(false);
   const [cursorPosition, setCursorPosition] = useState<number>(0);
@@ -41,11 +47,10 @@ function MDEditorWriter() {
             setLoading(true);
             const imageUrl = await uploadImage(file);
             if (imageUrl) {
-              setValue(
-                (prev) =>
-                  prev.substring(0, cursorPosition) +
+              setContent(
+                content.substring(0, cursorPosition) +
                   `\n![image](https://www.kookmin.ac.kr/content/05sub/style0005/images/sub/ui_5_col_image_3.jpg)\n` +
-                  prev.substring(cursorPosition),
+                  content.substring(cursorPosition),
               );
             }
             setLoading(false);
@@ -73,11 +78,10 @@ function MDEditorWriter() {
         setLoading(true);
         const imageUrl = await uploadImage(file);
         if (imageUrl) {
-          setValue(
-            (prev) =>
-              prev.substring(0, cursorPosition) +
+          setContent(
+            content.substring(0, cursorPosition) +
               `\n![image](https://www.kookmin.ac.kr/content/05sub/style0005/images/sub/ui_5_col_image_2.jpg)\n` +
-              prev.substring(cursorPosition),
+              content.substring(cursorPosition),
           );
         }
         setLoading(false);
@@ -87,8 +91,8 @@ function MDEditorWriter() {
 
   // 입력 처리
   const handleChange = (text?: string) => {
-    const updatedText = text || "";
-    setValue(updatedText);
+    const updatedContent = text || "";
+    setContent(updatedContent);
   };
 
   const handleFocus = (event: React.FocusEvent<HTMLTextAreaElement>) => {
@@ -125,7 +129,7 @@ function MDEditorWriter() {
           toolbarHeight={40}
           visiableDragbar={false}
           tabSize={2}
-          value={value}
+          value={content}
           onChange={handleChange}
           onPaste={handlePaste}
           textareaProps={{

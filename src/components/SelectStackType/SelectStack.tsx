@@ -18,7 +18,7 @@ export default function SelectStack() {
   } = useSelectStacks();
   const { setVisibilityTypeToggle } = useSelectTypes();
 
-  const debouncedSearchStackWord = useDebounce(searchWord, 550);
+  const debouncedSearchStackWord = useDebounce(searchWord, 500);
   useEffect(() => {
     inputStack(debouncedSearchStackWord);
   }, [debouncedSearchStackWord, inputStack]);
