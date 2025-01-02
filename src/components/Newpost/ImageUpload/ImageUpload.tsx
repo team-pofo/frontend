@@ -4,9 +4,15 @@ import { IoClose } from "react-icons/io5";
 import Image from "next/image";
 import * as Style from "./styles";
 
-export default function UploadBox() {
+export default function UploadBox({
+  imageUrls,
+  setImageUrls,
+}: {
+  imageUrls: string[];
+  setImageUrls: (imageUrls: string[]) => void;
+}) {
   const [isActive, setActive] = useState(false);
-  const [imgSrc, setImgSrc] = useState<string[]>([]);
+  // const [imgSrc, setImgSrc] = useState<string[]>([]);
 
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -23,7 +29,7 @@ export default function UploadBox() {
   };
 
   const setFileInfo = (file: File) => {
-    if (imgSrc.length >= 3) {
+    if (imageUrls.length >= 3) {
       alert("이미지는 최대 3개까지 등록 가능합니다");
       return;
     }
@@ -32,7 +38,7 @@ export default function UploadBox() {
     // 로딩이 완료되면 실행할 콜백 함수 등록
     fileReader.onload = (e) => {
       if (typeof e.target?.result === "string") {
-        setImgSrc((prevState) => [...prevState, e.target?.result as string]);
+        setImageUrls([...imageUrls, e.target?.result as string]);
       }
     };
   };
@@ -63,7 +69,7 @@ export default function UploadBox() {
   };
 
   const closeImage = (idx: number) => {
-    setImgSrc((prevImgSrc) => prevImgSrc.filter((_, i) => i !== idx));
+    setImageUrls(imageUrls.filter((_, i) => i !== idx));
   };
 
   const ImageWide = ({
@@ -86,12 +92,13 @@ export default function UploadBox() {
   const closeImagePreview = () => {
     setSelectedImage(null);
     setShowModal(false);
+    console.log(selectedImage);
+    console.log(showModal);
   };
 
   return (
     <Style.ImageUploadContainer>
-      {/* 이미지 미리보기기 */}
-      {imgSrc.map((img, index) => (
+      {imageUrls.map((img, index) => (
         <Style.ImagePreview key={index}>
           <Image
             src={img}
@@ -103,7 +110,9 @@ export default function UploadBox() {
           />
           <Style.CloseButton
             className="close-button"
-            onClick={() => closeImage(index)}
+            onClick={() => {
+              closeImage(index);
+            }}
           >
             <IoClose />
           </Style.CloseButton>

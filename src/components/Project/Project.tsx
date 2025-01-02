@@ -5,24 +5,41 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
-import { GET_PROJECT_BY_ID } from "@/services/gql/getProjectDetail";
-
-interface Project {
-  id: string;
-  bio: string;
-  category: string;
-  content: string;
-  imageUrls: string[];
-  title: string;
-  urls: string[];
-}
-
-interface ProjectProps {
-  project: Project;
-}
+import { GET_PROJECT_BY_ID } from "@/services/gql/getProjectDetailById";
+import { Project, ProjectProps } from "@/libs/interface/project";
 
 function ProjectTittle({ project }: ProjectProps) {
   return <Styles.ProjectDetailTitle>{project.title}</Styles.ProjectDetailTitle>;
+}
+
+function ProjectStacks({ project }: ProjectProps) {
+  const stackList = project.stacks;
+  return (
+    <div>
+      {stackList === undefined
+        ? null
+        : stackList.map((stack, index) => (
+            <Styles.ImagePreview key={index}>
+              <p>{stack}</p>
+            </Styles.ImagePreview>
+          ))}
+    </div>
+  );
+}
+
+function ProjectCategory({ project }: ProjectProps) {
+  const categoryList = project.categories;
+  return (
+    <div>
+      {categoryList === undefined
+        ? null
+        : categoryList.map((category, index) => (
+            <Styles.ImagePreview key={index}>
+              <p>{category}</p>
+            </Styles.ImagePreview>
+          ))}
+    </div>
+  );
 }
 
 function ProjectIntroduction({ project }: ProjectProps) {
@@ -116,15 +133,17 @@ export default function ProjectComponents() {
   if (loading) return;
   if (error)
     return <p style={{ margin: "20px 20px" }}>Error: {error.message}</p>;
-
   const project: Project = data?.projectById;
+
   return (
     <Styles.ProjectDetailContainer>
       <ProjectTittle project={project} />
       <ProjectIntroduction project={project} />
+      <ProjectStacks project={project} />
+      <ProjectCategory project={project} />
       <ProjectRepresentativeImages project={project} />
       <ProjectLinks project={project} />
-      <MDEditorViewer content={project.content} />
+      <MDEditorViewer project={project} />
     </Styles.ProjectDetailContainer>
   );
 }

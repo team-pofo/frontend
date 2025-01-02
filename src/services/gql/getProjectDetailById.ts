@@ -10,7 +10,8 @@ export const GET_PROJECT_BY_ID = gql`
       imageUrls
       content
       isApproved
-      category
+      categories
+      stacks
     }
   }
 `;
