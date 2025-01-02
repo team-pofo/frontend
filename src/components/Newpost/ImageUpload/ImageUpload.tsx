@@ -12,8 +12,6 @@ export default function UploadBox({
   setImageUrls: (imageUrls: string[]) => void;
 }) {
   const [isActive, setActive] = useState(false);
-  // const [imgSrc, setImgSrc] = useState<string[]>([]);
-
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -72,18 +70,6 @@ export default function UploadBox({
     setImageUrls(imageUrls.filter((_, i) => i !== idx));
   };
 
-  const ImageWide = ({
-    src,
-    onClose,
-  }: {
-    src: string;
-    onClose: () => void;
-  }) => (
-    <Style.ModalOverlay onClick={onClose}>
-      <Style.ModalImage src={src} alt="" />
-    </Style.ModalOverlay>
-  );
-
   const openImagePreview = (src: string) => {
     setSelectedImage(src);
     setShowModal(true);
@@ -92,9 +78,23 @@ export default function UploadBox({
   const closeImagePreview = () => {
     setSelectedImage(null);
     setShowModal(false);
-    console.log(selectedImage);
-    console.log(showModal);
   };
+
+  const ImageWide = ({
+    src,
+    onClose,
+  }: {
+    src: string;
+    onClose: () => void;
+  }) => (
+    <Style.ModalOverlay
+      onClick={() => {
+        onClose();
+      }}
+    >
+      <Style.ModalImage src={src} alt="" />
+    </Style.ModalOverlay>
+  );
 
   return (
     <Style.ImageUploadContainer>
@@ -116,6 +116,7 @@ export default function UploadBox({
           >
             <IoClose />
           </Style.CloseButton>
+
           {showModal && selectedImage && (
             <ImageWide src={selectedImage} onClose={closeImagePreview} />
           )}

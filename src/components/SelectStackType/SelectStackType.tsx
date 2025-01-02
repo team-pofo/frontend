@@ -27,7 +27,7 @@ export default function SelectStackType() {
     };
   });
   return (
-    <div ref={ref}>
+    <div>
       <Style.SelectStackTypeContainer>
         <SelectStack />
         <SelectType />

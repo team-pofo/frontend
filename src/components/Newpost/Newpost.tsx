@@ -74,8 +74,6 @@ function NewpostUrls({
   urls: string[];
   setUrls: (urls: string[]) => void;
 }) {
-  // const [links, setLinks] = useState<string[]>([""]);
-
   const addLink = () => {
     if (urls.length >= 3) {
       alert("링크는 최대 3개까지 등록 가능합니다");
@@ -152,31 +150,37 @@ function CreateProjectButton({
   stackNames,
 }: NewpostProps) {
   const categoryKeys = categories.map((category) => getCategoryKey(category));
-
-  const [createProject, { data, error }] = useMutation(CREATE_PROJECT);
+  const [createProject] = useMutation(CREATE_PROJECT);
   const router = useRouter();
 
   return (
     <Button
       style={{ fontSize: "20px", padding: "20px" }}
       onClick={async () => {
-        await createProject({
-          variables: {
-            title: title,
-            bio: bio,
-            urls: urls,
-            imageUrls: imageUrls,
-            content: content,
-            categories: categoryKeys,
-            stackNames: stackNames,
-          },
-        });
-        if (error) {
-          alert(error.message);
-        } else {
-          alert("프로젝트 등록이 완료되었습니다!");
-          console.log(data);
-          router.push(`/project/${data.createProject.id}`);
+        try {
+          const response = await createProject({
+            variables: {
+              title,
+              bio,
+              urls,
+              imageUrls,
+              content,
+              categories: categoryKeys,
+              stackNames,
+            },
+          });
+
+          // 응답에서 데이터 추출
+          if (response && response.data) {
+            const projectData = response.data.createProject;
+            alert("프로젝트 등록이 완료되었습니다!");
+            console.log(projectData);
+            router.push(`/project/${projectData.id}`);
+          } else {
+            throw new Error("오류가 발생하였습니다.");
+          }
+        } catch (err) {
+          alert(err);
         }
       }}
     >

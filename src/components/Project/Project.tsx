@@ -18,11 +18,7 @@ function ProjectStacks({ project }: ProjectProps) {
     <div>
       {stackList === undefined
         ? null
-        : stackList.map((stack, index) => (
-            <Styles.ImagePreview key={index}>
-              <p>{stack}</p>
-            </Styles.ImagePreview>
-          ))}
+        : stackList.map((stack, index) => <p key={index}>{stack}</p>)}
     </div>
   );
 }
@@ -33,11 +29,7 @@ function ProjectCategory({ project }: ProjectProps) {
     <div>
       {categoryList === undefined
         ? null
-        : categoryList.map((category, index) => (
-            <Styles.ImagePreview key={index}>
-              <p>{category}</p>
-            </Styles.ImagePreview>
-          ))}
+        : categoryList.map((category, index) => <p key={index}>{category}</p>)}
     </div>
   );
 }
