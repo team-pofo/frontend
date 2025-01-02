@@ -17,6 +17,9 @@ import { useAuthStore } from "@/stores/authStore";
 import { getUserInfo, logout, reIssue } from "@/services/auth";
 import apiClient from "@/services/axiosClient";
 import userIcon from "../../../public/icons/user.svg";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+
+import { Button } from "../ui/button";
 
 const Navigation: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -128,13 +131,51 @@ const Navigation: React.FC = () => {
             }}
           >
             <LoginText onClick={handleLogout}>로그아웃</LoginText>
-            <Image
-              style={{ cursor: "pointer" }}
-              src={userIcon}
-              width={38}
-              height={38}
-              alt="mypage"
-            />
+            <Popover>
+              <PopoverTrigger>
+                <Image
+                  style={{ cursor: "pointer" }}
+                  src={userIcon}
+                  width={38}
+                  height={38}
+                  alt="mypage"
+                />
+              </PopoverTrigger>
+              <PopoverContent>
+                <Button variant="ghost" className="w-full justify-start">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="mr-2 h-4 w-4"
+                  >
+                    <circle cx="8" cy="18" r="4" />
+                    <path d="M12 18V2l7 4" />
+                  </svg>
+                  내 정보
+                </Button>
+                <Button variant="ghost" className="w-full justify-start">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="mr-2 h-4 w-4"
+                  >
+                    <circle cx="8" cy="18" r="4" />
+                    <path d="M12 18V2l7 4" />
+                  </svg>
+                  로그아웃
+                </Button>
+              </PopoverContent>
+            </Popover>
           </div>
         ) : (
           <>
