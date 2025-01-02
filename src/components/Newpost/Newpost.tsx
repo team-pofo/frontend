@@ -170,14 +170,11 @@ function CreateProjectButton({
             },
           });
 
-          // 응답에서 데이터 추출
           if (response && response.data) {
             const projectData = response.data.createProject;
             alert("프로젝트 등록이 완료되었습니다!");
             console.log(projectData);
             router.push(`/project/${projectData.id}`);
-          } else {
-            throw new Error("오류가 발생하였습니다.");
           }
         } catch (err) {
           alert(err);
