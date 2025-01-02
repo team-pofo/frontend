@@ -17,6 +17,9 @@ import { useAuthStore } from "@/stores/authStore";
 import { getUserInfo, logout, reIssue } from "@/services/auth";
 import apiClient from "@/services/axiosClient";
 import userIcon from "../../../public/icons/user.svg";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+
+import { Button } from "../ui/button";
 
 const Navigation: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -127,14 +130,53 @@ const Navigation: React.FC = () => {
               alignItems: "center",
             }}
           >
-            <LoginText onClick={handleLogout}>로그아웃</LoginText>
-            <Image
-              style={{ cursor: "pointer" }}
-              src={userIcon}
-              width={38}
-              height={38}
-              alt="mypage"
-            />
+            <Popover>
+              <PopoverTrigger>
+                <Image
+                  style={{ cursor: "pointer" }}
+                  src={userIcon}
+                  width={38}
+                  height={38}
+                  alt="mypage"
+                />
+              </PopoverTrigger>
+              <PopoverContent>
+                <Button variant="ghost" className="w-full justify-start">
+                  <Image
+                    style={{ cursor: "pointer", marginRight: "8px" }}
+                    src={"/icons/user_2.svg"}
+                    width={18}
+                    height={18}
+                    alt="mypage"
+                  />
+                  내 정보
+                </Button>
+                <Button variant="ghost" className="w-full justify-start">
+                  <Image
+                    style={{ cursor: "pointer", marginRight: "8px" }}
+                    src={"/icons/heart.svg"}
+                    width={18}
+                    height={18}
+                    alt="mypage"
+                  />
+                  찜한 프로젝트
+                </Button>
+                <Button
+                  onClick={handleLogout}
+                  variant="ghost"
+                  className="w-full justify-start"
+                >
+                  <Image
+                    style={{ cursor: "pointer", marginRight: "8px" }}
+                    src={"/icons/power.svg"}
+                    width={18}
+                    height={18}
+                    alt="mypage"
+                  />
+                  로그아웃
+                </Button>
+              </PopoverContent>
+            </Popover>
           </div>
         ) : (
           <>
