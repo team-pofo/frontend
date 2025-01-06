@@ -1,6 +1,8 @@
 import * as Styles from "./styles";
 import SelectStackType from "../SelectStackType/SelectStackType";
 import { Button } from "../ui/button";
+import { useLazyQuery } from "@apollo/client";
+import { SEARCH_PROJECT } from "@/services/gql/searchProject";
 
 export function SearchName() {
   return (
@@ -14,6 +16,16 @@ export function SearchName() {
 }
 
 export function SearchBtn() {
+  const [getData] = useLazyQuery(SEARCH_PROJECT, {
+    onCompleted: (fetchedData) => {
+      console.log(fetchedData);
+      console.log(fetchedData.searchProject.projects);
+    },
+  });
+  const handleFetchData = () => {
+    getData(); // 쿼리 실행
+  };
+
   return (
     // shadcn
     <Button
@@ -21,6 +33,9 @@ export function SearchBtn() {
         height: "50px",
         width: "80px",
         fontSize: "20px",
+      }}
+      onClick={() => {
+        handleFetchData();
       }}
     >
       검색

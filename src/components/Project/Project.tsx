@@ -6,13 +6,13 @@ import Link from "next/link";
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_PROJECT_BY_ID } from "@/services/gql/getProjectDetailById";
-import { Project, ProjectProps } from "@/libs/interface/project";
+import { IProject, IProjectProps } from "@/libs/interface/iProject";
 
-function ProjectTittle({ project }: ProjectProps) {
+function ProjectTittle({ project }: IProjectProps) {
   return <Styles.ProjectDetailTitle>{project.title}</Styles.ProjectDetailTitle>;
 }
 
-function ProjectStacks({ project }: ProjectProps) {
+function ProjectStacks({ project }: IProjectProps) {
   const stackList = project.stacks;
   return (
     <div>
@@ -23,7 +23,7 @@ function ProjectStacks({ project }: ProjectProps) {
   );
 }
 
-function ProjectCategory({ project }: ProjectProps) {
+function ProjectCategory({ project }: IProjectProps) {
   const categoryList = project.categories;
   return (
     <div>
@@ -34,7 +34,7 @@ function ProjectCategory({ project }: ProjectProps) {
   );
 }
 
-function ProjectIntroduction({ project }: ProjectProps) {
+function ProjectIntroduction({ project }: IProjectProps) {
   return (
     <div>
       <Styles.ProjectDetailIntroduction>
@@ -44,7 +44,7 @@ function ProjectIntroduction({ project }: ProjectProps) {
   );
 }
 
-function ProjectRepresentativeImages({ project }: ProjectProps) {
+function ProjectRepresentativeImages({ project }: IProjectProps) {
   const imgList: string[] = project.imageUrls;
 
   const [showModal, setShowModal] = useState(false);
@@ -95,7 +95,7 @@ function ProjectRepresentativeImages({ project }: ProjectProps) {
   );
 }
 
-function ProjectLinks({ project }: ProjectProps) {
+function ProjectLinks({ project }: IProjectProps) {
   const linkList: string[] = project.urls;
   return (
     <div>
@@ -125,7 +125,7 @@ export default function ProjectComponents() {
   if (loading) return;
   if (error)
     return <p style={{ margin: "20px 20px" }}>Error: {error.message}</p>;
-  const project: Project = data?.projectById;
+  const project: IProject = data?.projectById;
 
   return (
     <Styles.ProjectDetailContainer>

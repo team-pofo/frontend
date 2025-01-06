@@ -4,27 +4,10 @@ import Image from "next/image";
 import empty_heart from "../../../public/icons/empty_heart.svg";
 import fill_heart from "../../../public/icons/fill_heart.svg";
 import Link from "next/link";
+import { IProjectCardProps } from "@/libs/interface/iProjectCard";
 
-type ProjectCardProps = {
-  __typename: string;
-  title: string;
-  imageUrls: string[];
-  id: string;
-  bio: string;
-};
-
-const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
-  (
-    {
-      id,
-      imageUrls,
-      title,
-      bio,
-      // author,
-      // likes,
-    },
-    ref,
-  ) => {
+const ProjectCard = forwardRef<HTMLDivElement, IProjectCardProps>(
+  (projectCard, ref) => {
     // const [likeCount, setLikeCount] = useState(likes);
     // const [liked, setLiked] = useState(false);
 
@@ -33,12 +16,18 @@ const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
       // setLiked(!liked);
     };
 
+    const { id, title, imageUrls, bio } = projectCard.projectCard;
+
     return (
       <Link style={{ width: "100%" }} href={`/project/${id}`}>
         <S.Card ref={ref}>
           <S.ImageWrapper>
             <Image
-              src={imageUrls[0]}
+              src={
+                imageUrls !== null && imageUrls.length > 0
+                  ? imageUrls[0]
+                  : "https://velog.velcdn.com/images/yena1025/post/295eb434-5b73-421f-bbe4-6bc13acd4c33/image.png"
+              }
               alt={title}
               layout="fill"
               objectFit="cover"

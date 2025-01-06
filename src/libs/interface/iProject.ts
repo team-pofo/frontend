@@ -1,4 +1,4 @@
-export interface Project {
+export interface IProject {
   id: number;
   title: string;
   bio: string;
@@ -13,6 +13,6 @@ export interface Project {
   authorName: string;
 }
 
-export interface ProjectProps {
-  project: Project;
+export interface IProjectProps {
+  project: IProject;
 }
