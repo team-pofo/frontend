@@ -1,31 +1,29 @@
 import * as Styles from "./styles";
 import SelectStackType from "../SelectStackType/SelectStackType";
 import { Button } from "../ui/button";
-import { useLazyQuery } from "@apollo/client";
-import { SEARCH_PROJECT } from "@/services/gql/searchProject";
+import { useSearchProject } from "@/stores/searchProjectStore";
 
-export function SearchName() {
+interface handleSearchProjectProps {
+  handleSearchProject: () => void;
+}
+
+function SearchName() {
+  const { title, setTitle } = useSearchProject();
   return (
     <Styles.SearchCard>
       <Styles.SearchNameInput
         type="text"
+        value={title}
         placeholder="프로젝트 이름"
+        onChange={(e) => {
+          setTitle(e.target.value);
+        }}
       ></Styles.SearchNameInput>
     </Styles.SearchCard>
   );
 }
 
-export function SearchBtn() {
-  const [getData] = useLazyQuery(SEARCH_PROJECT, {
-    onCompleted: (fetchedData) => {
-      console.log(fetchedData);
-      console.log(fetchedData.searchProject.projects);
-    },
-  });
-  const handleFetchData = () => {
-    getData(); // 쿼리 실행
-  };
-
+function SearchBtn(handleSearchProject: handleSearchProjectProps) {
   return (
     // shadcn
     <Button
@@ -35,7 +33,7 @@ export function SearchBtn() {
         fontSize: "20px",
       }}
       onClick={() => {
-        handleFetchData();
+        handleSearchProject.handleSearchProject();
       }}
     >
       검색
@@ -43,12 +41,14 @@ export function SearchBtn() {
   );
 }
 
-export default function SearchCardContainer() {
+export default function SearchCardContainer({
+  handleSearchProject,
+}: handleSearchProjectProps) {
   return (
     <Styles.SearchContainer>
       <Styles.SearchCardContainerName>
         <SearchName />
-        <SearchBtn />
+        <SearchBtn handleSearchProject={handleSearchProject} />
       </Styles.SearchCardContainerName>
       <SelectStackType />
     </Styles.SearchContainer>

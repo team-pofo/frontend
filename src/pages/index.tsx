@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import ProjectCard from "@/components/ProjectCard/ProjectCard";
 import SearchWrapperContainer from "../components/Home/HomeSearch";
 
@@ -6,18 +6,41 @@ import { GridContainer } from "../styles/container";
 
 // GraphQL 관련
 import { useQuery } from "@apollo/client";
-import { IProjectCard } from "@/libs/interface/iProjectCard";
 import { SEARCH_PROJECT } from "@/services/gql/searchProject";
+import { useSearchProject } from "@/stores/searchProjectStore";
+import { useSelectStacks } from "@/stores/selectStackType/selectStacksStore";
+import { useSelectTypes } from "@/stores/selectStackType/selectTypesStore";
 
 export default function Home() {
-  const [projects, setProjects] = useState<IProjectCard[]>([]);
-  const [page, setPage] = useState(0);
-  const [hasNext, setHasNext] = useState(false);
+  const {
+    page,
+    title,
+    hasNext,
+    searchTitle,
+    stackNames,
+    categories,
+    projects,
+    setPage,
+    setSearchTitle,
+    setStackNames,
+    setCategories,
+    setHasNext,
+    setProjects,
+  } = useSearchProject();
+  const { selectedStacks } = useSelectStacks();
+  const { selectedTypes } = useSelectTypes();
+
   const SIZE = 36;
 
   const observerRef = useRef<HTMLDivElement>(null);
-  const { data, loading, fetchMore } = useQuery(SEARCH_PROJECT, {
-    variables: { size: SIZE, page: page },
+  const { data, loading, fetchMore, refetch } = useQuery(SEARCH_PROJECT, {
+    variables: {
+      page: page,
+      size: SIZE,
+      title: searchTitle,
+      stackNames: stackNames,
+      categories: categories,
+    },
   });
 
   useEffect(() => {
@@ -36,20 +59,49 @@ export default function Home() {
 
   useEffect(() => {
     if (data) {
-      console.log(data);
-      console.log("hasNext", data.searchProject.hasNext);
-      console.log(page);
-
-      setProjects((prev) => [...prev, ...data.searchProject.projects]);
+      setProjects([...projects, ...data.searchProject.projects]);
       setHasNext(data.searchProject.hasNext);
     }
-  }, [data, page]);
+  }, [data]);
+
+  const handleSearchProject = () => {
+    const newTitle = title;
+    const newStackNames = selectedStacks;
+    const newCategories = selectedTypes;
+    setPage(0);
+    setSearchTitle(newTitle);
+    setStackNames(newStackNames);
+    setCategories(newCategories);
+
+    refetch({
+      page: 0,
+      size: SIZE,
+      title: newTitle,
+      stackNames: newStackNames,
+      categories: newCategories,
+    }).then((result) => {
+      setProjects(result.data.searchProject.projects);
+      setHasNext(result.data.searchProject.hasNext);
+    });
+  };
 
   const loadMoreProjects = async () => {
+    console.log("loadMoreProjectsssssssss");
+    console.log(page);
     await fetchMore({
-      variables: { page: page, size: 36 },
+      variables: {
+        page: page,
+        size: 36,
+        title: searchTitle,
+        stackNames: stackNames,
+        categories: categories,
+      },
       updateQuery: (prevResult, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prevResult;
+        else {
+          setHasNext(fetchMoreResult.searchProject.hasNext);
+          setPage(page + 1);
+        }
         return {
           searchProject: {
             ...fetchMoreResult.searchProject,
@@ -61,8 +113,6 @@ export default function Home() {
         };
       },
     });
-
-    setPage((prev) => prev + 1);
   };
 
   // if (loading) return <p>Loading...</p>; // 로딩중일 때 카드 스켈레톤 보여주기
@@ -78,8 +128,7 @@ export default function Home() {
           flexDirection: "column",
         }}
       >
-        <SearchWrapperContainer />
-        {/* <div onClick={loadMoreProjects}>loadMore</div> */}
+        <SearchWrapperContainer handleSearchProject={handleSearchProject} />
         <GridContainer>
           {projects.map((project, index) => (
             <ProjectCard key={index} projectCard={project} />
