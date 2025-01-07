@@ -35,6 +35,18 @@ export default function Home() {
   const { typeToggle, selectedTypes, clickTypeToggle, resetType } =
     useSelectTypes();
 
+  // 검색 조건 초기화
+  useEffect(() => {
+    if (stackToggle) {
+      clickStackToggle();
+    }
+    resetStack();
+    if (typeToggle) {
+      clickTypeToggle();
+    }
+    resetType();
+  }, [resetStack, resetType]);
+
   const SIZE = 36;
 
   const observerRef = useRef<HTMLDivElement>(null);
@@ -48,6 +60,7 @@ export default function Home() {
     },
   });
 
+  // 무한 스크롤
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -62,24 +75,20 @@ export default function Home() {
     return () => observer.disconnect();
   }, [observerRef, data, hasNext, loading]);
 
+  // projects 배열에 새로운 데이터 추가
   useEffect(() => {
     if (data) {
-      setProjects([...projects, ...data.searchProject.projects]);
+      if (page === 0) {
+        // 초기 페이지일 경우, 기존 데이터를 초기화
+        setProjects(data.searchProject.projects);
+      } else {
+        // 추가 데이터만 병합
+        setProjects([...projects, ...data.searchProject.projects]);
+      }
       setHasNext(data.searchProject.hasNext);
       setIsLoading(false);
     }
   }, [data]);
-
-  useEffect(() => {
-    if (stackToggle) {
-      clickStackToggle();
-    }
-    resetStack();
-    if (typeToggle) {
-      clickTypeToggle();
-    }
-    resetType();
-  }, [resetStack, resetType]);
 
   const handleSearchProject = () => {
     const newTitle = title;
@@ -114,8 +123,6 @@ export default function Home() {
   };
 
   const loadMoreProjects = async () => {
-    console.log("loadMoreProjectsssssssss");
-    console.log(page);
     await fetchMore({
       variables: {
         page: page,
@@ -148,34 +155,32 @@ export default function Home() {
 
   return (
     <>
-      {!isLoading ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-          }}
-        >
-          <SearchWrapperContainer handleSearchProject={handleSearchProject} />
-          {!isLoading && projects.length === 0 ? (
-            <p style={{ marginTop: "20px", fontSize: "20px" }}>
-              검색 결과가 없습니다
-            </p>
-          ) : (
-            <GridContainer>
-              {projects.map((project, index) => (
-                <ProjectCard key={index} projectCard={project} />
-              ))}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <SearchWrapperContainer handleSearchProject={handleSearchProject} />
+        {!isLoading && projects.length === 0 ? (
+          <p style={{ marginTop: "20px", fontSize: "20px" }}>
+            검색 결과가 없습니다
+          </p>
+        ) : (
+          <GridContainer>
+            {projects.map((project, index) => (
+              <ProjectCard key={index} projectCard={project} />
+            ))}
 
-              <div
-                ref={observerRef}
-                style={{ height: "1px", backgroundColor: "transparent" }}
-              />
-            </GridContainer>
-          )}
-        </div>
-      ) : null}
+            <div
+              ref={observerRef}
+              style={{ height: "1px", backgroundColor: "transparent" }}
+            />
+          </GridContainer>
+        )}
+      </div>
     </>
   );
 }
