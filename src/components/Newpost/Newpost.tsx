@@ -14,6 +14,7 @@ import {
   getCategoryKey,
 } from "@/libs/enum/projectCategoryEnum";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 interface NewpostProps {
   title: string;
@@ -200,8 +201,21 @@ export default function NewpostComponents() {
     setContent,
     setImageUrls,
   } = useCreateProject();
-  const { selectedStacks } = useSelectStacks();
-  const { selectedTypes } = useSelectTypes();
+  const { stackToggle, selectedStacks, clickStackToggle, resetStack } =
+    useSelectStacks();
+  const { typeToggle, selectedTypes, clickTypeToggle, resetType } =
+    useSelectTypes();
+
+  useEffect(() => {
+    if (stackToggle) {
+      clickStackToggle();
+    }
+    resetStack();
+    if (typeToggle) {
+      clickTypeToggle();
+    }
+    resetType();
+  }, [resetStack, resetType]);
 
   return (
     <Styles.NewpostContainer>

@@ -30,8 +30,10 @@ export default function Home() {
     setHasNext,
     setProjects,
   } = useSearchProject();
-  const { selectedStacks } = useSelectStacks();
-  const { selectedTypes } = useSelectTypes();
+  const { stackToggle, selectedStacks, clickStackToggle, resetStack } =
+    useSelectStacks();
+  const { typeToggle, selectedTypes, clickTypeToggle, resetType } =
+    useSelectTypes();
 
   const SIZE = 36;
 
@@ -64,8 +66,20 @@ export default function Home() {
     if (data) {
       setProjects([...projects, ...data.searchProject.projects]);
       setHasNext(data.searchProject.hasNext);
+      setIsLoading(false);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (stackToggle) {
+      clickStackToggle();
+    }
+    resetStack();
+    if (typeToggle) {
+      clickTypeToggle();
+    }
+    resetType();
+  }, [resetStack, resetType]);
 
   const handleSearchProject = () => {
     const newTitle = title;
@@ -77,6 +91,7 @@ export default function Home() {
     setSearchTitle(newTitle);
     setStackNames(newStackNames);
     setCategories(newCategories);
+    setIsLoading(true);
 
     refetch({
       page: 0,
@@ -93,7 +108,9 @@ export default function Home() {
         }
         setHasNext(result.data.searchProject.hasNext);
       })
-      .finally(() => setIsLoading(false));
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const loadMoreProjects = async () => {
@@ -131,32 +148,34 @@ export default function Home() {
 
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
-        <SearchWrapperContainer handleSearchProject={handleSearchProject} />
-        {!isLoading && projects.length === 0 ? (
-          <p style={{ marginTop: "20px", fontSize: "20px" }}>
-            검색 결과가 없습니다
-          </p>
-        ) : (
-          <GridContainer>
-            {projects.map((project, index) => (
-              <ProjectCard key={index} projectCard={project} />
-            ))}
+      {!isLoading ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <SearchWrapperContainer handleSearchProject={handleSearchProject} />
+          {!isLoading && projects.length === 0 ? (
+            <p style={{ marginTop: "20px", fontSize: "20px" }}>
+              검색 결과가 없습니다
+            </p>
+          ) : (
+            <GridContainer>
+              {projects.map((project, index) => (
+                <ProjectCard key={index} projectCard={project} />
+              ))}
 
-            <div
-              ref={observerRef}
-              style={{ height: "1px", backgroundColor: "transparent" }}
-            />
-          </GridContainer>
-        )}
-      </div>
+              <div
+                ref={observerRef}
+                style={{ height: "1px", backgroundColor: "transparent" }}
+              />
+            </GridContainer>
+          )}
+        </div>
+      ) : null}
     </>
   );
 }
