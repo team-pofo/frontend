@@ -12,14 +12,22 @@ function ProjectTittle({ project }: IProjectProps) {
   return <Styles.ProjectDetailTitle>{project.title}</Styles.ProjectDetailTitle>;
 }
 
-function ProjectStacks({ project }: IProjectProps) {
+function ProjectStacksTypes({ project }: IProjectProps) {
   const stackList = project.stacks;
+  const categoryList = project.categories;
   return (
-    <div>
+    <Styles.StackTypeContainer>
       {stackList === undefined
         ? null
-        : stackList.map((stack, index) => <p key={index}>{stack}</p>)}
-    </div>
+        : stackList.map((stack, index) => (
+            <Styles.StackCard key={index}> {stack}</Styles.StackCard>
+          ))}
+      {categoryList === undefined
+        ? null
+        : categoryList.map((category, index) => (
+            <Styles.TypeCard key={index}> {category}</Styles.TypeCard>
+          ))}
+    </Styles.StackTypeContainer>
   );
 }
 
@@ -129,9 +137,9 @@ export default function ProjectComponents() {
 
   return (
     <Styles.ProjectDetailContainer>
+      <ProjectStacksTypes project={project} />
       <ProjectTittle project={project} />
       <ProjectIntroduction project={project} />
-      <ProjectStacks project={project} />
       <ProjectCategory project={project} />
       <ProjectRepresentativeImages project={project} />
       <ProjectLinks project={project} />
