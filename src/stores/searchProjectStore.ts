@@ -1,4 +1,3 @@
-import { ProjectCategory } from "@/libs/enum/projectCategoryEnum";
 import { IProjectCard } from "@/libs/interface/iProjectCard";
 import { create } from "zustand";
 
@@ -7,7 +6,7 @@ export interface SearchProject {
   hasNext: boolean;
   title: string;
   searchTitle: string;
-  categories: ProjectCategory[];
+  categories: string[];
   stackNames: string[];
   projects: IProjectCard[];
   setPage: (input: number) => void;
@@ -16,7 +15,7 @@ export interface SearchProject {
   setSearchTitle: (input: string) => void;
   setProjects: (input: IProjectCard[]) => void;
   setStackNames: (input: string[]) => void;
-  setCategories: (input: ProjectCategory[]) => void;
+  setCategories: (input: string[]) => void;
 }
 
 export const useSearchProject = create<SearchProject>((set) => ({
@@ -45,7 +44,7 @@ export const useSearchProject = create<SearchProject>((set) => ({
   setStackNames: (input: string[]) => {
     set({ stackNames: input });
   },
-  setCategories: (input: ProjectCategory[]) => {
+  setCategories: (input: string[]) => {
     set({ categories: input });
   },
 }));
