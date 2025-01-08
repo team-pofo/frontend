@@ -2,11 +2,11 @@ import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import styles from "./styles.module.css";
 import dynamic from "next/dynamic";
-import { ProjectProps } from "@/libs/interface/iProject";
+import { IProjectProps } from "@/libs/interface/iProject";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 
-function MDEditorViewer({ project }: ProjectProps) {
+function MDEditorViewer({ project }: IProjectProps) {
   return (
     <div style={{ marginTop: "20px" }}>
       <MDEditor

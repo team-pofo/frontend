@@ -18,7 +18,12 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 interface ModalProps {
   onClose: () => void;
   children?: ReactNode;
-  initialStep?: "emailLogin" | "emailSignup" | "passwordReset";
+  initialStep?:
+    | "emailLogin"
+    | "emailSignup"
+    | "passwordReset"
+    | "main"
+    | "signup";
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -129,7 +134,7 @@ const Modal: React.FC<ModalProps> = ({
   // 회원가입 요청 처리
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { email, password, Nickname } = formData;
+    const { email, password } = formData;
 
     // TODO 닉네임도 회원가입때 같이 넘겨야함
     try {
