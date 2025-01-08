@@ -1,5 +1,8 @@
 import styled from "@emotion/styled";
 
+const lightorange = "#FFF3E0";
+const lightgreen = "#E0F2F1";
+
 export const ProjectDetailContainer = styled.div`
   max-width: 1200px;
   align-items: center;
@@ -65,4 +68,60 @@ export const ProjectDetailLink = styled.a`
   padding: 0 0 10px;
   font-size: 20px;
   cursor: pointer;
+`;
+
+export const StackTypeContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 10px;
+`;
+
+export const StackCard = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 15px 10px 15px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 5px;
+  background-color: ${lightorange};
+  font-size: 20px;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border: none;
+    margin-left: 5px;
+    cursor: pointer;
+    font-size: 30px;
+  }
+`;
+
+export const TypeCard = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 15px 10px 15px;
+  height: 40px;
+  margin-right: 10px;
+  border-radius: 5px;
+  background-color: ${lightgreen};
+  font-size: 20px;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 25px;
+    border: none;
+
+    margin-left: 5px;
+    cursor: pointer;
+    font-size: 30px;
+  }
 `;

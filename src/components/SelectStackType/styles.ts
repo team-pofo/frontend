@@ -184,4 +184,5 @@ export const SelectedStackTypeResetBtn = styled.div`
   background-color: #d6ecfa;
   font-size: 20px;
   font-weight: bold;
+  cursor: pointer;
 `;

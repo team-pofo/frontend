@@ -1,5 +1,4 @@
-// pages/index.tsx
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import ProjectCard from "@/components/ProjectCard/ProjectCard";
 import SearchWrapperContainer from "../components/Home/HomeSearch";
 
@@ -7,70 +6,65 @@ import { GridContainer } from "../styles/container";
 
 // GraphQL 관련
 import { useQuery } from "@apollo/client";
-import { gql } from "@apollo/client";
-
-interface Project {
-  // likes: number;
-  // author: string;
-
-  __typename: string;
-  title: string;
-  imageUrls: string;
-  id: string;
-  bio: string;
-}
-
-const getProjectId = gql`
-  query ProjectById {
-    projectById(projectId: 1) {
-      id
-      title
-      bio
-      urls
-      imageUrls
-      content
-      isApproved
-      category
-    }
-  }
-`;
-
-const getProjects = gql`
-  query getAllProjectsByPagination($size: Int!, $cursor: Int!) {
-    getAllProjectsByPagination(size: $size, cursor: $cursor) {
-      hasNext
-      projectCount
-      projects {
-        title
-        imageUrls
-        id
-        bio
-      }
-    }
-  }
-`;
+import { SEARCH_PROJECT } from "@/services/gql/searchProject";
+import { useSearchProject } from "@/stores/searchProjectStore";
+import { useSelectStacks } from "@/stores/selectStackType/selectStacksStore";
+import { useSelectTypes } from "@/stores/selectStackType/selectTypesStore";
+import { getCategoryKey } from "@/libs/enum/projectCategoryEnum";
 
 export default function Home() {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [cursor, setCursor] = useState(40);
-  const [hasNext, setHasNext] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // 초기 로딩 상태 추가
+
+  const {
+    page,
+    title,
+    hasNext,
+    searchTitle,
+    stackNames,
+    categories,
+    projects,
+    setPage,
+    setSearchTitle,
+    setStackNames,
+    setCategories,
+    setHasNext,
+    setProjects,
+  } = useSearchProject();
+  const { stackToggle, selectedStacks, clickStackToggle, resetStack } =
+    useSelectStacks();
+  const { typeToggle, selectedTypes, clickTypeToggle, resetType } =
+    useSelectTypes();
+
+  // 검색 조건 초기화
+  useEffect(() => {
+    if (stackToggle) {
+      clickStackToggle();
+    }
+    resetStack();
+    if (typeToggle) {
+      clickTypeToggle();
+    }
+    resetType();
+  }, [resetStack, resetType]);
+
+  const SIZE = 36;
 
   const observerRef = useRef<HTMLDivElement>(null);
-  const { data, loading, error, fetchMore } = useQuery(getProjects, {
-    variables: { size: 20, cursor: 21 },
+  const { data, loading, fetchMore, refetch } = useQuery(SEARCH_PROJECT, {
+    variables: {
+      page: page,
+      size: SIZE,
+      title: searchTitle,
+      stackNames: stackNames,
+      categories: categories,
+    },
   });
 
+  // 무한 스크롤
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        console.log("Intersection entries:", entries);
-        console.log(entries[0].isIntersecting);
-        console.log(hasNext);
-        console.log(data?.getAllProjectsByPagination.hasNext);
-        console.log(data?.getAllProjectsByPagination);
-        console.log(data);
-        if (entries[0].isIntersecting && hasNext) {
-          console.log("Loading more projects...");
+        if (entries[0].isIntersecting && hasNext && !loading) {
           loadMoreProjects();
         }
       },
@@ -79,41 +73,85 @@ export default function Home() {
 
     if (observerRef.current) observer.observe(observerRef.current);
     return () => observer.disconnect();
-  }, [observerRef, data]);
+  }, [observerRef, data, hasNext, loading]);
 
+  // projects 배열에 새로운 데이터 추가
   useEffect(() => {
     if (data) {
-      setProjects((prev) => [
-        ...prev,
-        ...data.getAllProjectsByPagination.projects,
-      ]);
-      setHasNext(data.getAllProjectsByPagination.hasNext);
-      console.log(data.getAllProjectsByPagination.projects);
+      if (page === 0) {
+        // 초기 페이지일 경우, 기존 데이터를 초기화
+        setProjects(data.searchProject.projects);
+      } else {
+        // 추가 데이터만 병합
+        setProjects([...projects, ...data.searchProject.projects]);
+      }
+      setHasNext(data.searchProject.hasNext);
+      setIsLoading(false);
     }
   }, [data]);
 
-  const loadMoreProjects = () => {
-    fetchMore({
-      variables: { cursor: cursor },
+  const handleSearchProject = () => {
+    const newTitle = title;
+    const newStackNames = selectedStacks;
+    const newCategories = selectedTypes
+      .map((category) => getCategoryKey(category))
+      .filter((category): category is string => category !== undefined);
+    setPage(0);
+    setSearchTitle(newTitle);
+    setStackNames(newStackNames);
+    setCategories(newCategories);
+    setIsLoading(true);
+
+    refetch({
+      page: 0,
+      size: SIZE,
+      title: newTitle,
+      stackNames: newStackNames,
+      categories: newCategories,
+    })
+      .then((result) => {
+        if (result.data.searchProject === undefined) {
+          setProjects([]);
+        } else {
+          setProjects(result.data.searchProject.projects);
+        }
+        setHasNext(result.data.searchProject.hasNext);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const loadMoreProjects = async () => {
+    await fetchMore({
+      variables: {
+        page: page,
+        size: 36,
+        title: searchTitle,
+        stackNames: stackNames,
+        categories: categories,
+      },
       updateQuery: (prevResult, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prevResult;
+        else {
+          setHasNext(fetchMoreResult.searchProject.hasNext);
+          setPage(page + 1);
+        }
         return {
-          getAllProjectsByPagination: {
-            ...fetchMoreResult.getAllProjectsByPagination,
+          searchProject: {
+            ...fetchMoreResult.searchProject,
             projects: [
               // ...prevResult.getAllProjectsByPagination.projects,
-              ...fetchMoreResult.getAllProjectsByPagination.projects,
+              ...fetchMoreResult.searchProject.projects,
             ],
           },
         };
       },
     });
-
-    setCursor((prev) => prev + 20); // cursor 값 업데이트
   };
 
-  if (loading) return <p>Loading...</p>; // 로딩중일 때 카드 스켈레톤 보여주기
-  if (error) return <p>Error: {error.message}</p>;
+  // if (loading) return <p>Loading...</p>; // 로딩중일 때 카드 스켈레톤 보여주기
+  // if (error) return <p>Error: {error.message}</p>;
 
   return (
     <>
@@ -125,17 +163,23 @@ export default function Home() {
           flexDirection: "column",
         }}
       >
-        <SearchWrapperContainer />
-        <div onClick={loadMoreProjects}>loadMore</div>
-        <GridContainer>
-          {projects.map((project, index) => (
-            <ProjectCard key={index} {...project} />
-          ))}
-          <div
-            ref={observerRef}
-            style={{ height: "1px", backgroundColor: "transparent" }}
-          />
-        </GridContainer>
+        <SearchWrapperContainer handleSearchProject={handleSearchProject} />
+        {!isLoading && projects.length === 0 ? (
+          <p style={{ marginTop: "20px", fontSize: "20px" }}>
+            검색 결과가 없습니다
+          </p>
+        ) : (
+          <GridContainer>
+            {projects.map((project, index) => (
+              <ProjectCard key={index} projectCard={project} />
+            ))}
+
+            <div
+              ref={observerRef}
+              style={{ height: "1px", backgroundColor: "transparent" }}
+            />
+          </GridContainer>
+        )}
       </div>
     </>
   );

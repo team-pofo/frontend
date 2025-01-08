@@ -25,13 +25,3 @@ export const CREATE_PROJECT = gql`
     }
   }
 `;
-
-// export const CREATE_PROJECT = gql`
-//   mutation MyMutation {
-//     createProject(
-//       projectCreateRequest: { title: "24123101", content: "24123101" }
-//     ) {
-//       id
-//     }
-//   }
-// `;

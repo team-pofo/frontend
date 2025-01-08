@@ -6,24 +6,32 @@ import Link from "next/link";
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_PROJECT_BY_ID } from "@/services/gql/getProjectDetailById";
-import { Project, ProjectProps } from "@/libs/interface/project";
+import { IProject, IProjectProps } from "@/libs/interface/iProject";
 
-function ProjectTittle({ project }: ProjectProps) {
+function ProjectTittle({ project }: IProjectProps) {
   return <Styles.ProjectDetailTitle>{project.title}</Styles.ProjectDetailTitle>;
 }
 
-function ProjectStacks({ project }: ProjectProps) {
+function ProjectStacksTypes({ project }: IProjectProps) {
   const stackList = project.stacks;
+  const categoryList = project.categories;
   return (
-    <div>
+    <Styles.StackTypeContainer>
       {stackList === undefined
         ? null
-        : stackList.map((stack, index) => <p key={index}>{stack}</p>)}
-    </div>
+        : stackList.map((stack, index) => (
+            <Styles.StackCard key={index}> {stack}</Styles.StackCard>
+          ))}
+      {categoryList === undefined
+        ? null
+        : categoryList.map((category, index) => (
+            <Styles.TypeCard key={index}> {category}</Styles.TypeCard>
+          ))}
+    </Styles.StackTypeContainer>
   );
 }
 
-function ProjectCategory({ project }: ProjectProps) {
+function ProjectCategory({ project }: IProjectProps) {
   const categoryList = project.categories;
   return (
     <div>
@@ -34,7 +42,7 @@ function ProjectCategory({ project }: ProjectProps) {
   );
 }
 
-function ProjectIntroduction({ project }: ProjectProps) {
+function ProjectIntroduction({ project }: IProjectProps) {
   return (
     <div>
       <Styles.ProjectDetailIntroduction>
@@ -44,7 +52,7 @@ function ProjectIntroduction({ project }: ProjectProps) {
   );
 }
 
-function ProjectRepresentativeImages({ project }: ProjectProps) {
+function ProjectRepresentativeImages({ project }: IProjectProps) {
   const imgList: string[] = project.imageUrls;
 
   const [showModal, setShowModal] = useState(false);
@@ -95,7 +103,7 @@ function ProjectRepresentativeImages({ project }: ProjectProps) {
   );
 }
 
-function ProjectLinks({ project }: ProjectProps) {
+function ProjectLinks({ project }: IProjectProps) {
   const linkList: string[] = project.urls;
   return (
     <div>
@@ -125,13 +133,13 @@ export default function ProjectComponents() {
   if (loading) return;
   if (error)
     return <p style={{ margin: "20px 20px" }}>Error: {error.message}</p>;
-  const project: Project = data?.projectById;
+  const project: IProject = data?.projectById;
 
   return (
     <Styles.ProjectDetailContainer>
+      <ProjectStacksTypes project={project} />
       <ProjectTittle project={project} />
       <ProjectIntroduction project={project} />
-      <ProjectStacks project={project} />
       <ProjectCategory project={project} />
       <ProjectRepresentativeImages project={project} />
       <ProjectLinks project={project} />
