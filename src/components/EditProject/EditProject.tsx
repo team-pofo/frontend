@@ -4,7 +4,6 @@ import NewpostEditor from "./MDEditor/MdeditorWriter";
 import NewpostImages from "./ImageUpload/ImageUpload";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { Button } from "../ui/button";
-import { CREATE_PROJECT } from "@/services/gql/createProject";
 import { useMutation, useQuery } from "@apollo/client";
 import { useSelectStacks } from "@/stores/selectStackType/selectStacksStore";
 import { useSelectTypes } from "@/stores/selectStackType/selectTypesStore";
@@ -16,6 +15,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useEditProject } from "@/stores/editProjectStore";
 import { GET_PROJECT_BY_ID } from "@/services/gql/getProjectDetailById";
+import { UPDATE_PROJECT } from "@/services/gql/updateProject";
 
 interface NewpostProps {
   title: string;
@@ -142,7 +142,7 @@ function NewpostRepresentativeImg({
   );
 }
 
-function CreateProjectButton({
+function EditProjectButton({
   title,
   bio,
   urls,
@@ -152,7 +152,7 @@ function CreateProjectButton({
   stackNames,
 }: NewpostProps) {
   const categoryKeys = categories.map((category) => getCategoryKey(category));
-  const [createProject] = useMutation(CREATE_PROJECT);
+  const [createProject] = useMutation(UPDATE_PROJECT);
   const router = useRouter();
 
   return (
@@ -174,7 +174,7 @@ function CreateProjectButton({
 
           if (response && response.data) {
             const projectData = response.data.createProject;
-            alert("프로젝트 등록이 완료되었습니다!");
+            alert("프로젝트 수정이 완료되었습니다!");
             console.log(projectData);
             router.push(`/project/${projectData.id}`);
           }
@@ -183,7 +183,7 @@ function CreateProjectButton({
         }
       }}
     >
-      프로젝트 등록
+      프로젝트 수정
     </Button>
   );
 }
@@ -274,7 +274,7 @@ export default function NewpostComponents() {
         imageUrls={imageUrls}
         setImageUrls={setImageUrls}
       />
-      <CreateProjectButton
+      <EditProjectButton
         title={title}
         bio={bio}
         urls={urls}
