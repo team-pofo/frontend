@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_PROJECT_BY_ID } from "@/services/gql/getProjectDetailById";
 import { IProject, IProjectProps } from "@/libs/interface/iProject";
+import { useAuthStore } from "@/stores/authStore";
 
 function ProjectTittle({ project }: IProjectProps) {
   return <Styles.ProjectDetailTitle>{project.title}</Styles.ProjectDetailTitle>;
@@ -28,17 +29,6 @@ function ProjectStacksTypes({ project }: IProjectProps) {
             <Styles.TypeCard key={index}> {category}</Styles.TypeCard>
           ))}
     </Styles.StackTypeContainer>
-  );
-}
-
-function ProjectCategory({ project }: IProjectProps) {
-  const categoryList = project.categories;
-  return (
-    <div>
-      {categoryList === undefined
-        ? null
-        : categoryList.map((category, index) => <p key={index}>{category}</p>)}
-    </div>
   );
 }
 
@@ -126,6 +116,8 @@ export default function ProjectComponents() {
   const router = useRouter();
   const { id } = router.query;
 
+  const { user } = useAuthStore();
+
   const { data, loading, error } = useQuery(GET_PROJECT_BY_ID, {
     variables: { projectId: parseInt(id as string) },
   });
@@ -135,12 +127,17 @@ export default function ProjectComponents() {
     return <p style={{ margin: "20px 20px" }}>Error: {error.message}</p>;
   const project: IProject = data?.projectById;
 
+  console.log("123321123123123123132123123");
+  console.log(user);
+  console.log(user?.email);
+  console.log(user?.username);
+  console.log(data.authorName);
+
   return (
     <Styles.ProjectDetailContainer>
       <ProjectStacksTypes project={project} />
       <ProjectTittle project={project} />
       <ProjectIntroduction project={project} />
-      <ProjectCategory project={project} />
       <ProjectRepresentativeImages project={project} />
       <ProjectLinks project={project} />
       <MDEditorViewer project={project} />

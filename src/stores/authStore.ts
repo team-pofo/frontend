@@ -3,10 +3,10 @@ import { create } from "zustand";
 interface AuthState {
   isLoggedIn: boolean;
   accessToken: string | null;
-  user: { id: number; email: string; role: string } | null;
+  user: { id: number; username: string; email: string; role: string } | null;
   login: (
     token: string,
-    user: { id: number; email: string; role: string },
+    user: { id: number; username: string; email: string; role: string },
   ) => void;
   logout: () => void;
   setAccessToken: (accessToken: string) => void;
