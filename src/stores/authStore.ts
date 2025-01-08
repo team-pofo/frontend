@@ -1,13 +1,11 @@
+import { IUser } from "@/libs/interface/iUser";
 import { create } from "zustand";
 
 interface AuthState {
   isLoggedIn: boolean;
   accessToken: string | null;
-  user: { id: number; username: string; email: string; role: string } | null;
-  login: (
-    token: string,
-    user: { id: number; username: string; email: string; role: string },
-  ) => void;
+  user: IUser | null;
+  login: (token: string, user: IUser) => void;
   logout: () => void;
   setAccessToken: (accessToken: string) => void;
 }
@@ -18,7 +16,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   user: null,
 
   login: (token, user) => {
-    set({ isLoggedIn: true, user });
+    set({ isLoggedIn: true, user: user });
   },
 
   logout: () => {

@@ -9,6 +9,8 @@ import { GET_PROJECT_BY_ID } from "@/services/gql/getProjectDetailById";
 import { IProject, IProjectProps } from "@/libs/interface/iProject";
 import { useAuthStore } from "@/stores/authStore";
 
+import { FaHeart, FaShare, FaEdit } from "react-icons/fa";
+
 function ProjectTittle({ project }: IProjectProps) {
   return <Styles.ProjectDetailTitle>{project.title}</Styles.ProjectDetailTitle>;
 }
@@ -38,6 +40,41 @@ function ProjectIntroduction({ project }: IProjectProps) {
       <Styles.ProjectDetailIntroduction>
         {project.bio}
       </Styles.ProjectDetailIntroduction>
+    </div>
+  );
+}
+
+function ProjectLikeShare({ project }: IProjectProps) {
+  const { user } = useAuthStore();
+
+  console.log("authorName: ", project.authorName);
+
+  return (
+    <div>
+      <div
+        style={{
+          marginTop: "20px",
+          display: "inline-flex",
+          justifyContent: "center",
+          alignItems: "center",
+          border: "solid 2px black",
+          borderRadius: "20px",
+          padding: "5px 15px 5px 15px",
+          gap: "15px",
+        }}
+      >
+        <button>
+          <FaHeart style={{ width: "26px", height: "26px" }} />
+        </button>
+        <button>
+          <FaShare style={{ width: "26px", height: "26px" }} />
+        </button>
+        {user?.data?.email === project.authorName ? (
+          <Link style={{ width: "100%" }} href={`/project/edit/${project.id}`}>
+            <FaEdit style={{ width: "26px", height: "26px" }} />
+          </Link>
+        ) : null}
+      </div>
     </div>
   );
 }
@@ -116,8 +153,6 @@ export default function ProjectComponents() {
   const router = useRouter();
   const { id } = router.query;
 
-  const { user } = useAuthStore();
-
   const { data, loading, error } = useQuery(GET_PROJECT_BY_ID, {
     variables: { projectId: parseInt(id as string) },
   });
@@ -127,12 +162,6 @@ export default function ProjectComponents() {
     return <p style={{ margin: "20px 20px" }}>Error: {error.message}</p>;
   const project: IProject = data?.projectById;
 
-  console.log("123321123123123123132123123");
-  console.log(user);
-  console.log(user?.email);
-  console.log(user?.username);
-  console.log(data.authorName);
-
   return (
     <Styles.ProjectDetailContainer>
       <ProjectStacksTypes project={project} />
@@ -141,6 +170,7 @@ export default function ProjectComponents() {
       <ProjectRepresentativeImages project={project} />
       <ProjectLinks project={project} />
       <MDEditorViewer project={project} />
+      <ProjectLikeShare project={project} />
     </Styles.ProjectDetailContainer>
   );
 }
