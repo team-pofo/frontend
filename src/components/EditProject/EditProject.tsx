@@ -17,18 +17,14 @@ import { useEditProject } from "@/stores/editProjectStore";
 import { GET_PROJECT_BY_ID } from "@/services/gql/getProjectDetailById";
 import { UPDATE_PROJECT } from "@/services/gql/updateProject";
 
-interface NewpostProps {
-  title: string;
-  bio: string;
-  urls: string[];
-  imageUrls: string[];
-  content: string;
+interface EditProjectProps {
+  projectId: number;
   categories: ProjectCategory[];
   stackNames: string[];
 }
 
 // 프로젝트 이름
-function NewpostName({
+function EditProjectName({
   title,
   setTitle,
 }: {
@@ -48,7 +44,7 @@ function NewpostName({
 }
 
 // 한 줄 소개글
-function NewpostOneline({
+function EditProjectOneline({
   bio,
   setBio,
 }: {
@@ -69,7 +65,7 @@ function NewpostOneline({
 }
 
 // 참고 링크
-function NewpostUrls({
+function EditProjectUrls({
   urls,
   setUrls,
 }: {
@@ -127,7 +123,7 @@ function NewpostUrls({
   );
 }
 
-function NewpostRepresentativeImg({
+function EditProjectRepresentativeImg({
   imageUrls,
   setImageUrls,
 }: {
@@ -143,25 +139,25 @@ function NewpostRepresentativeImg({
 }
 
 function EditProjectButton({
-  title,
-  bio,
-  urls,
-  imageUrls,
-  content,
+  projectId,
   categories,
   stackNames,
-}: NewpostProps) {
+}: EditProjectProps) {
   const categoryKeys = categories.map((category) => getCategoryKey(category));
-  const [createProject] = useMutation(UPDATE_PROJECT);
+  const [editProject] = useMutation(UPDATE_PROJECT);
   const router = useRouter();
+
+  const { title, bio, urls, imageUrls, content, setUrls } = useEditProject();
 
   return (
     <Button
       style={{ fontSize: "20px", padding: "20px" }}
       onClick={async () => {
+        setUrls(urls.filter((url) => url.trim() !== "" || url.trim() !== ""));
         try {
-          const response = await createProject({
+          const response = await editProject({
             variables: {
+              projectId,
               title,
               bio,
               urls,
@@ -170,13 +166,11 @@ function EditProjectButton({
               categories: categoryKeys,
               stackNames,
             },
+            fetchPolicy: "no-cache",
           });
-
           if (response && response.data) {
-            const projectData = response.data.createProject;
             alert("프로젝트 수정이 완료되었습니다!");
-            console.log(projectData);
-            router.push(`/project/${projectData.id}`);
+            router.push(`/project/${projectId}`);
           }
         } catch (err) {
           alert(err);
@@ -188,7 +182,7 @@ function EditProjectButton({
   );
 }
 
-export default function NewpostComponents() {
+export default function EditProjectComponents() {
   const {
     title,
     bio,
@@ -228,6 +222,7 @@ export default function NewpostComponents() {
 
   const { loading, error } = useQuery(GET_PROJECT_BY_ID, {
     variables: { projectId: parseInt(id as string) },
+    fetchPolicy: "no-cache",
     onCompleted: (fetchedData) => {
       const project = fetchedData.projectById;
       console.log(project);
@@ -259,27 +254,23 @@ export default function NewpostComponents() {
 
   return (
     <Styles.EditProjectContainer>
-      <NewpostName title={title} setTitle={setTitle} />
+      <EditProjectName title={title} setTitle={setTitle} />
       <Styles.EditProjectText>
         기술 스택 및 프로젝트 구분
       </Styles.EditProjectText>
       <SelectStackType />
-      <NewpostOneline bio={bio} setBio={setBio} />
-      <NewpostUrls urls={urls} setUrls={setUrls} />
+      <EditProjectOneline bio={bio} setBio={setBio} />
+      <EditProjectUrls urls={urls} setUrls={setUrls} />
       <Styles.EditProjectCard>
         <Styles.EditProjectText>프로젝트 소개</Styles.EditProjectText>
         <NewpostEditor content={content} setContent={setContent} />
       </Styles.EditProjectCard>
-      <NewpostRepresentativeImg
+      <EditProjectRepresentativeImg
         imageUrls={imageUrls}
         setImageUrls={setImageUrls}
       />
       <EditProjectButton
-        title={title}
-        bio={bio}
-        urls={urls}
-        imageUrls={imageUrls}
-        content={content}
+        projectId={parseInt(id as string)}
         categories={selectedTypes}
         stackNames={selectedStacks}
       />

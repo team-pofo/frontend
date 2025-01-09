@@ -155,6 +155,7 @@ export default function ProjectComponents() {
 
   const { data, loading, error } = useQuery(GET_PROJECT_BY_ID, {
     variables: { projectId: parseInt(id as string) },
+    fetchPolicy: "no-cache",
   });
 
   if (loading) return;

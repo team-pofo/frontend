@@ -17,11 +17,6 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 interface NewpostProps {
-  title: string;
-  bio: string;
-  urls: string[];
-  imageUrls: string[];
-  content: string;
   categories: ProjectCategory[];
   stackNames: string[];
 }
@@ -141,23 +136,18 @@ function NewpostRepresentativeImg({
   );
 }
 
-function CreateProjectButton({
-  title,
-  bio,
-  urls,
-  imageUrls,
-  content,
-  categories,
-  stackNames,
-}: NewpostProps) {
+function CreateProjectButton({ categories, stackNames }: NewpostProps) {
   const categoryKeys = categories.map((category) => getCategoryKey(category));
   const [createProject] = useMutation(CREATE_PROJECT);
   const router = useRouter();
+
+  const { title, bio, urls, imageUrls, content, setUrls } = useCreateProject();
 
   return (
     <Button
       style={{ fontSize: "20px", padding: "20px" }}
       onClick={async () => {
+        setUrls(urls.filter((url) => url.trim() !== "" || url.trim() !== ""));
         try {
           const response = await createProject({
             variables: {
@@ -233,11 +223,6 @@ export default function NewpostComponents() {
         setImageUrls={setImageUrls}
       />
       <CreateProjectButton
-        title={title}
-        bio={bio}
-        urls={urls}
-        imageUrls={imageUrls}
-        content={content}
         categories={selectedTypes}
         stackNames={selectedStacks}
       />

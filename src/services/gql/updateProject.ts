@@ -2,6 +2,7 @@ import { gql } from "@apollo/client";
 
 export const UPDATE_PROJECT = gql`
   mutation UpdateProject(
+    $projectId: ID!
     $title: String!
     $bio: String!
     $urls: [String]
@@ -11,7 +12,8 @@ export const UPDATE_PROJECT = gql`
     $stackNames: [String]
   ) {
     updateProject(
-      updateProjectRequest: {
+      projectUpdateRequest: {
+        projectId: $projectId
         title: $title
         bio: $bio
         urls: $urls
