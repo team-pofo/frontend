@@ -12,6 +12,7 @@ export const GET_PROJECT_BY_ID = gql`
       isApproved
       categories
       stacks
+      authorName
     }
   }
 `;

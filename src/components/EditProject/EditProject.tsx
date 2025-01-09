@@ -4,9 +4,7 @@ import NewpostEditor from "./MDEditor/MdeditorWriter";
 import NewpostImages from "./ImageUpload/ImageUpload";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import { Button } from "../ui/button";
-import { CREATE_PROJECT } from "@/services/gql/createProject";
-import { useMutation } from "@apollo/client";
-import { useCreateProject } from "@/stores/createProjectStore";
+import { useMutation, useQuery } from "@apollo/client";
 import { useSelectStacks } from "@/stores/selectStackType/selectStacksStore";
 import { useSelectTypes } from "@/stores/selectStackType/selectTypesStore";
 import {
@@ -15,14 +13,18 @@ import {
 } from "@/libs/enum/projectCategoryEnum";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useEditProject } from "@/stores/editProjectStore";
+import { GET_PROJECT_BY_ID } from "@/services/gql/getProjectDetailById";
+import { UPDATE_PROJECT } from "@/services/gql/updateProject";
 
-interface NewpostProps {
+interface EditProjectProps {
+  projectId: number;
   categories: ProjectCategory[];
   stackNames: string[];
 }
 
 // 프로젝트 이름
-function NewpostName({
+function EditProjectName({
   title,
   setTitle,
 }: {
@@ -30,19 +32,19 @@ function NewpostName({
   setTitle: (title: string) => void;
 }) {
   return (
-    <Styles.NewpostCard>
-      <Styles.NewpostNameInput
+    <Styles.EditProjectCard>
+      <Styles.EditProjectNameInput
         type="text"
         placeholder="프로젝트 이름을 입력하세요"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-      ></Styles.NewpostNameInput>
-    </Styles.NewpostCard>
+      ></Styles.EditProjectNameInput>
+    </Styles.EditProjectCard>
   );
 }
 
 // 한 줄 소개글
-function NewpostOneline({
+function EditProjectOneline({
   bio,
   setBio,
 }: {
@@ -50,20 +52,20 @@ function NewpostOneline({
   setBio: (bio: string) => void;
 }) {
   return (
-    <Styles.NewpostCard>
-      <Styles.NewpostText>한 줄 소개글</Styles.NewpostText>
-      <Styles.NewpostOnelineInput
+    <Styles.EditProjectCard>
+      <Styles.EditProjectText>한 줄 소개글</Styles.EditProjectText>
+      <Styles.EditProjectOnelineInput
         type="text"
         placeholder="한 줄 소개글"
         value={bio}
         onChange={(e) => setBio(e.target.value)}
-      ></Styles.NewpostOnelineInput>
-    </Styles.NewpostCard>
+      ></Styles.EditProjectOnelineInput>
+    </Styles.EditProjectCard>
   );
 }
 
 // 참고 링크
-function NewpostUrls({
+function EditProjectUrls({
   urls,
   setUrls,
 }: {
@@ -82,12 +84,12 @@ function NewpostUrls({
   };
 
   return (
-    <Styles.NewpostCard>
-      <Styles.NewpostText>참고 링크</Styles.NewpostText>
+    <Styles.EditProjectCard>
+      <Styles.EditProjectText>참고 링크</Styles.EditProjectText>
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         {urls.map((url, index) => (
           <div key={index} style={{ display: "flex", gap: "10px" }}>
-            <Styles.NewpostOnelineInput
+            <Styles.EditProjectOnelineInput
               type="text"
               value={url}
               placeholder="링크 입력 (https://github.com)"
@@ -96,32 +98,32 @@ function NewpostUrls({
                 newLinks[index] = e.target.value;
                 setUrls(newLinks);
               }}
-            ></Styles.NewpostOnelineInput>
+            ></Styles.EditProjectOnelineInput>
             {index === 0 ? (
-              <Styles.NewpostLinkBtn
+              <Styles.EditProjectLinkBtn
                 onClick={() => {
                   addLink();
                 }}
               >
                 <FaPlus />
-              </Styles.NewpostLinkBtn>
+              </Styles.EditProjectLinkBtn>
             ) : (
-              <Styles.NewpostLinkBtn
+              <Styles.EditProjectLinkBtn
                 onClick={() => {
                   minusLink(index);
                 }}
               >
                 <FaMinus />
-              </Styles.NewpostLinkBtn>
+              </Styles.EditProjectLinkBtn>
             )}
           </div>
         ))}
       </div>
-    </Styles.NewpostCard>
+    </Styles.EditProjectCard>
   );
 }
 
-function NewpostRepresentativeImg({
+function EditProjectRepresentativeImg({
   imageUrls,
   setImageUrls,
 }: {
@@ -129,19 +131,23 @@ function NewpostRepresentativeImg({
   setImageUrls: (imageUrls: string[]) => void;
 }) {
   return (
-    <Styles.NewpostCard>
-      <Styles.NewpostText>대표 이미지</Styles.NewpostText>
+    <Styles.EditProjectCard>
+      <Styles.EditProjectText>대표 이미지</Styles.EditProjectText>
       <NewpostImages imageUrls={imageUrls} setImageUrls={setImageUrls} />
-    </Styles.NewpostCard>
+    </Styles.EditProjectCard>
   );
 }
 
-function CreateProjectButton({ categories, stackNames }: NewpostProps) {
+function EditProjectButton({
+  projectId,
+  categories,
+  stackNames,
+}: EditProjectProps) {
   const categoryKeys = categories.map((category) => getCategoryKey(category));
-  const [createProject] = useMutation(CREATE_PROJECT);
+  const [editProject] = useMutation(UPDATE_PROJECT);
   const router = useRouter();
 
-  const { title, bio, urls, imageUrls, content, setUrls } = useCreateProject();
+  const { title, bio, urls, imageUrls, content, setUrls } = useEditProject();
 
   return (
     <Button
@@ -149,8 +155,9 @@ function CreateProjectButton({ categories, stackNames }: NewpostProps) {
       onClick={async () => {
         setUrls(urls.filter((url) => url.trim() !== "" || url.trim() !== ""));
         try {
-          const response = await createProject({
+          const response = await editProject({
             variables: {
+              projectId,
               title,
               bio,
               urls,
@@ -159,25 +166,23 @@ function CreateProjectButton({ categories, stackNames }: NewpostProps) {
               categories: categoryKeys,
               stackNames,
             },
+            fetchPolicy: "no-cache",
           });
-
           if (response && response.data) {
-            const projectData = response.data.createProject;
-            alert("프로젝트 등록이 완료되었습니다!");
-            console.log(projectData);
-            router.push(`/project/${projectData.id}`);
+            alert("프로젝트 수정이 완료되었습니다!");
+            router.push(`/project/${projectId}`);
           }
         } catch (err) {
           alert(err);
         }
       }}
     >
-      프로젝트 등록
+      프로젝트 수정
     </Button>
   );
 }
 
-export default function NewpostComponents() {
+export default function EditProjectComponents() {
   const {
     title,
     bio,
@@ -190,10 +195,15 @@ export default function NewpostComponents() {
     setUrls,
     setContent,
     setImageUrls,
-  } = useCreateProject();
-  const { stackToggle, selectedStacks, clickStackToggle, resetStack } =
-    useSelectStacks();
-  const { typeToggle, selectedTypes, clickTypeToggle, resetType } =
+  } = useEditProject();
+  const {
+    stackToggle,
+    selectedStacks,
+    clickStackToggle,
+    clickStack,
+    resetStack,
+  } = useSelectStacks();
+  const { typeToggle, selectedTypes, clickTypeToggle, clickType, resetType } =
     useSelectTypes();
 
   useEffect(() => {
@@ -207,25 +217,63 @@ export default function NewpostComponents() {
     resetType();
   }, [resetStack, resetType]);
 
+  const router = useRouter();
+  const { id } = router.query;
+
+  const { loading, error } = useQuery(GET_PROJECT_BY_ID, {
+    variables: { projectId: parseInt(id as string) },
+    fetchPolicy: "no-cache",
+    onCompleted: (fetchedData) => {
+      const project = fetchedData.projectById;
+      console.log(project);
+      setTitle(project.title);
+      console.log(project.bio);
+      setBio(project.bio);
+      setContent(project.content);
+      setImageUrls(project.imageUrls);
+      if (project.urls.length > 0) {
+        setUrls(project.urls);
+      }
+
+      if (project.stacks !== undefined) {
+        project.stacks.array.forEach((stack: string) => {
+          clickStack(stack);
+        });
+      }
+      if (project.categories !== undefined) {
+        project.categories.array.forEach((category: ProjectCategory) => {
+          clickType(category);
+        });
+      }
+    },
+  });
+
+  if (loading) return;
+  if (error)
+    return <p style={{ margin: "20px 20px" }}>Error: {error.message}</p>;
+
   return (
-    <Styles.NewpostContainer>
-      <NewpostName title={title} setTitle={setTitle} />
-      <Styles.NewpostText>기술 스택 및 프로젝트 구분</Styles.NewpostText>
+    <Styles.EditProjectContainer>
+      <EditProjectName title={title} setTitle={setTitle} />
+      <Styles.EditProjectText>
+        기술 스택 및 프로젝트 구분
+      </Styles.EditProjectText>
       <SelectStackType />
-      <NewpostOneline bio={bio} setBio={setBio} />
-      <NewpostUrls urls={urls} setUrls={setUrls} />
-      <Styles.NewpostCard>
-        <Styles.NewpostText>프로젝트 소개</Styles.NewpostText>
+      <EditProjectOneline bio={bio} setBio={setBio} />
+      <EditProjectUrls urls={urls} setUrls={setUrls} />
+      <Styles.EditProjectCard>
+        <Styles.EditProjectText>프로젝트 소개</Styles.EditProjectText>
         <NewpostEditor content={content} setContent={setContent} />
-      </Styles.NewpostCard>
-      <NewpostRepresentativeImg
+      </Styles.EditProjectCard>
+      <EditProjectRepresentativeImg
         imageUrls={imageUrls}
         setImageUrls={setImageUrls}
       />
-      <CreateProjectButton
+      <EditProjectButton
+        projectId={parseInt(id as string)}
         categories={selectedTypes}
         stackNames={selectedStacks}
       />
-    </Styles.NewpostContainer>
+    </Styles.EditProjectContainer>
   );
 }
