@@ -1,8 +1,7 @@
 import * as Styles from "./styles";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-
+import { useSidebarStore } from "@/stores/mypageSidebarStore";
 import { LuFileText, LuHeart, LuSettings } from "react-icons/lu";
 
 function MypageMyInfo() {
@@ -21,30 +20,26 @@ function MypageMyInfo() {
   );
 }
 
-function MypageSidebar({
-  sidebarIndex,
-  setSidebarIndex,
-}: {
-  sidebarIndex: number;
-  setSidebarIndex: (sidebarIndex: number) => void;
-}) {
+function MypageSidebar() {
   const items = [
     {
       icon: <LuFileText />,
       label: "나의 프로젝트",
-      link: "/myprojects",
+      link: "myprojects",
     },
     {
       icon: <LuHeart />,
       label: "좋아요한 프로젝트",
-      link: "/likeprojects",
+      link: "likeprojects",
     },
     {
       icon: <LuSettings />,
       label: "개인정보 변경",
-      link: "/editprofile",
+      link: "editprofile",
     },
   ];
+
+  const { sidebarIndex, setSidebarIndex } = useSidebarStore();
 
   return (
     <Styles.MypageSidebar>
@@ -52,16 +47,14 @@ function MypageSidebar({
         <Link
           key={index}
           href={`/mypage/${item.link}`}
-          style={{ width: "100%" }}
           passHref
+          style={{ width: "100%" }}
         >
           <button
-            key={index}
-            onClick={() => setSidebarIndex(index)}
-            style={{
-              backgroundColor:
-                sidebarIndex === index ? "#F4F4F5" : "transparent",
+            onClick={() => {
+              setSidebarIndex(index);
             }}
+            className={sidebarIndex === index ? "active" : ""}
           >
             {item.icon}
             {item.label}
@@ -76,18 +69,13 @@ type MypageLayoutProps = {
   children: React.ReactNode;
 };
 
-const MypageLayout: React.FC<MypageLayoutProps> = ({ children }) => {
-  const [sidebarIndex, setSidebarIndex] = useState(0);
-
+export default function MypageLayout({ children }: MypageLayoutProps) {
   return (
     <div>
       <Styles.MypageContainer>
         <Styles.MypageSidebarContainer>
           <MypageMyInfo />
-          <MypageSidebar
-            sidebarIndex={sidebarIndex}
-            setSidebarIndex={setSidebarIndex}
-          />
+          <MypageSidebar />
         </Styles.MypageSidebarContainer>
         <Styles.MypageContentContainer>
           {children}
@@ -95,6 +83,4 @@ const MypageLayout: React.FC<MypageLayoutProps> = ({ children }) => {
       </Styles.MypageContainer>
     </div>
   );
-};
-
-export default MypageLayout;
+}

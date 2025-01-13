@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 const grey = "#59636e";
 const lightgrey = "#DEE4E9";
-const sidebarHover = "#F4F4F5";
+const sidebarHover = "#F2F2F2";
 
 export const MypageContainer = styled.div`
   max-width: 1200px;
@@ -57,6 +57,9 @@ export const MypageSidebar = styled.div`
     &:hover {
       background-color: ${sidebarHover};
     }
+  }
+  .active {
+    background-color: ${sidebarHover};
   }
 `;
 
