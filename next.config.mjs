@@ -21,12 +21,14 @@ const nextConfig = {
   },
   // 리프레시 토큰을 요청에 실어서 보내기 위함. 도메인이 달라서 안 실어짐
   rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: `${BASE_URL}/:path*`,
-      },
-    ];
+    return process.env.NODE_ENV === "production"
+      ? []
+      : [
+          {
+            source: "/api/:path*",
+            destination: `${BASE_URL}/api/:path*`,
+          },
+        ];
   },
 };
 
