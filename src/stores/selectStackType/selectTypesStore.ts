@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ProjectCategory } from "@/libs/enum/projectCategoryEnum";
+import { ProjectCategory } from "@/lib/enum/projectCategoryEnum";
 
 interface SelectTypes {
   typeToggle: boolean;

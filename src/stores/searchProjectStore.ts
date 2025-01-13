@@ -1,4 +1,4 @@
-import { IProjectCard } from "@/libs/interface/iProjectCard";
+import { IProjectCard } from "@/lib/interface/iProjectCard";
 import { create } from "zustand";
 
 export interface SearchProject {

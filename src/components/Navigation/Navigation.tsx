@@ -116,7 +116,7 @@ const Navigation: React.FC = () => {
           <Logo href="/">POFO</Logo>
           <NavItems>
             <StyledNavLink href="/newpost">Home</StyledNavLink>
-            <StyledNavLink href="/project/1">MyPage</StyledNavLink>
+            <StyledNavLink href="/mypage">MyPage</StyledNavLink>
           </NavItems>
         </div>
       </div>

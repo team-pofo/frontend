@@ -12,7 +12,7 @@ import { useSelectTypes } from "@/stores/selectStackType/selectTypesStore";
 import {
   ProjectCategory,
   getCategoryKey,
-} from "@/libs/enum/projectCategoryEnum";
+} from "@/lib/enum/projectCategoryEnum";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
