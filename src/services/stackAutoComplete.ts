@@ -14,7 +14,7 @@ export const stackAutoComplete = async (word: string) => {
       params: { query: word },
     });
 
-    const autocomplete = response.data.data.autocomplete;
+    const autocomplete = response.data.data;
     if (response.data.success) {
       return autocomplete;
     }
