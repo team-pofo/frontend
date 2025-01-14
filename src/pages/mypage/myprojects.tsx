@@ -1,10 +1,11 @@
 import React from "react";
 import MypageLayout from "@/components/Mypage/MypageLayout";
+import MyProjectComponents from "@/components/Mypage/MyProjects";
 
 const MyProjects: React.FC = () => {
   return (
     <MypageLayout>
-      <p>나의 프로젝트 ^^</p>
+      <MyProjectComponents />
     </MypageLayout>
   );
 };

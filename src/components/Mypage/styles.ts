@@ -15,8 +15,9 @@ export const MypageContainer = styled.div`
 
 export const MypageSidebarContainer = styled.div`
   width: 200px;
-  display: flex;
-  flex-direction: column;
+  height: 100%;
+  position: sticky;
+  top: 140px;
 `;
 
 export const MypageMyinfo = styled.div`
@@ -42,7 +43,6 @@ export const MypageSidebar = styled.div`
   margin-top: 17px;
   display: flex;
   flex-direction: column;
-  align-items: baseline;
 
   button {
     display: flex;
@@ -64,7 +64,9 @@ export const MypageSidebar = styled.div`
 `;
 
 export const MypageContentContainer = styled.div`
-  /* border: solid black 3px; */
-  margin: auto;
-  display: flex;
+  flex: 1;
+  overflow-y: auto;
+  border: solid black 3px;
+  min-width: 400px;
+  height: 2000px;
 `;
