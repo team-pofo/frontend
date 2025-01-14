@@ -1,7 +1,7 @@
 import { IProjectCard } from "@/lib/interface/iProjectCard";
 import { create } from "zustand";
 
-export interface SearchProject {
+export type SearchProject = {
   page: number;
   hasNext: boolean;
   title: string;
@@ -9,6 +9,9 @@ export interface SearchProject {
   categories: string[];
   stackNames: string[];
   projects: IProjectCard[];
+};
+
+type SearchProjectActions = {
   setPage: (input: number) => void;
   setHasNext: (input: boolean) => void;
   setTitle: (input: string) => void;
@@ -16,9 +19,10 @@ export interface SearchProject {
   setProjects: (input: IProjectCard[]) => void;
   setStackNames: (input: string[]) => void;
   setCategories: (input: string[]) => void;
-}
+  reset: () => void;
+};
 
-export const useSearchProject = create<SearchProject>((set) => ({
+const initialState: SearchProject = {
   page: 0,
   hasNext: false,
   title: "",
@@ -26,25 +30,40 @@ export const useSearchProject = create<SearchProject>((set) => ({
   categories: [],
   stackNames: [],
   projects: [],
-  setPage: (input: number) => {
-    set({ page: input });
-  },
-  setHasNext: (input: boolean) => {
-    set({ hasNext: input });
-  },
-  setTitle: (input: string) => {
-    set({ title: input });
-  },
-  setSearchTitle: (input: string) => {
-    set({ searchTitle: input });
-  },
-  setProjects: (input: IProjectCard[]) => {
-    set({ projects: input });
-  },
-  setStackNames: (input: string[]) => {
-    set({ stackNames: input });
-  },
-  setCategories: (input: string[]) => {
-    set({ categories: input });
-  },
-}));
+};
+
+export const useSearchProject = create<SearchProject & SearchProjectActions>(
+  (set) => ({
+    page: 0,
+    hasNext: false,
+    title: "",
+    searchTitle: "",
+    categories: [],
+    stackNames: [],
+    projects: [],
+    setPage: (input: number) => {
+      set({ page: input });
+    },
+    setHasNext: (input: boolean) => {
+      set({ hasNext: input });
+    },
+    setTitle: (input: string) => {
+      set({ title: input });
+    },
+    setSearchTitle: (input: string) => {
+      set({ searchTitle: input });
+    },
+    setProjects: (input: IProjectCard[]) => {
+      set({ projects: input });
+    },
+    setStackNames: (input: string[]) => {
+      set({ stackNames: input });
+    },
+    setCategories: (input: string[]) => {
+      set({ categories: input });
+    },
+    reset: () => {
+      set(initialState);
+    },
+  }),
+);

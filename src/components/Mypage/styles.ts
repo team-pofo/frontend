@@ -65,8 +65,5 @@ export const MypageSidebar = styled.div`
 
 export const MypageContentContainer = styled.div`
   flex: 1;
-  overflow-y: auto;
-  border: solid black 3px;
-  min-width: 400px;
-  height: 2000px;
+  /* min-width: 400px; */
 `;

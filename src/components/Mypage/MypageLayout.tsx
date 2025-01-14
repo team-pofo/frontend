@@ -3,8 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSidebarStore } from "@/stores/mypageSidebarStore";
 import { LuFileText, LuHeart, LuSettings } from "react-icons/lu";
+import { useAuthStore } from "@/stores/authStore";
 
 function MypageMyInfo() {
+  const { user } = useAuthStore();
   return (
     <Styles.MypageMyinfo>
       <Image
@@ -14,8 +16,8 @@ function MypageMyInfo() {
         height={200}
         style={{ borderRadius: "50%" }}
       />
-      <Styles.MypageNickname>kevinmj12</Styles.MypageNickname>
-      <Styles.MypageEmail>kevinmj12@gmail.com</Styles.MypageEmail>
+      <Styles.MypageNickname>{user?.data?.username}</Styles.MypageNickname>
+      <Styles.MypageEmail>{user?.data?.email}</Styles.MypageEmail>
     </Styles.MypageMyinfo>
   );
 }
@@ -71,16 +73,12 @@ type MypageLayoutProps = {
 
 export default function MypageLayout({ children }: MypageLayoutProps) {
   return (
-    <div>
-      <Styles.MypageContainer>
-        <Styles.MypageSidebarContainer>
-          <MypageMyInfo />
-          <MypageSidebar />
-        </Styles.MypageSidebarContainer>
-        <Styles.MypageContentContainer>
-          {children}
-        </Styles.MypageContentContainer>
-      </Styles.MypageContainer>
-    </div>
+    <Styles.MypageContainer>
+      <Styles.MypageSidebarContainer>
+        <MypageMyInfo />
+        <MypageSidebar />
+      </Styles.MypageSidebarContainer>
+      <Styles.MypageContentContainer>{children}</Styles.MypageContentContainer>
+    </Styles.MypageContainer>
   );
 }
