@@ -24,6 +24,7 @@ export const SEARCH_PROJECT = gql`
         title
         imageUrls
         likes
+        bio
       }
     }
   }

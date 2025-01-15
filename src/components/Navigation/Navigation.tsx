@@ -20,6 +20,7 @@ import userIcon from "../../../public/icons/user.svg";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 const Navigation: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -115,8 +116,8 @@ const Navigation: React.FC = () => {
         >
           <Logo href="/">POFO</Logo>
           <NavItems>
-            <StyledNavLink href="/newpost">Home</StyledNavLink>
-            <StyledNavLink href="/project/1">MyPage</StyledNavLink>
+            <StyledNavLink href="/">Home</StyledNavLink>
+            {/* <StyledNavLink href="/mypage">MyPage</StyledNavLink> */}
           </NavItems>
         </div>
       </div>
@@ -141,16 +142,22 @@ const Navigation: React.FC = () => {
                 />
               </PopoverTrigger>
               <PopoverContent>
-                <Button variant="ghost" className="w-full justify-start">
-                  <Image
-                    style={{ cursor: "pointer", marginRight: "8px" }}
-                    src={"/icons/user_2.svg"}
-                    width={18}
-                    height={18}
-                    alt="mypage"
-                  />
-                  내 정보
-                </Button>
+                <Link href="/mypage">
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    onClick={() => {}}
+                  >
+                    <Image
+                      style={{ cursor: "pointer", marginRight: "8px" }}
+                      src={"/icons/user_2.svg"}
+                      width={18}
+                      height={18}
+                      alt="mypage"
+                    />
+                    내 정보
+                  </Button>
+                </Link>
                 <Button variant="ghost" className="w-full justify-start">
                   <Image
                     style={{ cursor: "pointer", marginRight: "8px" }}

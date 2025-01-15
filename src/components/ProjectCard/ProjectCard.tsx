@@ -4,7 +4,7 @@ import Image from "next/image";
 import empty_heart from "../../../public/icons/empty_heart.svg";
 import fill_heart from "../../../public/icons/fill_heart.svg";
 import Link from "next/link";
-import { IProjectCardProps } from "@/libs/interface/iProjectCard";
+import { IProjectCardProps } from "@/lib/interface/iProjectCard";
 
 const ProjectCard = forwardRef<HTMLDivElement, IProjectCardProps>(
   (projectCard, ref) => {

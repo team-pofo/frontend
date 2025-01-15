@@ -1,4 +1,4 @@
-import { ProjectCategory } from "@/libs/enum/projectCategoryEnum";
+import { ProjectCategory } from "@/lib/enum/projectCategoryEnum";
 import { create } from "zustand";
 
 export interface CreateProject {

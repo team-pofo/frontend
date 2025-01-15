@@ -10,7 +10,7 @@ import { SEARCH_PROJECT } from "@/services/gql/searchProject";
 import { useSearchProject } from "@/stores/searchProjectStore";
 import { useSelectStacks } from "@/stores/selectStackType/selectStacksStore";
 import { useSelectTypes } from "@/stores/selectStackType/selectTypesStore";
-import { getCategoryKey } from "@/libs/enum/projectCategoryEnum";
+import { getCategoryKey } from "@/lib/enum/projectCategoryEnum";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true); // 초기 로딩 상태 추가
@@ -47,7 +47,7 @@ export default function Home() {
     resetType();
   }, [resetStack, resetType]);
 
-  const SIZE = 36;
+  const SIZE = 5;
 
   const observerRef = useRef<HTMLDivElement>(null);
   const { data, loading, fetchMore, refetch } = useQuery(SEARCH_PROJECT, {
@@ -152,7 +152,6 @@ export default function Home() {
 
   // if (loading) return <p>Loading...</p>; // 로딩중일 때 카드 스켈레톤 보여주기
   // if (error) return <p>Error: {error.message}</p>;
-
   return (
     <>
       <div

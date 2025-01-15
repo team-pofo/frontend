@@ -1,4 +1,4 @@
-import { IUser } from "@/libs/interface/iUser";
+import { IUser } from "@/lib/interface/iUser";
 import { create } from "zustand";
 
 interface AuthState {

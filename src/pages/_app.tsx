@@ -4,7 +4,7 @@ import "@/styles/mdeditor.css";
 import type { AppProps } from "next/app";
 import localFont from "next/font/local";
 import { ApolloProvider } from "@apollo/client";
-import client from "@/libs/apolloClient";
+import client from "@/lib/apolloClient";
 const myFont = localFont({ src: "../fonts/PretendardVariable.woff2" });
 
 export default function App({ Component, pageProps }: AppProps) {

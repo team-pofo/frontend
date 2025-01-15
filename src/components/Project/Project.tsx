@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_PROJECT_BY_ID } from "@/services/gql/getProjectDetailById";
-import { IProject, IProjectProps } from "@/libs/interface/iProject";
+import { IProject, IProjectProps } from "@/lib/interface/iProject";
 import { useAuthStore } from "@/stores/authStore";
 
 import { FaHeart, FaShare, FaEdit } from "react-icons/fa";
@@ -46,8 +46,6 @@ function ProjectIntroduction({ project }: IProjectProps) {
 
 function ProjectLikeShare({ project }: IProjectProps) {
   const { user } = useAuthStore();
-
-  console.log("authorName: ", project.authorName);
 
   return (
     <div>
