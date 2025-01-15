@@ -3,10 +3,12 @@ import { useSearchProject } from "@/stores/searchProjectStore";
 import { useQuery } from "@apollo/client";
 import { useEffect, useRef, useState } from "react";
 import MypageProjectCard from "@/components/ProjectCard/Mypage/MypageProjectCard";
+import { useAuthStore } from "@/stores/authStore";
 
 export default function MyProjectComponents() {
   const { page, hasNext, projects, setPage, setHasNext, setProjects, reset } =
     useSearchProject();
+  const { user } = useAuthStore();
 
   const SIZE = 5;
   const [isLoading, setIsLoading] = useState(true);
@@ -19,6 +21,7 @@ export default function MyProjectComponents() {
       title: "",
       stackNames: [],
       categories: [],
+      authorName: user?.username,
     },
   });
 

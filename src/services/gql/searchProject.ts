@@ -7,6 +7,7 @@ export const SEARCH_PROJECT = gql`
     $title: String
     $stackNames: [String]
     $categories: [ProjectCategory]
+    $authorName: String
   ) {
     searchProject(
       projectSearchRequest: {
@@ -15,6 +16,7 @@ export const SEARCH_PROJECT = gql`
         title: $title
         stackNames: $stackNames
         categories: $categories
+        authorName: $authorName
       }
     ) {
       count

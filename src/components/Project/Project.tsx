@@ -67,7 +67,7 @@ function ProjectLikeShare({ project }: IProjectProps) {
         <button>
           <FaShare style={{ width: "26px", height: "26px" }} />
         </button>
-        {user?.data?.email === project.authorName ? (
+        {user?.email === project.authorName ? (
           <Link style={{ width: "100%" }} href={`/project/edit/${project.id}`}>
             <FaEdit style={{ width: "26px", height: "26px" }} />
           </Link>
