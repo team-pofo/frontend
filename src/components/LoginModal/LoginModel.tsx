@@ -172,7 +172,6 @@ const Modal: React.FC<ModalProps> = ({
           if (response.success) {
             setLoginState(token, response.data);
           }
-          console.log(response);
         } catch {
           console.log("error");
         }

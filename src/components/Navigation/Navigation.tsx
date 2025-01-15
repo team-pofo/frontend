@@ -49,7 +49,7 @@ const Navigation: React.FC = () => {
           setAccessToken(newAccessToken);
           apiClient.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
           const userInfo = await getUserInfo();
-          login(newAccessToken, userInfo);
+          login(newAccessToken, userInfo.data);
         }
       } catch (error) {
         console.error("자동 로그인 실패:", error);

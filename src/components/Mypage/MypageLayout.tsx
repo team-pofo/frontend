@@ -16,8 +16,8 @@ function MypageMyInfo() {
         height={200}
         style={{ borderRadius: "50%" }}
       />
-      <Styles.MypageNickname>{user?.data?.username}</Styles.MypageNickname>
-      <Styles.MypageEmail>{user?.data?.email}</Styles.MypageEmail>
+      <Styles.MypageNickname>{user?.username}</Styles.MypageNickname>
+      <Styles.MypageEmail>{user?.email}</Styles.MypageEmail>
     </Styles.MypageMyinfo>
   );
 }
