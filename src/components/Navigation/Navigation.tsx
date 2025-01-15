@@ -21,6 +21,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 const Navigation: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -143,20 +144,22 @@ const Navigation: React.FC = () => {
               </PopoverTrigger>
               <PopoverContent>
                 <Link href="/mypage">
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => {}}
-                  >
-                    <Image
-                      style={{ cursor: "pointer", marginRight: "8px" }}
-                      src={"/icons/user_2.svg"}
-                      width={18}
-                      height={18}
-                      alt="mypage"
-                    />
-                    내 정보
-                  </Button>
+                  <PopoverClose>
+                    <Button
+                      variant="ghost"
+                      className="w-full justify-start"
+                      onClick={() => {}}
+                    >
+                      <Image
+                        style={{ cursor: "pointer", marginRight: "8px" }}
+                        src={"/icons/user_2.svg"}
+                        width={18}
+                        height={18}
+                        alt="mypage"
+                      />
+                      내 정보
+                    </Button>
+                  </PopoverClose>
                 </Link>
                 <Button variant="ghost" className="w-full justify-start">
                   <Image
