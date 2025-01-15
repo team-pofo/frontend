@@ -72,6 +72,12 @@ type MypageLayoutProps = {
 };
 
 export default function MypageLayout({ children }: MypageLayoutProps) {
+  const { isLoggedIn } = useAuthStore();
+
+  if (!isLoggedIn) {
+    return null;
+  }
+
   return (
     <Styles.MypageContainer>
       <Styles.MypageSidebarContainer>
