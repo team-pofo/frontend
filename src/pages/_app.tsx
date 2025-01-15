@@ -11,26 +11,26 @@ import { useEffect, useRef } from "react";
 const myFont = localFont({ src: "../fonts/PretendardVariable.woff2" });
 
 export default function App({ Component, pageProps }: AppProps) {
-  const { isLoggedIn } = useAuthStore();
-  const hasAlerted = useRef(false);
+  const { isLoggedIn, isAuthLoading } = useAuthStore();
   const router = useRouter();
+  const hasAlerted = useRef(false);
 
-  // "/mypage는 로그인된 상태에서만 접근할 수 있음"
   useEffect(() => {
     const protectedRoutes = ["/mypage"];
     const isProtectedRoute = protectedRoutes.some((route) =>
       router.pathname.startsWith(route),
     );
 
-    if (isProtectedRoute && !hasAlerted.current) {
-      hasAlerted.current = true;
-
+    if (isProtectedRoute && !isAuthLoading) {
       if (!isLoggedIn) {
-        alert("로그인이 필요합니다");
-        router.replace("/");
+        if (!hasAlerted.current) {
+          hasAlerted.current = true;
+          alert("로그인이 필요합니다");
+          router.replace("/");
+        }
       }
     }
-  }, [isLoggedIn, router]);
+  }, [isLoggedIn, isAuthLoading, router]);
 
   return (
     <div className={myFont.className}>

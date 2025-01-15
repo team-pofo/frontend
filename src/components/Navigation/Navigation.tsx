@@ -29,16 +29,19 @@ const Navigation: React.FC = () => {
   const [initialStep, setInitialStep] = useState<
     "main" | "signup" | "emailLogin" | "emailSignup"
   >("main");
-  const [isAuthLoading, setIsAuthLoading] = useState(true); // 로그인 관련 로딩 상태
+  // const [isAuthLoading, setIsAuthLoading] = useState(true); // 로그인 관련 로딩 상태
   const {
     isLoggedIn,
+    isAuthLoading,
     setAccessToken,
     login,
     logout: clearAuthState,
+    setIsAuthLoading,
   } = useAuthStore();
 
   // 자동 로그인 처리
   useEffect(() => {
+    setIsAuthLoading(true);
     const autoLogin = async () => {
       try {
         const refreshResponse = await reIssue();
@@ -49,7 +52,7 @@ const Navigation: React.FC = () => {
           setAccessToken(newAccessToken);
           apiClient.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
           const userInfo = await getUserInfo();
-          login(newAccessToken, userInfo.data);
+          login(userInfo.data);
         }
       } catch (error) {
         console.error("자동 로그인 실패:", error);
@@ -60,7 +63,7 @@ const Navigation: React.FC = () => {
     };
 
     autoLogin();
-  }, []);
+  }, [clearAuthState, login, setAccessToken]);
 
   const handleLogout = async () => {
     try {
