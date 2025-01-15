@@ -47,8 +47,6 @@ function ProjectIntroduction({ project }: IProjectProps) {
 function ProjectLikeShare({ project }: IProjectProps) {
   const { user } = useAuthStore();
 
-  console.log("authorName: ", project.authorName);
-
   return (
     <div>
       <div

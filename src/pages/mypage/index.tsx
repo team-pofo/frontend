@@ -9,9 +9,7 @@ export default function Mypage() {
   useEffect(() => {
     if (isLoggedIn) {
       router.replace("/mypage/myprojects");
-    } else {
-      alert("로그인이 필요합니다");
-      router.replace("/");
+      console.log(isLoggedIn);
     }
   }, [isLoggedIn, router]);
 

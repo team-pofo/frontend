@@ -93,7 +93,16 @@ export default function MyProjectComponents() {
       ) : (
         <div>
           {projects.map((project, index) => (
-            <MypageProjectCard key={index} projectCard={project} />
+            <div key={index}>
+              <MypageProjectCard projectCard={project} />
+              <hr
+                style={{
+                  marginTop: "50px",
+                  marginBottom: "50px",
+                  borderColor: "black",
+                }}
+              ></hr>
+            </div>
           ))}
 
           <div

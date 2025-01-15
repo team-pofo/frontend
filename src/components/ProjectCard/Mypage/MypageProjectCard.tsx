@@ -16,7 +16,6 @@ export default function MypageProjectCard(projectCard: IProjectCardProps) {
   };
 
   const { id, title, imageUrls, bio } = projectCard.projectCard;
-  console.log(projectCard);
   return (
     <Link style={{ width: "100%" }} href={`/project/${id}`}>
       <Styles.Card>

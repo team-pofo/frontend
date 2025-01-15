@@ -3,10 +3,8 @@ import styled from "@emotion/styled";
 export const Card = styled.div`
   display: flex;
   align-items: center;
-  border-bottom: 1px solid black;
   gap: 50px;
-  padding-top: 50px;
-  padding-bottom: 50px;
+
   overflow: hidden;
   cursor: pointer;
 `;
