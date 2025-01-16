@@ -13,7 +13,7 @@ export default function SelectType() {
     <Style.SelectStackTypeCard>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Style.SelectStackTypeBtn>프로젝트 구분</Style.SelectStackTypeBtn>
+          <Style.SelectStackTypeBtn>카테고리</Style.SelectStackTypeBtn>
         </DropdownMenuTrigger>
         <DropdownMenuContent
           style={{
