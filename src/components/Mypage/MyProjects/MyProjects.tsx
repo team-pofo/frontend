@@ -4,6 +4,7 @@ import { useQuery } from "@apollo/client";
 import { useEffect, useRef, useState } from "react";
 import MypageProjectCard from "@/components/ProjectCard/Mypage/MypageProjectCard";
 import { useAuthStore } from "@/stores/authStore";
+import * as Styles from "./styles";
 
 export default function MyProjectComponents() {
   const { page, hasNext, projects, setPage, setHasNext, setProjects, reset } =
@@ -88,7 +89,7 @@ export default function MyProjectComponents() {
   };
 
   return (
-    <div>
+    <Styles.MypageMyProjectsContainer>
       {!isLoading && projects.length === 0 ? (
         <p style={{ marginTop: "20px", fontSize: "20px" }}>
           등록한 프로젝트가 없습니다.
@@ -114,6 +115,6 @@ export default function MyProjectComponents() {
           />
         </div>
       )}
-    </div>
+    </Styles.MypageMyProjectsContainer>
   );
 }
