@@ -9,7 +9,6 @@ export default function Mypage() {
   useEffect(() => {
     if (isLoggedIn) {
       router.replace("/mypage/myprojects");
-      console.log(isLoggedIn);
     }
   }, [isLoggedIn, router]);
 

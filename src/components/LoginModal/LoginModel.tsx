@@ -163,16 +163,15 @@ const Modal: React.FC<ModalProps> = ({
       const response = await login(email, password);
       console.log("response");
       console.log(response);
-      const token = response.data.accessToken;
+      // const token = response.data.accessToken;
       if (response.success) {
         setAccessToken(response.data.accessToken);
 
         try {
           const response = await getUserInfo();
           if (response.success) {
-            setLoginState(token, response.data);
+            setLoginState(response.data);
           }
-          console.log(response);
         } catch {
           console.log("error");
         }

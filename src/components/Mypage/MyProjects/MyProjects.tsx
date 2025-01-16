@@ -3,10 +3,13 @@ import { useSearchProject } from "@/stores/searchProjectStore";
 import { useQuery } from "@apollo/client";
 import { useEffect, useRef, useState } from "react";
 import MypageProjectCard from "@/components/ProjectCard/Mypage/MypageProjectCard";
+import { useAuthStore } from "@/stores/authStore";
+import * as Styles from "./styles";
 
 export default function MyProjectComponents() {
   const { page, hasNext, projects, setPage, setHasNext, setProjects, reset } =
     useSearchProject();
+  const { user } = useAuthStore();
 
   const SIZE = 5;
   const [isLoading, setIsLoading] = useState(true);
@@ -19,6 +22,7 @@ export default function MyProjectComponents() {
       title: "",
       stackNames: [],
       categories: [],
+      authorName: user?.username,
     },
   });
 
@@ -85,7 +89,7 @@ export default function MyProjectComponents() {
   };
 
   return (
-    <div>
+    <Styles.MypageMyProjectsContainer>
       {!isLoading && projects.length === 0 ? (
         <p style={{ marginTop: "20px", fontSize: "20px" }}>
           등록한 프로젝트가 없습니다.
@@ -111,6 +115,6 @@ export default function MyProjectComponents() {
           />
         </div>
       )}
-    </div>
+    </Styles.MypageMyProjectsContainer>
   );
 }

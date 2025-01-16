@@ -47,7 +47,7 @@ export default function Home() {
     resetType();
   }, [resetStack, resetType]);
 
-  const SIZE = 5;
+  const SIZE = 36;
 
   const observerRef = useRef<HTMLDivElement>(null);
   const { data, loading, fetchMore, refetch } = useQuery(SEARCH_PROJECT, {
