@@ -42,7 +42,6 @@ export const SelectStackTypeBtn = styled.button`
 
 export const SelectStackTypeDropdown = styled.div`
   z-index: 10;
-  margin-top: 10px;
   border: 2px solid ${grey};
   border-radius: 5px;
   border-width: 2px;

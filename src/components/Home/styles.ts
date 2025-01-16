@@ -3,6 +3,15 @@ import styled from "@emotion/styled";
 const grey = "#b2c0cc";
 const black = "#09060B";
 
+export const SearchFixedContainer = styled.div`
+  background-color: #fff;
+  position: sticky;
+  top: 80px;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+`;
+
 export const SearchContainer = styled.div`
   max-width: 800px;
   align-items: center;
