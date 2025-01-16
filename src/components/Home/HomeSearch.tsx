@@ -45,12 +45,14 @@ export default function SearchCardContainer({
   handleSearchProject,
 }: handleSearchProjectProps) {
   return (
-    <Styles.SearchContainer>
-      <Styles.SearchCardContainerName>
-        <SearchName />
-        <SearchBtn handleSearchProject={handleSearchProject} />
-      </Styles.SearchCardContainerName>
-      <SelectStackType />
-    </Styles.SearchContainer>
+    <Styles.SearchFixedContainer>
+      <Styles.SearchContainer>
+        <Styles.SearchCardContainerName>
+          <SearchName />
+          <SearchBtn handleSearchProject={handleSearchProject} />
+        </Styles.SearchCardContainerName>
+        <SelectStackType />
+      </Styles.SearchContainer>
+    </Styles.SearchFixedContainer>
   );
 }

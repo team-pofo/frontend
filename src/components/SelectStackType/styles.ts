@@ -34,7 +34,6 @@ export const SelectStackTypeBtn = styled.button`
   width: 100%;
   font-size: 20px;
   cursor: pointer;
-
   &:hover {
     background: rgba(0, 0, 0, 0.1);
   }
@@ -42,16 +41,14 @@ export const SelectStackTypeBtn = styled.button`
 
 export const SelectStackTypeDropdown = styled.div`
   z-index: 10;
-  margin-top: 10px;
   border: 2px solid ${grey};
   border-radius: 5px;
-  border-width: 2px;
   font-size: 20px;
   padding: 10px;
   height: 400px;
-  overflow-y: scroll;
   background-color: white;
   position: relative;
+  overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none;
   }
