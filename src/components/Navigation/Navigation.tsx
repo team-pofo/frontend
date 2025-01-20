@@ -47,6 +47,7 @@ const Navigation: React.FC = () => {
         const refreshResponse = await reIssue();
         console.log(refreshResponse);
         const newAccessToken = refreshResponse.data.accessToken;
+        console.log(newAccessToken);
 
         if (newAccessToken) {
           setAccessToken(newAccessToken);
