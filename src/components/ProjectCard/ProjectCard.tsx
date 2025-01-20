@@ -5,9 +5,11 @@ import empty_heart from "../../../public/icons/empty_heart.svg";
 import fill_heart from "../../../public/icons/fill_heart.svg";
 import Link from "next/link";
 import { IProjectCardProps } from "@/lib/interface/iProjectCard";
+import { useRouter } from "next/router";
 
 const ProjectCard = forwardRef<HTMLDivElement, IProjectCardProps>(
   (projectCard, ref) => {
+    const router = useRouter();
     // const [likeCount, setLikeCount] = useState(likes);
     // const [liked, setLiked] = useState(false);
 
@@ -16,7 +18,13 @@ const ProjectCard = forwardRef<HTMLDivElement, IProjectCardProps>(
       // setLiked(!liked);
     };
 
-    const { id, title, imageUrls, bio } = projectCard.projectCard;
+    const clickAuthorName = (e: React.MouseEvent<HTMLSpanElement>) => {
+      e.stopPropagation(); // 이벤트 전파 중단
+      e.preventDefault(); // Link 기본 동작 방지
+      router.push(`/${e.currentTarget.textContent}/projects`);
+    };
+
+    const { id, title, imageUrls, bio, authorName } = projectCard.projectCard;
 
     return (
       <Link style={{ width: "100%" }} href={`/project/${id}`}>
@@ -36,7 +44,7 @@ const ProjectCard = forwardRef<HTMLDivElement, IProjectCardProps>(
           <S.Content>
             <S.Title>{title}</S.Title>
             <S.Description>{bio}</S.Description>
-            <S.Author>{id}</S.Author>
+            <S.Author onClick={clickAuthorName}>{authorName}</S.Author>
             <S.LikeSection>
               <S.LikeButton onClick={handleLike}>
                 <Image

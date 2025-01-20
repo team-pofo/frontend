@@ -7,6 +7,7 @@ export interface IProjectCard {
   title: string;
   imageUrls: string[];
   bio: string;
+  authorName: string;
 }
 
 export interface IProjectCardProps {

@@ -4,9 +4,13 @@ import Link from "next/link";
 import { useSidebarStore } from "@/stores/mypageSidebarStore";
 import { LuFileText, LuHeart, LuSettings } from "react-icons/lu";
 import { useAuthStore } from "@/stores/authStore";
+import { useRouter } from "next/router";
 
 function MypageMyInfo() {
   const { user } = useAuthStore();
+  const router = useRouter();
+  const { username } = router.query;
+
   return (
     <Styles.MypageMyinfo>
       <Image
@@ -16,7 +20,7 @@ function MypageMyInfo() {
         height={200}
         style={{ borderRadius: "50%" }}
       />
-      <Styles.MypageNickname>{user?.username}</Styles.MypageNickname>
+      <Styles.MypageNickname>{username}</Styles.MypageNickname>
       <Styles.MypageEmail>{user?.email}</Styles.MypageEmail>
     </Styles.MypageMyinfo>
   );

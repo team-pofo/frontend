@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import MypageProjectCard from "@/components/ProjectCard/Mypage/MypageProjectCard";
 import { useAuthStore } from "@/stores/authStore";
 import * as Styles from "./styles";
+import { useRouter } from "next/router";
 
 export default function MyProjectComponents() {
   const { page, hasNext, projects, setPage, setHasNext, setProjects, reset } =
@@ -15,6 +16,9 @@ export default function MyProjectComponents() {
   const [isLoading, setIsLoading] = useState(true);
   const observerRef = useRef<HTMLDivElement>(null);
 
+  const router = useRouter();
+  const { username } = router.query;
+
   const { data, loading, fetchMore } = useQuery(SEARCH_PROJECT, {
     variables: {
       page: page,
@@ -22,7 +26,7 @@ export default function MyProjectComponents() {
       title: "",
       stackNames: [],
       categories: [],
-      authorName: user?.username,
+      authorName: username,
     },
   });
 

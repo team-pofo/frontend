@@ -29,13 +29,13 @@ export const Title = styled.h2`
 export const Description = styled.p`
   font-size: 14px;
   color: #555;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 `;
 
 export const Author = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   color: #888;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 `;
 
 export const LikeSection = styled.div`
