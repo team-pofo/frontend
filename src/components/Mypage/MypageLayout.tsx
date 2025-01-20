@@ -4,9 +4,13 @@ import Link from "next/link";
 import { useSidebarStore } from "@/stores/mypageSidebarStore";
 import { LuFileText, LuHeart, LuSettings } from "react-icons/lu";
 import { useAuthStore } from "@/stores/authStore";
+import { useRouter } from "next/router";
 
 function MypageMyInfo() {
   const { user } = useAuthStore();
+  const router = useRouter();
+  const { username } = router.query;
+
   return (
     <Styles.MypageMyinfo>
       <Image
@@ -16,18 +20,19 @@ function MypageMyInfo() {
         height={200}
         style={{ borderRadius: "50%" }}
       />
-      <Styles.MypageNickname>{user?.username}</Styles.MypageNickname>
+      <Styles.MypageNickname>{username}</Styles.MypageNickname>
       <Styles.MypageEmail>{user?.email}</Styles.MypageEmail>
     </Styles.MypageMyinfo>
   );
 }
 
 function MypageSidebar() {
+  const { user } = useAuthStore();
   const items = [
     {
       icon: <LuFileText />,
       label: "나의 프로젝트",
-      link: "myprojects",
+      link: "projects",
     },
     {
       icon: <LuHeart />,
@@ -48,7 +53,7 @@ function MypageSidebar() {
       {items.map((item, index) => (
         <Link
           key={index}
-          href={`/mypage/${item.link}`}
+          href={`/${user?.username}/${item.link}`}
           passHref
           style={{ width: "100%" }}
         >
@@ -72,6 +77,9 @@ type MypageLayoutProps = {
 };
 
 export default function MypageLayout({ children }: MypageLayoutProps) {
+  const { user } = useAuthStore();
+  const router = useRouter();
+  const { username } = router.query;
   const { isLoggedIn } = useAuthStore();
 
   if (!isLoggedIn) {
@@ -82,7 +90,7 @@ export default function MypageLayout({ children }: MypageLayoutProps) {
     <Styles.MypageContainer>
       <Styles.MypageSidebarContainer>
         <MypageMyInfo />
-        <MypageSidebar />
+        {user?.username === username && <MypageSidebar />}
       </Styles.MypageSidebarContainer>
       <Styles.MypageContentContainer>{children}</Styles.MypageContentContainer>
     </Styles.MypageContainer>

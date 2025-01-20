@@ -4,11 +4,12 @@ import { useEffect } from "react";
 
 export default function Mypage() {
   const router = useRouter();
+  const { username } = router.query;
   const { isLoggedIn } = useAuthStore();
 
   useEffect(() => {
     if (isLoggedIn) {
-      router.replace("/mypage/myprojects");
+      router.replace(`/${username}/projects`);
     }
   }, [isLoggedIn, router]);
 
