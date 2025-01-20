@@ -27,11 +27,12 @@ function MypageMyInfo() {
 }
 
 function MypageSidebar() {
+  const { user } = useAuthStore();
   const items = [
     {
       icon: <LuFileText />,
       label: "나의 프로젝트",
-      link: "myprojects",
+      link: "projects",
     },
     {
       icon: <LuHeart />,
@@ -52,7 +53,7 @@ function MypageSidebar() {
       {items.map((item, index) => (
         <Link
           key={index}
-          href={`/mypage/${item.link}`}
+          href={`/${user?.username}/${item.link}`}
           passHref
           style={{ width: "100%" }}
         >
@@ -76,6 +77,9 @@ type MypageLayoutProps = {
 };
 
 export default function MypageLayout({ children }: MypageLayoutProps) {
+  const { user } = useAuthStore();
+  const router = useRouter();
+  const { username } = router.query;
   const { isLoggedIn } = useAuthStore();
 
   if (!isLoggedIn) {
@@ -86,7 +90,7 @@ export default function MypageLayout({ children }: MypageLayoutProps) {
     <Styles.MypageContainer>
       <Styles.MypageSidebarContainer>
         <MypageMyInfo />
-        <MypageSidebar />
+        {user?.username === username && <MypageSidebar />}
       </Styles.MypageSidebarContainer>
       <Styles.MypageContentContainer>{children}</Styles.MypageContentContainer>
     </Styles.MypageContainer>
