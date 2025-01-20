@@ -22,6 +22,7 @@ export const SEARCH_PROJECT = gql`
       count
       hasNext
       projects {
+        authorName
         id
         title
         imageUrls

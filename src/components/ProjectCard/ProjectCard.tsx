@@ -16,7 +16,8 @@ const ProjectCard = forwardRef<HTMLDivElement, IProjectCardProps>(
       // setLiked(!liked);
     };
 
-    const { id, title, imageUrls, bio } = projectCard.projectCard;
+    const { id, title, imageUrls, bio, likes, authorName } =
+      projectCard.projectCard;
 
     return (
       <Link style={{ width: "100%" }} href={`/project/${id}`}>
@@ -36,7 +37,9 @@ const ProjectCard = forwardRef<HTMLDivElement, IProjectCardProps>(
           <S.Content>
             <S.Title>{title}</S.Title>
             <S.Description>{bio}</S.Description>
-            <S.Author>{id}</S.Author>
+            <S.Author>
+              {authorName} {id}
+            </S.Author>
             <S.LikeSection>
               <S.LikeButton onClick={handleLike}>
                 <Image
@@ -46,7 +49,7 @@ const ProjectCard = forwardRef<HTMLDivElement, IProjectCardProps>(
                   height={24}
                 />
               </S.LikeButton>
-              <S.LikeCount>{100} likes</S.LikeCount>
+              <S.LikeCount>{likes} likes</S.LikeCount>
             </S.LikeSection>
           </S.Content>
         </S.Card>
