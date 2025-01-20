@@ -20,10 +20,12 @@ import userIcon from "../../../public/icons/user.svg";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 
 import { Button } from "../ui/button";
-import Link from "next/link";
 import { PopoverClose } from "@radix-ui/react-popover";
+import { useRouter } from "next/router";
 
 const Navigation: React.FC = () => {
+  const router = useRouter();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [initialStep, setInitialStep] = useState<
@@ -37,6 +39,7 @@ const Navigation: React.FC = () => {
     login,
     logout: clearAuthState,
     setIsAuthLoading,
+    user,
   } = useAuthStore();
 
   // 자동 로그인 처리
@@ -65,6 +68,14 @@ const Navigation: React.FC = () => {
 
     autoLogin();
   }, [clearAuthState, login, setAccessToken]);
+
+  const navigateToProjects = () => {
+    if (user?.username) {
+      router.push(`/${user.username}/projects`);
+    } else {
+      alert("사용자 정보가 없습니다.");
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -147,24 +158,22 @@ const Navigation: React.FC = () => {
                 />
               </PopoverTrigger>
               <PopoverContent>
-                <Link href="/mypage">
-                  <PopoverClose>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start"
-                      onClick={() => {}}
-                    >
-                      <Image
-                        style={{ cursor: "pointer", marginRight: "8px" }}
-                        src={"/icons/user_2.svg"}
-                        width={18}
-                        height={18}
-                        alt="mypage"
-                      />
-                      내 정보
-                    </Button>
-                  </PopoverClose>
-                </Link>
+                <PopoverClose>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    onClick={navigateToProjects}
+                  >
+                    <Image
+                      style={{ cursor: "pointer", marginRight: "8px" }}
+                      src={"/icons/user_2.svg"}
+                      width={18}
+                      height={18}
+                      alt="mypage"
+                    />
+                    내 정보
+                  </Button>
+                </PopoverClose>
                 <Button variant="ghost" className="w-full justify-start">
                   <Image
                     style={{ cursor: "pointer", marginRight: "8px" }}

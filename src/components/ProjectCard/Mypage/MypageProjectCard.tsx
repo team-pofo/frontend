@@ -27,8 +27,8 @@ export default function MypageProjectCard(projectCard: IProjectCardProps) {
                 : "https://velog.velcdn.com/images/yena1025/post/295eb434-5b73-421f-bbe4-6bc13acd4c33/image.png"
             }
             alt={title}
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{ objectFit: "cover" }}
           />
         </Styles.ImageWrapper>
         <Styles.Content>

@@ -7,6 +7,14 @@ export const Card = styled.div`
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  }
 `;
 
 export const ImageWrapper = styled.div`
@@ -29,13 +37,13 @@ export const Title = styled.h2`
 export const Description = styled.p`
   font-size: 14px;
   color: #555;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 `;
 
 export const Author = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   color: #888;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 `;
 
 export const LikeSection = styled.div`
