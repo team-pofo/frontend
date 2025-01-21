@@ -10,6 +10,8 @@ import { IProject, IProjectProps } from "@/lib/interface/iProject";
 import { useAuthStore } from "@/stores/authStore";
 
 import { FaHeart, FaShare, FaEdit } from "react-icons/fa";
+import { likeProject } from "@/services/likeProject";
+import { deleteProject } from "@/services/deleteProject";
 
 function ProjectTittle({ project }: IProjectProps) {
   return <Styles.ProjectDetailTitle>{project.title}</Styles.ProjectDetailTitle>;
@@ -46,34 +48,51 @@ function ProjectIntroduction({ project }: IProjectProps) {
 
 function ProjectLikeShare({ project }: IProjectProps) {
   const { user } = useAuthStore();
+  const { isLoggedIn, accessToken } = useAuthStore();
+
+  const [projectLikes, setProjectLikes] = useState(project.likes);
+  const [userLikesProject, setUserLikesProject] = useState(true); // Todo: 사용자가 프로젝틍체 좋아요를 눌렀는지
 
   return (
-    <div>
-      <div
-        style={{
-          marginTop: "20px",
-          display: "inline-flex",
-          justifyContent: "center",
-          alignItems: "center",
-          border: "solid 2px black",
-          borderRadius: "20px",
-          padding: "5px 15px 5px 15px",
-          gap: "15px",
-        }}
-      >
+    <Styles.BtnsContainer>
+      <Styles.BtnContainer>
         <button>
-          <FaHeart style={{ width: "26px", height: "26px" }} />
+          <FaHeart
+            style={{ width: "26px", height: "26px" }}
+            onClick={async () => {
+              if (isLoggedIn === false || accessToken === null) {
+                alert("로그인이 필요합니다");
+              } else {
+                if (userLikesProject) {
+                  setUserLikesProject(false);
+                  setProjectLikes(projectLikes + 1);
+                  await likeProject(project.id, accessToken);
+                } else {
+                  setUserLikesProject(true);
+                  setProjectLikes(projectLikes - 1);
+                  await deleteProject(project.id, accessToken);
+                }
+              }
+            }}
+          />
         </button>
+        <p>{projectLikes}</p>
+      </Styles.BtnContainer>
+      <Styles.BtnContainer>
         <button>
           <FaShare style={{ width: "26px", height: "26px" }} />
         </button>
-        {user?.email === project.authorName ? (
+        <p>공유</p>
+      </Styles.BtnContainer>
+      {user?.username === project.authorName ? (
+        <Styles.BtnContainer>
           <Link style={{ width: "100%" }} href={`/project/edit/${project.id}`}>
             <FaEdit style={{ width: "26px", height: "26px" }} />
           </Link>
-        ) : null}
-      </div>
-    </div>
+          <p>수정</p>
+        </Styles.BtnContainer>
+      ) : null}
+    </Styles.BtnsContainer>
   );
 }
 

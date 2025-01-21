@@ -125,3 +125,21 @@ export const TypeCard = styled.div`
     font-size: 30px;
   }
 `;
+
+export const BtnsContainer = styled.div`
+  margin-top: 20px;
+  display: inline-flex;
+  border: solid 2px black;
+  border-radius: 20px;
+  padding: 5px 15px 0px 15px;
+  gap: 15px;
+`;
+
+export const BtnContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding: 5px;
+`;

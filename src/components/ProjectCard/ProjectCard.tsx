@@ -24,7 +24,8 @@ const ProjectCard = forwardRef<HTMLDivElement, IProjectCardProps>(
       router.push(`/${e.currentTarget.textContent}/projects`);
     };
 
-    const { id, title, imageUrls, bio, authorName } = projectCard.projectCard;
+    const { id, title, imageUrls, bio, likes, authorName } =
+      projectCard.projectCard;
 
     return (
       <Link style={{ width: "100%" }} href={`/project/${id}`}>
@@ -54,7 +55,7 @@ const ProjectCard = forwardRef<HTMLDivElement, IProjectCardProps>(
                   height={24}
                 />
               </S.LikeButton>
-              <S.LikeCount>{100} likes</S.LikeCount>
+              <S.LikeCount>{likes} likes</S.LikeCount>
             </S.LikeSection>
           </S.Content>
         </S.Card>
