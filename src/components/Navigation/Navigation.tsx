@@ -173,31 +173,31 @@ const Navigation: React.FC = () => {
                     />
                     내 정보
                   </Button>
+                  <Button variant="ghost" className="w-full justify-start">
+                    <Image
+                      style={{ cursor: "pointer", marginRight: "8px" }}
+                      src={"/icons/heart.svg"}
+                      width={18}
+                      height={18}
+                      alt="mypage"
+                    />
+                    찜한 프로젝트
+                  </Button>
+                  <Button
+                    onClick={handleLogout}
+                    variant="ghost"
+                    className="w-full justify-start"
+                  >
+                    <Image
+                      style={{ cursor: "pointer", marginRight: "8px" }}
+                      src={"/icons/power.svg"}
+                      width={18}
+                      height={18}
+                      alt="mypage"
+                    />
+                    로그아웃
+                  </Button>
                 </PopoverClose>
-                <Button variant="ghost" className="w-full justify-start">
-                  <Image
-                    style={{ cursor: "pointer", marginRight: "8px" }}
-                    src={"/icons/heart.svg"}
-                    width={18}
-                    height={18}
-                    alt="mypage"
-                  />
-                  찜한 프로젝트
-                </Button>
-                <Button
-                  onClick={handleLogout}
-                  variant="ghost"
-                  className="w-full justify-start"
-                >
-                  <Image
-                    style={{ cursor: "pointer", marginRight: "8px" }}
-                    src={"/icons/power.svg"}
-                    width={18}
-                    height={18}
-                    alt="mypage"
-                  />
-                  로그아웃
-                </Button>
               </PopoverContent>
             </Popover>
           </div>
