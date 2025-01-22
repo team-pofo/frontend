@@ -198,7 +198,7 @@ const Modal: React.FC<ModalProps> = ({
   };
 
   const handleGitHubLogin = () => {
-    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/user/oauth2-login/github`;
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/user/oauth2-login/github`;
   };
 
   return (
