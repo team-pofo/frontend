@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import ProjectCard from "@/components/ProjectCard/ProjectCard";
 import SearchWrapperContainer from "../components/Home/HomeSearch";
 
@@ -11,8 +11,9 @@ import { useSearchProject } from "@/stores/searchProjectStore";
 import { useSelectStacks } from "@/stores/selectStackType/selectStacksStore";
 import { useSelectTypes } from "@/stores/selectStackType/selectTypesStore";
 import { getCategoryKey } from "@/lib/enum/projectCategoryEnum";
+import Layout from "@/components/Layout/Layout";
 
-export default function Home() {
+const Home = () => {
   const [isLoading, setIsLoading] = useState(true); // 초기 로딩 상태 추가
 
   const {
@@ -182,4 +183,10 @@ export default function Home() {
       </div>
     </>
   );
-}
+};
+
+Home.getLayout = (page: ReactElement) => {
+  return <Layout>{page}</Layout>;
+};
+
+export default Home;

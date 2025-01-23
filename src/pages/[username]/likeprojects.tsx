@@ -1,11 +1,17 @@
-import React from "react";
-import MypageLayout from "@/components/Mypage/MypageLayout";
+import React, { ReactElement } from "react";
+import MypageLayout from "@/components/Layout/MypageLayout";
+import Layout from "@/components/Layout/Layout";
+import { NextPageWithLayout } from "../_app";
 
-const LikeProjects: React.FC = () => {
+const LikeProjects: NextPageWithLayout = () => {
+  return <p>좋아요한 프로젝트 ^^</p>;
+};
+
+LikeProjects.getLayout = function getLayout(page: ReactElement) {
   return (
-    <MypageLayout>
-      <p>좋아요한 프로젝트 ^^</p>
-    </MypageLayout>
+    <Layout>
+      <MypageLayout>{page}</MypageLayout>
+    </Layout>
   );
 };
 
