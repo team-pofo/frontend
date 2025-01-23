@@ -7,10 +7,19 @@ import { ApolloProvider } from "@apollo/client";
 import client from "@/lib/apolloClient";
 import { useAuthStore } from "@/stores/authStore";
 import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
+import { ReactElement, ReactNode, useEffect, useRef } from "react";
+import { NextPage } from "next";
 const myFont = localFont({ src: "../fonts/PretendardVariable.woff2" });
 
-export default function App({ Component, pageProps }: AppProps) {
+export type NextPageWithLayout<P = "", IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const { isLoggedIn, isAuthLoading } = useAuthStore();
   const router = useRouter();
   const hasAlerted = useRef(false);
@@ -31,6 +40,21 @@ export default function App({ Component, pageProps }: AppProps) {
       }
     }
   }, [isLoggedIn, isAuthLoading, router]);
+
+  const getLayout = Component.getLayout ?? ((page) => <Layout>{page}</Layout>);
+  // return getLayout(
+  //   <ApolloProvider client={client}>
+  //     <Component {...pageProps} />
+  //   </ApolloProvider>,
+  // );
+
+  return (
+    <ApolloProvider client={client}>
+      <div className={myFont.className}>
+        {getLayout(<Component {...pageProps} />)}
+      </div>
+    </ApolloProvider>
+  );
 
   return (
     <div className={myFont.className}>
