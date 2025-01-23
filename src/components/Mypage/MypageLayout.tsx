@@ -14,7 +14,7 @@ function MypageMyInfo() {
   return (
     <Styles.MypageMyinfo>
       <Image
-        src="https://avatars.githubusercontent.com/u/55120784?v=4"
+        src={user?.avatarUrl || "/icons/user.svg"}
         alt=""
         width={200}
         height={200}
