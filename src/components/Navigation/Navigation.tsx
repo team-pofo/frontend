@@ -133,7 +133,7 @@ const Navigation: React.FC = () => {
           <Logo href="/">POFO</Logo>
           <NavItems>
             <StyledNavLink href="/">Home</StyledNavLink>
-            {/* <StyledNavLink href="/mypage">MyPage</StyledNavLink> */}
+            <StyledNavLink href="/newpost">NewPost</StyledNavLink>
           </NavItems>
         </div>
       </div>

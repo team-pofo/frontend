@@ -177,7 +177,7 @@ function CreateProjectButton({ categories, stackNames }: NewpostProps) {
   );
 }
 
-export default function NewpostComponents() {
+const NewpostComponents = () => {
   const {
     title,
     bio,
@@ -228,4 +228,6 @@ export default function NewpostComponents() {
       />
     </Styles.NewpostContainer>
   );
-}
+};
+
+export default NewpostComponents;
