@@ -1,51 +1,5 @@
-import * as Style from "./styles";
 import { useSelectTypes } from "@/stores/selectStackType/selectTypesStore";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
-export function SelectType22() {
-  const { types, selectedTypes, clickType } = useSelectTypes();
-
-  return (
-    <Style.SelectStackTypeCard>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Style.SelectStackTypeBtn>카테고리</Style.SelectStackTypeBtn>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent
-          style={{
-            width: "var(--radix-dropdown-menu-trigger-width)",
-            border: "none",
-            padding: 0,
-            marginTop: 0,
-            paddingTop: 10,
-          }}
-        >
-          <Style.SelectStackTypeDropdown>
-            {types.map((type, index) => (
-              <div key={index}>
-                <Style.SelectStackTypeLabel>
-                  <Style.SelectStackTypeCheckobx
-                    style={{ padding: "10px" }}
-                    type="checkbox"
-                    checked={selectedTypes.includes(type)}
-                    onChange={() => clickType(type)}
-                  ></Style.SelectStackTypeCheckobx>
-                  {type}
-                </Style.SelectStackTypeLabel>
-              </div>
-            ))}
-          </Style.SelectStackTypeDropdown>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </Style.SelectStackTypeCard>
-  );
-}
-
-import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -63,43 +17,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-];
+import { useState } from "react";
 
 export default function SelectType() {
   const { types, selectedTypes, clickType } = useSelectTypes();
-  const [open, setOpen] = React.useState(false);
-  const [selectedValues, setSelectedValues] = React.useState<string[]>([]);
-
-  const toggleValue = (currentValue: string) => {
-    setSelectedValues(
-      (prevValues) =>
-        prevValues.includes(currentValue)
-          ? prevValues.filter((value) => value !== currentValue) // Remove if already selected
-          : [...prevValues, currentValue], // Add if not selected
-    );
-  };
+  const [open, setOpen] = useState(false);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -135,7 +57,6 @@ export default function SelectType() {
                   key={index}
                   value={type}
                   onSelect={() => {
-                    toggleValue(type);
                     clickType(type);
                   }}
                 >
@@ -143,7 +64,7 @@ export default function SelectType() {
                   <Check
                     className={cn(
                       "ml-auto",
-                      selectedValues.includes(type)
+                      selectedTypes.includes(type)
                         ? "opacity-100"
                         : "opacity-0",
                     )}

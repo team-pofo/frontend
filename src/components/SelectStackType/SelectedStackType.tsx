@@ -27,8 +27,12 @@ export default function SelectedStackType() {
             </button>
           </Badge>
         ))}
-        {/* {selectedTypes.map((type, index) => (
-          <Style.SelectedTypeCard key={index}>
+        {selectedTypes.map((type, index) => (
+          <Badge
+            style={{ gap: "8px", height: "28px" }}
+            variant="secondary"
+            key={index}
+          >
             {type}
             <button
               onClick={() => {
@@ -37,9 +41,9 @@ export default function SelectedStackType() {
             >
               <IoClose />
             </button>
-          </Style.SelectedTypeCard>
-        ))} */}
-        {!(selectedStacks.length == 0) && (
+          </Badge>
+        ))}
+        {!(selectedStacks.length == 0 && selectedTypes.length == 0) && (
           <Badge
             style={{ height: "28px", cursor: "pointer" }}
             onClick={() => {
