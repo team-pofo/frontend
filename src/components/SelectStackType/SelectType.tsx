@@ -109,6 +109,7 @@ export default function SelectType() {
           role="combobox"
           aria-expanded={open}
           className="w-[200px] justify-between"
+          style={{ height: "40px" }}
         >
           {/* {selectedValues.length > 0
             ? selectedValues

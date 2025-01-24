@@ -131,6 +131,7 @@ export default function SelectStack() {
           role="combobox"
           aria-expanded={open}
           className="w-[200px] justify-between"
+          style={{ height: "40px" }}
         >
           스택
           <ChevronsUpDown className="opacity-50" />

@@ -23,7 +23,7 @@ export const SearchContainer = styled.div`
 export const SearchCardContainerName = styled.div`
   display: flex;
   width: 100%;
-  column-gap: 20px;
+  column-gap: 10px;
 `;
 
 export const SearchCardContainerStack = styled.div`
@@ -39,7 +39,7 @@ export const SearchCardContainerStack = styled.div`
 export const SearchCard = styled.div`
   width: 100%;
   height: 50px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 export const SearchNameInput = styled.input`

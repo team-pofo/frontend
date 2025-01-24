@@ -9,7 +9,7 @@ const black = "#09090B";
 export const SelectStackTypeContainer = styled.div`
   display: flex;
   width: 100%;
-  column-gap: 20px;
+  column-gap: 10px;
 
   @media (max-width: 600px) {
     flex-direction: column;
@@ -115,27 +115,30 @@ export const SelectedStackTypeContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  margin-top: 20px;
   margin-bottom: 10px;
+  gap: 10px;
 `;
 
 export const SelectedStackCard = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 10px 10px 20px;
+  padding: 4px 8px 4px 12px;
   height: 40px;
   margin-bottom: 10px;
   margin-right: 10px;
-  border-radius: 5px;
-  background-color: ${lightorange};
-  font-size: 20px;
+  border-radius: 30px;
+  background-color: white;
+  font-size: 14px;
+  border: 1.2px solid #000000;
 
   button {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
     border: none;
     margin-left: 5px;
     cursor: pointer;
@@ -174,7 +177,7 @@ export const SelectedStackTypeResetBtn = styled.div`
   justify-content: center;
   align-items: center;
   padding: 10px 20px 10px 20px;
-  height: 40px;
+  height: 20px;
   margin-bottom: 10px;
   margin-right: 10px;
   border-radius: 5px;
