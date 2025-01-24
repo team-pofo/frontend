@@ -32,12 +32,42 @@ export const Title = styled.h2`
   font-size: 18px;
   margin: 0;
   margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  position: relative;
+
+  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0));
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 80%,
+    rgba(0, 0, 0, 0)
+  );
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position: left top;
 `;
 
 export const Description = styled.p`
   font-size: 14px;
   color: #555;
   margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  position: relative;
+
+  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1) 80%, rgba(0, 0, 0, 0));
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1) 80%,
+    rgba(0, 0, 0, 0)
+  );
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position: left top;
 `;
 
 export const Author = styled.p`
