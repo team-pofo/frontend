@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout/Layout";
 import "@/styles/globals.css";
 import "@/styles/mdeditor.css";
 import type { AppProps } from "next/app";

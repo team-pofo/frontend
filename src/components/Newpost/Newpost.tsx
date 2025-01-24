@@ -143,34 +143,58 @@ function CreateProjectButton({ categories, stackNames }: NewpostProps) {
 
   const { title, bio, urls, imageUrls, content, setUrls } = useCreateProject();
 
+  const handleUploadProject = async () => {
+    setUrls(urls.filter((url) => url.trim() !== "" || url.trim() !== ""));
+
+    // console.log(1);
+    // console.log(title);
+    // console.log(bio);
+    // console.log(urls);
+    // console.log(imageUrls);
+    // console.log(content);
+    // console.log(categoryKeys);
+    // console.log(stackNames);
+    // console.log(3);
+    if (
+      title !== "" &&
+      bio !== "" &&
+      urls.length != 0 &&
+      imageUrls.length != 0 &&
+      content !== "" &&
+      categoryKeys.length != 0 &&
+      stackNames.length != 0
+    ) {
+      try {
+        const response = await createProject({
+          variables: {
+            title,
+            bio,
+            urls,
+            imageUrls,
+            content,
+            categories: categoryKeys,
+            stackNames,
+          },
+        });
+
+        if (response && response.data) {
+          const projectData = response.data.createProject;
+          alert("프로젝트 등록이 완료되었습니다!");
+          console.log(projectData);
+          router.push(`/project/${projectData.id}`);
+        }
+      } catch (err) {
+        alert(err);
+      }
+    } else {
+      alert("모든 항목을 채우세요");
+    }
+  };
+
   return (
     <Button
       style={{ fontSize: "20px", padding: "20px" }}
-      onClick={async () => {
-        setUrls(urls.filter((url) => url.trim() !== "" || url.trim() !== ""));
-        try {
-          const response = await createProject({
-            variables: {
-              title,
-              bio,
-              urls,
-              imageUrls,
-              content,
-              categories: categoryKeys,
-              stackNames,
-            },
-          });
-
-          if (response && response.data) {
-            const projectData = response.data.createProject;
-            alert("프로젝트 등록이 완료되었습니다!");
-            console.log(projectData);
-            router.push(`/project/${projectData.id}`);
-          }
-        } catch (err) {
-          alert(err);
-        }
-      }}
+      onClick={handleUploadProject}
     >
       프로젝트 등록
     </Button>
