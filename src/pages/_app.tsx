@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout/Layout";
 import "@/styles/globals.css";
 import "@/styles/mdeditor.css";
 import type { AppProps } from "next/app";
@@ -41,12 +40,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     }
   }, [isLoggedIn, isAuthLoading, router]);
 
-  const getLayout = Component.getLayout ?? ((page) => <Layout>{page}</Layout>);
-  // return getLayout(
-  //   <ApolloProvider client={client}>
-  //     <Component {...pageProps} />
-  //   </ApolloProvider>,
-  // );
+  const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
     <ApolloProvider client={client}>
@@ -54,15 +48,5 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
         {getLayout(<Component {...pageProps} />)}
       </div>
     </ApolloProvider>
-  );
-
-  return (
-    <div className={myFont.className}>
-      <Layout>
-        <ApolloProvider client={client}>
-          <Component {...pageProps} />
-        </ApolloProvider>
-      </Layout>
-    </div>
   );
 }
