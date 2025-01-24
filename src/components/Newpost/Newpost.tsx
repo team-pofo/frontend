@@ -15,6 +15,7 @@ import {
 } from "@/lib/enum/projectCategoryEnum";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { Input } from "../ui/input";
 
 interface NewpostProps {
   categories: ProjectCategory[];
@@ -52,12 +53,18 @@ function NewpostOneline({
   return (
     <Styles.NewpostCard>
       <Styles.NewpostText>한 줄 소개글</Styles.NewpostText>
-      <Styles.NewpostOnelineInput
+      <Input
+        style={{
+          padding: "24px 10px",
+          borderRadius: "4px",
+          fontSize: "18px",
+          border: "1px solid #ccc",
+        }}
         type="text"
         placeholder="한 줄 소개글"
         value={bio}
         onChange={(e) => setBio(e.target.value)}
-      ></Styles.NewpostOnelineInput>
+      ></Input>
     </Styles.NewpostCard>
   );
 }
@@ -87,7 +94,13 @@ function NewpostUrls({
       <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         {urls.map((url, index) => (
           <div key={index} style={{ display: "flex", gap: "10px" }}>
-            <Styles.NewpostOnelineInput
+            <Input
+              style={{
+                padding: "24px 10px",
+                borderRadius: "4px",
+                fontSize: "18px",
+                border: "1px solid #ccc",
+              }}
               type="text"
               value={url}
               placeholder="링크 입력 (https://github.com)"
@@ -96,7 +109,7 @@ function NewpostUrls({
                 newLinks[index] = e.target.value;
                 setUrls(newLinks);
               }}
-            ></Styles.NewpostOnelineInput>
+            ></Input>
             {index === 0 ? (
               <Styles.NewpostLinkBtn
                 onClick={() => {
@@ -146,15 +159,6 @@ function CreateProjectButton({ categories, stackNames }: NewpostProps) {
   const handleUploadProject = async () => {
     setUrls(urls.filter((url) => url.trim() !== "" || url.trim() !== ""));
 
-    // console.log(1);
-    // console.log(title);
-    // console.log(bio);
-    // console.log(urls);
-    // console.log(imageUrls);
-    // console.log(content);
-    // console.log(categoryKeys);
-    // console.log(stackNames);
-    // console.log(3);
     if (
       title !== "" &&
       bio !== "" &&
@@ -234,10 +238,10 @@ const NewpostComponents = () => {
   return (
     <Styles.NewpostContainer>
       <NewpostName title={title} setTitle={setTitle} />
-      <Styles.NewpostText>기술 스택 및 프로젝트 구분</Styles.NewpostText>
-      <SelectStackType />
       <NewpostOneline bio={bio} setBio={setBio} />
       <NewpostUrls urls={urls} setUrls={setUrls} />
+      <Styles.NewpostText>기술 스택 및 프로젝트 구분</Styles.NewpostText>
+      <SelectStackType />
       <Styles.NewpostCard>
         <Styles.NewpostText>프로젝트 소개</Styles.NewpostText>
         <NewpostEditor content={content} setContent={setContent} />
