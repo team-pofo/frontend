@@ -29,8 +29,8 @@ export default function SelectStackType() {
   return (
     <div>
       <Style.SelectStackTypeContainer>
-        <SelectStack />
         <SelectType />
+        <SelectStack />
       </Style.SelectStackTypeContainer>
       <SelectedStackType />
     </div>
